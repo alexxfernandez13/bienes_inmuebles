@@ -1,15 +1,14 @@
 import os
-from bienes_inmuebles.dataset.csv_utilities import CSV, PATH4 #importo clase csv y variable PATH3
+from bienes_inmuebles.dataset.csv_utilities import CSV, PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
 
 
+
+"""FUNCIONES --> API"""
 def main():
-    objeto_csv = CSV(os.path.join(PATH4, "data/e05024001-estadisticas-impuesto-de-bienes-inmuebles.csv"))
-    print(objeto_csv.df)
+    csv = CSV(os.path.join(PATH4, "data/csv_barcelona.csv"))
+    print(csv.df)
 
 
-
-#### NUeva carpeta (dataset), nuevo archivo pytho donde definas la funcion, tienes que importarlo en el main
-## y ejecutarlo
-
-
-main()
+""" COMMAND LINE / EJECUTAS LA FILE DIRECTO"""
+if __name__ == "__main__":
+    main()
