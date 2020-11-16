@@ -1,4 +1,5 @@
 """IMPORTS"""
+####IMPORT DE LIBRERIAS TERCERAS
 import os
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -14,6 +15,14 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import Binarizer
+#####imports de la libreria propia
+from csv_exploracion import CSVExploracion
+"""
+.. significa hacia atras, o bajar un nivel, siempre que tengas que buscar carpetas que estan por debajo
+"""
+#from .. import csv_exploracion
+
+
 
 """CONSTANTES (se definen en mayuscula)"""
 path = Path(__file__)  # PATH A LA FILE EN CUALQUIER ORDENADOR
@@ -30,217 +39,114 @@ CSV --> dropna() --> CSV2()--> df modificad
 
 
 """
-class CSVPlot ():
-    def __init__(self, df):
-        self.df =df
-
-    def plot (self, grafico = 2, columnas = []):
-        if columnas:
-            df = self.df[columnas]
-        else:
-            df = self.df
-        if grafico == 0:
-            self.plot_histograma(df)
-        elif grafico == 1:
-            self.plot_densidad(df)
-        elif grafico == 2:
-            self.plot_bigotes(df)
-        elif grafico == 3:
-            self.plot_correlacion(df)
-        elif grafico == 4:
-            self.plot_dispersion(df)
-        else:
-            pass
-
-    def plot_histograma(self,df):
-        df.hist()
-        plt.show()
-
-    def plot_densidad(self,df):
-        df.plot(subplots=True, layout=(10, 4), sharex=False)  # kind="density" ¿No funciona?
-        plt.show()
-
-    def plot_bigotes(self,df):
-        df.plot(kind='box', subplots=True, layout=(10, 4), sharex=False, sharey=False)
-        plt.show()
-
-    def plot_correlacion(self,df):
-        correlaciones = df.corr()
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
-        fig.colorbar(cax)
-        plt.show()
-
-    def plot_dispersion(self,df):
-        scatter_matrix(df)
-        plt.show()
-
-    def guardar_plot(self, save = True):  # Opcion a guardar el plot
-        columns = self.df.columns.values
-        for column in columns:
-            try:
-                self.df.hist(column = column)
-                if save:
-                    my_file=f'data/{column}.png'
-                    plt.savefig(os.path.join(PATH4, my_file))
-                else:
-                    pass
-            except ValueError:
-                pass
-    """Opcion a eliminar el plot"""
 
 
-class CSVExploracion(CSVPlot):
-
-    def __init__(self, df):
-        self.df = df
-
-    def vistazo(self, show=False):  # ¿Pasar lineas predeterminadas?
-        if show:
-            self.df.info()
-        else:
-            pass
-        cabecera = self.df.head()
-        final = self.df.tail()
-        columnas = self.df.columns.values
-        faltantes = self.df.isnull().sum()
-        forma = self.df.shape
-        return cabecera, final, columnas, faltantes, forma
-
-    def estadistica(self, columnas = [], agrupar = None, method = "pearson"):
-        if columnas:
-            df = self.df[columnas]
-        else:
-            df = self.df
-        try:
-            agrupar = df.groupby(agrupar).size()
-        except TypeError:
-            agrupar = None
-        describir = df.describe()
-        correlaciones = df.corr(method=method)
-        sesgo = df.skew()
-        return agrupar, describir, correlaciones, sesgo
-
-
-"""
-VEHICULO --> MOTO
-
-
-"""
-#class Moto(VEHICULO)
-#HIJO(PADRE)
-class CSV(CSVExploracion):
-
-    def __init__(self, csv):
+class CSVPreprocesamiento():
+    def __init__(self,csv):
         self.csv = csv
-        self.df = pd.read_csv(self.csv)
-        #self.df_procesada = self.df.copy()
-    """
-    def vistazo(self,show=False):  # ¿Pasar lineas predeterminadas?
-        if show:
-            self.df.info()
-        else:
-            pass
-        cabecera = self.df.head()
-        final = self.df.tail()
-        columnas = self.df.columns.values
-        faltantes = self.df.isnull().sum()
-        forma = self.df.shape
-        return cabecera, final, columnas, faltantes, forma
+        self.df = pd.read_csv (self.csv)
 
-    def estadistica(self, columnas = [], agrupar = None, method = "pearson"):
-        if columnas:
-            df = self.df[columnas]
-        else:
-            df = self.df
-        try:
-            agrupar = df.groupby(agrupar).size()
-        except TypeError:
-            agrupar = None
-        describir = df.describe()
-        correlaciones = df.corr(method=method)
-        sesgo = df.skew()
-        return agrupar, describir, correlaciones, sesgo
-    """
-
-
-
-    def duplicados(self, inplace=False):
-        """
-        df_resultado = self.df.drop_duplicades()
-        nuevo_objeto = CSV(self.csv)
-        nuevo_objeto.df = df_resultado
-        return nuevo_objeto
-
-        csv = CSV("input.csv")
-        csv_sin_duplicados = csv.drop_duplicados()
-        """
-        df_resultado = self.df.drop_duplicates()
-        return self._inplace("df", df_resultado, inplace) # se le puede el csv antes de leerlo o el dataframe df
-
-
-    def _inplace (self, atributo, valor_atributo, inplace=False):
+    def _inplace(self, atributo, valor_atributo, inplace=False):
         if inplace:
             setattr(self, atributo, valor_atributo)
         else:
             nuevo_objeto = CSV(self.csv)
-            setattr(self, atributo, valor_atributo)
+            setattr(nuevo_objeto, atributo, valor_atributo)
+            # self.atributo = valor_atributo
+            # self.df = resultado_df
             return nuevo_objeto
 
-    def dropna(self, number = 10000, axis = 1, inplace=False):  #Elimina filas/registros axis=0 o columnas/atributos si axis=1. El limite de NaN lo marca number
+    def duplicados(self, inplace=False):
+        df_resultado = self.df.drop_duplicates()
+        return self._inplace("df", df_resultado, inplace)  # se le puede el csv antes de leerlo o el dataframe df
+
+    def dropna(self, number=10000, axis=1,
+               inplace=False):  # Elimina filas/registros axis=0 o columnas/atributos si axis=1. El limite de NaN lo marca number
         length = self.df.shape[axis - 1]  # -1 ¿porque era esto?
         df_resultado = self.df.dropna(thresh=length - number, axis=axis)
-        self.csv = df_resultado
         return self._inplace("df", df_resultado, inplace)
 
-    def ints(self):
-        self.df_procesada = self.df_procesada.select_dtypes(include=["int64", "float64"])
-        return self.df_procesada
+    def ints(self, inplace=False):
+        df_resultado = self.df.select_dtypes(include=["int64", "float64"])
+        return self._inplace("df", df_resultado, inplace)
 
-    def mvs(self, columns = None, strategy = "mean"):
-        imp_mean = SimpleImputer(missing_values = np.nan, strategy = strategy)
-        aux = imp_mean.fit_transform(self.df_procesada)
+    def mvs(self, columns=None, strategy="mean", inplace=False):
+        imp_mean = SimpleImputer(missing_values=np.nan, strategy=strategy)
+        aux = imp_mean.fit_transform(self.df)
         try:
-            self.df_procesada = pd.DataFrame(data = aux, columns = self.df_procesada.columns)
+            df_resultado = pd.DataFrame(data=aux, columns=self.df.columns)
         except ValueError:
-            raise ValueError("Necesitas borrar columnas con NANs y columnas con Strings primero. Ejecutar self.dropna() y self.ints() antes de self.mvs()")
-        return self.df_procesada
+            raise ValueError(
+                "Necesitas borrar columnas con NANs y columnas con Strings primero. Ejecutar self.dropna() y self.ints() antes de self.mvs()")
+        return self._inplace("df", df_resultado, inplace)
 
-    def outliers(self,  grado = 3):  # Eliminar filas con outlier y escoger grado de eliminacion)
-        z_scores = stats.zscore(self.df_procesada)  # self.df.values ????
+    def outliers(self, grado=3, inplace=False):  # Eliminar filas con outlier y escoger grado de eliminacion)
+        z_scores = stats.zscore(self.df)  # self.df.values ????
         where_are_NaNs = isnan(z_scores)
         z_scores[where_are_NaNs] = 0
         abs_z_scores = np.abs(z_scores)
-        filtered_entries = (abs_z_scores < grado).all(axis = 1)  # buscar solucion para sustituir nan por 0 en la lista de listas
-        self.df_procesada = self.df_procesada[filtered_entries]
-        return self.df_procesada
+        filtered_entries = (abs_z_scores < grado).all(
+            axis=1)  # buscar solucion para sustituir nan por 0 en la lista de listas
+        df_resultado = self.df[filtered_entries]
+        return self._inplace("df", df_resultado, inplace)
 
-    def reescalar(self):
-        scaler = MinMaxScaler(feature_range = (0, 1))
-        self.df_reescalar = scaler.fit_transform(self.df_procesada)
-        return self.df_reescalar
+    def reescalar(self, inplace=False):
+        scaler = MinMaxScaler(feature_range=(0, 1))
+        df_resultado = scaler.fit_transform(self.df)
+        return self._inplace("df", df_resultado, inplace)
 
-    def estandarizar (self):
-        scaler = StandardScaler().fit(self.df_procesada)
-        self.df_estandarizada = scaler.transform(self.df_procesada)
-        return self.df_estandarizada
+    def estandarizar(self, inplace=False):
+        scaler = StandardScaler().fit(self.df)
+        df_resultado = scaler.transform(self.df)
+        return self._inplace("df", df_resultado, inplace)
 
-    def normalizada (self):
-        scaler = Normalizer().fit(self.df_procesada)
-        self.df_normalizada = scaler.transform(self.df_procesada)
-        return self.df_normalizada
+    def normalizada(self, inplace=False):
+        scaler = Normalizer().fit(self.df)
+        df_resultado = scaler.transform(self.df)
+        return self._inplace("df", df_resultado, inplace)
 
-    def binarizar (self):
-        binarizer = Binarizer(threshold=0.0).fit(self.df_procesada)
-        self.binarizada = binarizer.transform(self.df_procesada)
-        return self.binarizada
+    def binarizar(self, inplace=False):
+        binarizer = Binarizer(threshold=0.0).fit(self.df)
+        df_resultado = binarizer.transform(self.df)
+        return self._inplace("df", df_resultado, inplace)
+
+"""
+VEHICULO --> Moto o Coche
+
+"""
+
+#class Moto (VEHICULO)
+#cosas especificas (cosas muy generales)
+#HIJO(PADRE)
+
+##--------------------------------------------
+
+####CSVPLOT -> CSV_Explolaracion --> CSV
+#####          CSV_Preprocesai   -->CSV
+
+#-------------------------------------------
+
+#####             Standarizar     -->    ML
+#####
+
+####--------------------------------------
+"""
+csv = CSV("datos.csv")
+csv_dupl = csv.duplicados()
+csv_na = csv_dupl.dropna()
+
+ml = ML(csv_na.df)
 
 
+"""
+#from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
+#class CSV (csv_exploracion.CSVExploracion,CSVPreprocesamiento) ---- (importas la file i llamas funcion de dentro)
 
+class CSV(CSVExploracion, CSVPreprocesamiento):
 
-
-
+    def __init__(self, csv):
+        self.csv = csv
+        self.df = pd.read_csv(self.csv)
 
 """EJECUCION"""
 # PATH ABSOLUTO: SOLO FUNCIONA EN MI ORDENADOR
@@ -249,9 +155,21 @@ class CSV(CSVExploracion):
 # Te permite ejecutar el fichero si te posicionas directamente en él pero NO cuando lo importas
 if __name__ == "__main__":
     csv = CSV(os.path.join(PATH4, "data/csv_barcelona.csv"))
-    csv.vistazo(show=True)
     csv.plot()
+    #csv.vistazo(show=True)
+    #csv.plot()
+    """
+    csv_duplicados = csv.dropna()
+    csv.vistazo(show=True)
+    csv_duplicados.vistazo(show=True)
+    #csv.vistazo(show=True)
+    objeto_pr = CSVPreprocesamiento(csv.csv)
+    obj = objeto_pr.dropna()
+    """
 
+    csv.vistazo(show=True)
+    csv_2 = csv.dropna()
+    print(csv_2)
     ##
 
     ######
@@ -260,7 +178,7 @@ if __name__ == "__main__":
     #asi aseguramos darle las maximas cosas a utilizar al usuario ---> MODULARIDAD
 
     #objeto_plot = CSVPlot(csv.df)
-    #objetos.plot.plot()
+    #objetos_plot.plot.plot()
     """
     print()
     # pd.set_option('max_rows', None)

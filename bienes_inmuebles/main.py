@@ -1,6 +1,7 @@
 import os
-from bienes_inmuebles.dataset.csv_utilities import CSV, PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
 import pandas as pd
+from bienes_inmuebles.dataset.csv_utilities import CSV, PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
+
 
 """FUNCIONES --> API"""
 
