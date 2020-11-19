@@ -1,5 +1,7 @@
 import pandas as pd
-from csv_plot import CSVPlot
+from bienes_inmuebles.dataset.csv_plot import CSVPlot
+
+
 class CSVExploracion(CSVPlot):
 
     def __init__(self, df):
@@ -17,7 +19,7 @@ class CSVExploracion(CSVPlot):
         forma = self.df.shape
         return cabecera, final, columnas, faltantes, forma
 
-    def estadistica(self, columnas = [], agrupar = None, method = "pearson"):
+    def estadistica(self, columnas=[], agrupar=None, method="pearson"):
         if columnas:
             df = self.df[columnas]
         else:
@@ -31,10 +33,8 @@ class CSVExploracion(CSVPlot):
         sesgo = df.skew()
         return agrupar, describir, correlaciones, sesgo
 
+
 if __name__ == "__main__":
     df = pd.read_csv("../../data/csv_barcelona.csv")
-    exploracion = CSVExploracion (df)
-    exploracion.vistazo()
-
-    #objeto_plot = CSVPlot(csv.df)
-    #objetos_plot.plot.plot()
+    exploracion = CSVExploracion(df)
+    exploracion.vistazo(show=True)
