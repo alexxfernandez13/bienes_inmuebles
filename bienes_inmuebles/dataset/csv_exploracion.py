@@ -17,6 +17,7 @@ class CSVExploracion(CSVPlot):
         columnas = self.df.columns.values
         faltantes = self.df.isnull().sum()
         forma = self.df.shape
+        print(cabecera, final, columnas, faltantes, forma)
         return cabecera, final, columnas, faltantes, forma
 
     def estadistica(self, columnas=[], agrupar=None, method="pearson"):
@@ -31,6 +32,7 @@ class CSVExploracion(CSVPlot):
         describir = df.describe()
         correlaciones = df.corr(method=method)
         sesgo = df.skew()
+        print(agrupar, describir, correlaciones, sesgo)
         return agrupar, describir, correlaciones, sesgo
 
 

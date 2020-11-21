@@ -30,20 +30,8 @@ PATH4 = str(Path(path3.parent))
 # from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
 # class CSV (csv_exploracion.CSVExploracion, csv_prepocesamiento.CSVPreprocesamiento)
 
-class CSV(CSVExploracion, CSVPreprocesamiento):
-    def __init__(self, csv):
-        self.csv = csv
-        self.df = pd.read_csv(self.csv)
 
-def _inplace(objeto, atributo, valor_atributo, inplace=False):  # funcion para sobrescribir ojbetos o realizar copias
-    if inplace:
-        setattr(atributo, valor_atributo)
-    else:
-        nuevo_objeto = CSV(objeto.csv)
-        setattr(nuevo_objeto, atributo, valor_atributo)
-        # self.atributo = valor_atributo
-        # self.df = resultado_df
-        return nuevo_objeto
+
 
 """EJECUCION"""
 # Path Absoluto: solo funciona en mi PC

@@ -1,7 +1,14 @@
+import os
 import pandas as pd
 from pandas.plotting import scatter_matrix
 import matplotlib.pyplot as plt
+from pathlib import Path
 
+"""CONSTANTES (en mayuscula)"""
+path = Path(__file__)  # PATH A LA FILE EN CUALQUIER ORDENADOR
+path2 = Path(path.parent)  # Un directorio hacia atras
+path3 = Path(path2.parent)
+PATH4 = str(Path(path3.parent))
 
 class CSVPlot():
     def __init__(self, df):
