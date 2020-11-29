@@ -1,5 +1,5 @@
 import os
-from bienes_inmuebles.dataset.csv_utilities import CSV, PATH4
+from bienes_inmuebles.dataset.csv_preprocesamiento import CSV, PATH4
 
 
 def test_cvs_to_dataframe():
@@ -14,6 +14,7 @@ def test_plot():
 
 def test_plot():
     csv = CSV(os.path.join(PATH4, "data/csv_barcelona.csv"))
-    csv.plot(save=True)
-    assert os.path.exists("bathrooms.png")
+    csv.guardar_plot(save=True)
+    assert os.path.exists(os.path.join(PATH4, "data/bathrooms.png"))# convierte path relativo en absoluto
 """test funciones nuevas"""
+
