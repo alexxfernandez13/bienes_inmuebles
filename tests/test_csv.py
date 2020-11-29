@@ -18,3 +18,8 @@ def test_plot():
     assert os.path.exists(os.path.join(PATH4, "data/bathrooms.png"))# convierte path relativo en absoluto
 """test funciones nuevas"""
 
+def test_vistazo():
+    csv = CSV(os.path.join(PATH4, "data/csv_barcelona.csv"))
+    cabecera, final, columnas, faltantes, forma = csv.vistazo()
+    assert "neighborhood_overview" in columnas
+    assert  "https://www.airbnb.com/rooms/21974"  in cabecera.values[0]
