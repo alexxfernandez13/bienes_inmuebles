@@ -6,7 +6,9 @@ __pycache__/
 # C extensions
 *.so
 .idea
-.png
+*/*.png
+# extension=* sino se refiere al nombre del archiv
+#cualquier cosa=*
 
 # Distribution / packaging
 .Python
