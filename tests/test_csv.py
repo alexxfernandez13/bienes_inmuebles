@@ -46,34 +46,32 @@ def delete_test_output(output="file.png"):
     except FileNotFoundError:
         pass
 
-def test_histograma(csv=csv2, output = "file.png"):
+def test_histograma(csv=csv2, output = "file_histograma.png"):
     delete_test_output(output)
     csv.plot_histograma(df=csv.df,output=output)
     assert os.path.exists(output)
     delete_test_output(output)
 
-def test_densidad(csv=csv2, output="file.png"):
+def test_densidad(csv=csv2, output="file_densidad.png"):
     delete_test_output(output)
     csv.plot_densidad(df = csv.df,output = output)
     assert os.path.exists(output)
     delete_test_output(output)
 
-def test_bigotes(csv=csv2, output = "file.png"):
+def test_bigotes(csv=csv2, output = "file_bigotes.png"):
     delete_test_output(output)
     csv.plot_bigotes(df=csv.df,output=output)
     assert os.path.exists(output)
     delete_test_output(output)
 
-def test_correlacion(csv=csv2, output = "file.png"):
+def test_correlacion(csv=csv2, output = "file_correlacion.png"):
     delete_test_output(output)
     csv.plot_correlacion(df=csv.df,output=output)
     assert os.path.exists(output)
     delete_test_output(output)
 
-
-
-
-
-
-
-
+def test_dispersion(csv=csv2, output = "file_dispersion.png"):
+    delete_test_output(output)
+    csv.plot_dispersion(df=csv.df,output=output)
+    assert os.path.exists(output)
+    delete_test_output(output)

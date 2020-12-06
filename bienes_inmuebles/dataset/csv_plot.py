@@ -64,9 +64,12 @@ class CSVPlot():
         else:
             plt.savefig(output)
 
-    def plot_dispersion(self, df):
+    def plot_dispersion(self, df, output=False):
         scatter_matrix(df)
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
     def guardar_plot(self, save=True):  # Opcion a guardar el plot
         columns = self.df.columns.values
@@ -81,9 +84,17 @@ class CSVPlot():
             except ValueError:
                 pass
 
+    def borrar_plot(self):
+        columns = self.df.columns.values
+        for column in columns:
+            my_file = f'data/{column}.png'
+            try:
+                os.remove(os.path.join(PATH4, my_file))
+            except FileNotFoundError:
+                pass
     """Opcion a eliminar el plot"""
 
 if __name__ == "__main__":
     df = pd.read_csv("../../data/csv_barcelona.csv")
     plot = CSVPlot(df)
-    plot.plot()
+    plot.borrar_plot()
