@@ -32,25 +32,37 @@ class CSVPlot():
         else:
             pass
 
-    def plot_histograma(self, df):
+    def plot_histograma(self, df, output=False):
         df.hist()
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
-    def plot_densidad(self, df):
-        df.plot(subplots=True, layout=(10, 4), sharex=False)  # kind="density" ¿No funciona?
-        plt.show()
+    def plot_densidad(self, df, output=False):
+        df.plot(subplots=True, layout=(10, 4), sharex = False)  # kind="density" ¿No funciona?
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
-    def plot_bigotes(self, df):
+    def plot_bigotes(self, df, output=False):
         df.plot(kind='box', subplots=True, layout=(10, 4), sharex=False, sharey=False)
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
-    def plot_correlacion(self, df):
+    def plot_correlacion(self, df, output=False):
         correlaciones = df.corr()
         fig = plt.figure()
         ax = fig.add_subplot(111)
         cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
         fig.colorbar(cax)
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
     def plot_dispersion(self, df):
         scatter_matrix(df)
