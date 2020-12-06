@@ -17,7 +17,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install numpy cython
+        python -m pip install numpy cython pytest
     - name: Install via Pypi
       run: |
         pytest tests
