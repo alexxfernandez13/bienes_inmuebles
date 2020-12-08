@@ -81,7 +81,7 @@ class CSVPlot():
                     plt.savefig(os.path.join(PATH4, my_file))
                 else:
                     pass
-            except ValueError:
+            except ValueError: #Para columnas no numericas!
                 pass
 
     def borrar_plot(self):
