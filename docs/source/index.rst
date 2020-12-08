@@ -4,7 +4,10 @@
    contain the root `toctree` directive.
 
 Bienvenido to bienes_inmuebles's documentation!
-============================================
+===================================================================
+
+What the sfotware do, external requirements, company ...
+
 
 .. toctree::
    installation/index.rst
