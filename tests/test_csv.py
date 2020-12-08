@@ -28,6 +28,12 @@ def test_plot(csv=csv):
     assert os.path.exists(os.path.join(PATH4, "data/bathrooms.png"))# convierte path relativo en absoluto
 """test funciones nuevas"""
 
+def test_vistazo():
+    csv = CSV(os.path.join(PATH4, "data/csv_barcelona.csv"))
+    cabecera, final, columnas, faltantes, forma = csv.vistazo()
+    assert "neighborhood_overview" in columnas
+    assert  "https://www.airbnb.com/rooms/21974"  in cabecera.values[0]
+
 def test_duplicates(csv=csv):
     csv_dup = csv.duplicados()
     assert csv.df.shape != csv_dup.df.shape
@@ -69,11 +75,4 @@ def test_correlacion(csv=csv2, output = "file.png"):
     csv.plot_correlacion(df=csv.df,output=output)
     assert os.path.exists(output)
     delete_test_output(output)
-
-
-
-
-
-
-
-
+    
