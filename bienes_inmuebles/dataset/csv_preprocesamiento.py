@@ -110,9 +110,12 @@ class CSVPreprocesamiento():
 
 
 class CSV(CSVExploracion, CSVPreprocesamiento):
-    def __init__(self, csv):
+    def __init__(self, csv, df=None):
         self.csv = csv
-        self.df = pd.read_csv(self.csv)
+        if df:
+            self.df = df
+        else:
+            self.df = pd.read_csv(self.csv)
 
 if __name__ == "__main__":
     preprocesamiento = CSVPreprocesamiento("../../data/csv_barcelona.csv")
