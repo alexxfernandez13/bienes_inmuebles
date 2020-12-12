@@ -32,29 +32,44 @@ class CSVPlot():
         else:
             pass
 
-    def plot_histograma(self, df):
+    def plot_histograma(self, df, output=False):
         df.hist()
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
-    def plot_densidad(self, df):
-        df.plot(subplots=True, layout=(10, 4), sharex=False)  # kind="density" ¿No funciona?
-        plt.show()
+    def plot_densidad(self, df, output=False):
+        df.plot(subplots=True, layout=(10, 4), sharex = False)  # kind="density" ¿No funciona?
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
-    def plot_bigotes(self, df):
+    def plot_bigotes(self, df, output=False):
         df.plot(kind='box', subplots=True, layout=(10, 4), sharex=False, sharey=False)
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
-    def plot_correlacion(self, df):
+    def plot_correlacion(self, df, output=False):
         correlaciones = df.corr()
         fig = plt.figure()
         ax = fig.add_subplot(111)
         cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
         fig.colorbar(cax)
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
-    def plot_dispersion(self, df):
+    def plot_dispersion(self, df, output=False):
         scatter_matrix(df)
-        plt.show()
+        if not output:
+            plt.show()
+        else:
+            plt.savefig(output)
 
     def guardar_plot(self, save=True):  # Opcion a guardar el plot
         columns = self.df.columns.values
@@ -66,12 +81,20 @@ class CSVPlot():
                     plt.savefig(os.path.join(PATH4, my_file))
                 else:
                     pass
-            except ValueError:
+            except ValueError: #Para columnas no numericas!
                 pass
 
+    def borrar_plot(self):
+        columns = self.df.columns.values
+        for column in columns:
+            my_file = f'data/{column}.png'
+            try:
+                os.remove(os.path.join(PATH4, my_file))
+            except FileNotFoundError:
+                pass
     """Opcion a eliminar el plot"""
 
 if __name__ == "__main__":
     df = pd.read_csv("../../data/csv_barcelona.csv")
     plot = CSVPlot(df)
-    plot.plot()
+    plot.borrar_plot()
