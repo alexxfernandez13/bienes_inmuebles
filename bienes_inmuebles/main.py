@@ -1,6 +1,8 @@
 import os
 import pandas as pd
+
 from bienes_inmuebles.dataset.csv_preprocesamiento import CSV, PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
+from bienes_inmuebles.machine_learning.no_supervisado.no_supervisado import NO_Supervisado
 
 """FUNCIONES --> API"""
 
@@ -34,12 +36,21 @@ def main():
     print(csv_binar.df[0:5, 0:5])
     binar1 = csv_outliers.estandarizar()
     print(binar1.df[0:5, 0:5])
-    ##DF
+    no_supervisado = NO_Supervisado(binar1.df)
+    print(no_supervisado.df)
+    breakpoint()
+    pca = no_supervisado.tsne()
+    print(pca)
+    no_supervisado.df = pd.DataFrame(pca)
+    print("a")
+    no_supervisado.plot()
+
 
 
 """ COMMAND LINE / EJECUTAS LA FILE DIRECTO"""
 if __name__ == "__main__":
     main()
+
 
 """
 csv = CSV("datos.csv")

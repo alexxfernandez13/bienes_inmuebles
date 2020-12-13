@@ -14,7 +14,8 @@ class CSVPlot():
     def __init__(self, df):
         self.df = df
 
-    def plot(self, grafico=2, columnas=[]):
+    def plot(self, grafico=4, columnas=[]):
+        assert type(self.df)==pd.DataFrame, "Cuidado! Tus datos de entrada tienen que ser un Dataframe"
         if columnas:
             df = self.df[columnas]
         else:
