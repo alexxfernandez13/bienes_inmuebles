@@ -16,10 +16,9 @@ from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
 # from .. import csv_exploracion -> significa hacia atras o bajar un nivel (para buscar en carpetas por debajo)
 
 """CONSTANTES (en mayuscula)"""
-path = Path(__file__)  # PATH A LA FILE EN CUALQUIER ORDENADOR
+path = Path(__file__) # PATH A LA FILE EN CUALQUIER ORDENADOR
 path2 = Path(path.parent)  # Un directorio hacia atras
-path3 = Path(path2.parent)
-PATH4 = str(Path(path3.parent))
+PATH4 = str(Path(path2.parent))
 
 """CLASE y FUNCIONES"""
 # class Moto o Coche (Vehiculo)

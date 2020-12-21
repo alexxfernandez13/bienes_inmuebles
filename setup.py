@@ -2,7 +2,7 @@ import setuptools
 
 
 setuptools.setup(name='bienes_inmuebles',
-      version="1.1.0",
+      version="1.1.1",
       url = "https://github.com/alexxfernandez13/bienes_inmuebles",
       description='Tool for predicitng real estate prices',
       author='Aleandro Fernandez',
