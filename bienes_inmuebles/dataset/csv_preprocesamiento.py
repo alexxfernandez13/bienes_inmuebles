@@ -120,4 +120,5 @@ class CSV(CSVExploracion, CSVPreprocesamiento):
 if __name__ == "__main__":
     preprocesamiento = CSVPreprocesamiento("../../data/csv_barcelona.csv")
     prueba = preprocesamiento.dropna()
+    print(path)
     print(prueba.df.info())
