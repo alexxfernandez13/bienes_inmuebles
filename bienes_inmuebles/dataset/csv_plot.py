@@ -14,77 +14,46 @@ class CSVPlot():
     def __init__(self, df):
         self.df = df
 
-    def plot(self, grafico=4, columnas=[]):
-        assert type(self.df)==pd.DataFrame, "Cuidado! Tus datos de entrada tienen que ser un Dataframe"
-        if columnas:
-            df = self.df[columnas]
-        else:
-            df = self.df
-        if grafico == 0:
-            self.plot_histograma(df)
-        elif grafico == 1:
-            self.plot_densidad(df)
-        elif grafico == 2:
-            self.plot_bigotes(df)
-        elif grafico == 3:
-            self.plot_correlacion(df)
-        elif grafico == 4:
-            self.plot_dispersion(df)
-        else:
-            pass
-
-    def plot_histograma(self, df, output=False):
-        df.hist()
+    def show(self, output=False):
         if not output:
             plt.show()
         else:
-            plt.savefig(output)
+            columns=self.df.columns.values
+            for column in columns:
+                try:
+                    self.df.hist(column=column)
+                    my_file = f"data/{column}.png"
+                    plt.savefig(os.path.join(PATH4,my_file))
+                except ValueError:
+                    pass
 
-    def plot_densidad(self, df, output=False):
-        df.plot(subplots=True, layout=(10, 4), sharex = False)  # kind="density" ¿No funciona?
-        if not output:
-            plt.show()
-        else:
-            plt.savefig(output)
+    def plot_histograma(self, output=False):
+        self.df.hist()
+        self.show(output)
 
-    def plot_bigotes(self, df, output=False):
-        df.plot(kind='box', subplots=True, layout=(10, 4), sharex=False, sharey=False)
-        if not output:
-            plt.show()
-        else:
-            plt.savefig(output)
+    def plot_densidad(self, output=False):
+        self.df.plot(subplots=True, layout=(10, 4), sharex = False)  # kind="density" ¿No funciona?
+        self.show(output)
 
-    def plot_correlacion(self, df, output=False):
-        correlaciones = df.corr()
+    def plot_bigotes(self,output=False):
+        self.df.plot(kind='box', subplots=True, layout=(10, 4), sharex=False, sharey=False)
+        self.show(output)
+
+    def plot_correlacion(self, output=False):
+        correlaciones = self.df.corr()
         fig = plt.figure()
         ax = fig.add_subplot(111)
         cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
         fig.colorbar(cax)
-        if not output:
-            plt.show()
-        else:
-            plt.savefig(output)
+        self.show(output)
 
-    def plot_dispersion(self, df):
-        scatter_matrix(df)
-        plt.show()
-
-    def guardar_plot(self, save=True):  # Opcion a guardar el plot
-        columns = self.df.columns.values
-        for column in columns:
-            try:
-                self.df.hist(column=column)
-                if save:
-                    my_file = f'data/{column}.png'
-                    plt.savefig(os.path.join(PATH4, my_file))
-                else:
-                    pass
-            except ValueError:
-                pass
+    def plot_dispersion(self, output=False):
+        scatter_matrix(self.df)
+        self.show(output)
 
     """Opcion a eliminar el plot"""
 
 if __name__ == "__main__":
     df = pd.read_csv("../../data/csv_barcelona.csv")
     plot = CSVPlot(df)
-    plot.plot()
+    plot.plot_dispersion()

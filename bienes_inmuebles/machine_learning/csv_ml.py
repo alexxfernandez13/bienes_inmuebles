@@ -77,6 +77,6 @@ class ML():
         ax.set_xticklabels(names)
         pyplot.show()
 
-    def
+
 if __name__ == "__main__":
     csv = CSV(os.path.join(PATH4, "data/csv_barcelona.csv"))
