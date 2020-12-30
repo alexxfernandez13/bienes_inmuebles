@@ -7,13 +7,15 @@ import pandas as pd
 # Import libreria interna
 from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
 from bienes_inmuebles.dataset.csv_preprocesamiento import CSVPreprocesamiento
+
 # from .. import csv_exploracion -> significa hacia atras o bajar un nivel (para buscar en carpetas por debajo)
 
 """CONSTANTES (en mayuscula)"""
-path = Path(__file__)  # PATH A LA FILE EN CUALQUIER ORDENADOR
-path2 = Path(path.parent)  # Un directorio hacia atras
-path3 = Path(path2.parent)
-PATH4 = str(Path(path3.parent))
+# Recupera la ruta del fichero actual yendo un directorio hacia atras
+path = Path(__file__)  # C:\bienes_inmuebles\bienes_inmuebles\dataset\csv_utilities.py
+path2 = Path(path.parent)  # C:\bienes_inmuebles\bienes_inmuebles\dataset
+path3 = Path(path2.parent)  # C:\bienes_inmuebles\bienes_inmuebles
+PATH4 = str(Path(path3.parent))  # C:\bienes_inmuebles
 
 """CLASE y FUNCIONES"""
 # class Moto o Coche (Vehiculo)
@@ -29,8 +31,6 @@ PATH4 = str(Path(path3.parent))
 # -------------------2 formas de Herenciar---------------
 # from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
 # class CSV (csv_exploracion.CSVExploracion, csv_prepocesamiento.CSVPreprocesamiento)
-
-
 
 
 """EJECUCION"""
