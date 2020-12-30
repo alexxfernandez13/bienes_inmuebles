@@ -6,9 +6,9 @@ class CSVExploracion(CSVPlot):
 
     def __init__(self, df):
         self.df = df
-
-    def vistazo(self, show=False):  # ¿Pasar lineas predeterminadas?
-        if show:
+    """Muestra informacion general del dataset con show_info=True o especifica con show_info=False"""
+    def vistazo(self, show_info=False):  # ¿Pasar lineas predeterminadas?
+        if show_info:
             self.df.info()
         else:
             pass
@@ -20,6 +20,7 @@ class CSVExploracion(CSVPlot):
         print(cabecera, final, columnas, faltantes, forma)
         return cabecera, final, columnas, faltantes, forma
 
+    """Muestra informacion estadistica del dataset. Se le puede indicar columnas especificas pasandolas por una lista"""
     def estadistica(self, columnas=[], agrupar=None, method="pearson"):
         if columnas:
             df = self.df[columnas]
