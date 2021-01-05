@@ -13,6 +13,7 @@ from sklearn.preprocessing import Binarizer
 
 # Import libreria interna
 from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
+
 # from .. import csv_exploracion -> significa hacia atras o bajar un nivel (para buscar en carpetas por debajo)
 
 """CONSTANTES (en mayuscula)"""
@@ -22,6 +23,8 @@ path3 = Path(path2.parent)
 PATH4 = str(Path(path3.parent))
 
 """CLASE y FUNCIONES"""
+
+
 # class Moto o Coche (Vehiculo)
 # class caracteristicas especificas (caracteristicas generales)
 # class HIJO (PADRE)
@@ -42,8 +45,8 @@ class CSVPreprocesamiento():
         self.csv = csv
         self.df = pd.read_csv(self.csv)
 
-    def _inplace(self, atributo, valor_atributo,
-                 inplace=False):  # funcion para sobrescribir ojbetos o realizar copias
+    """Permite sobrescribir objetos o realizar copias"""
+    def _inplace(self, atributo, valor_atributo, inplace=False):
         if inplace:
             setattr(atributo, valor_atributo)
         else:
@@ -53,31 +56,36 @@ class CSVPreprocesamiento():
             # self.df = resultado_df
             return nuevo_objeto
 
+    """Elimina filas con duplicados"""
     def duplicados(self, inplace=False):
         df_resultado = self.df.drop_duplicates()
-        return self._inplace("df", df_resultado, inplace)  # se le puede el csv antes de leerlo o el dataframe df
+        return self._inplace("df", df_resultado, inplace)  # se le puede pasar el csv antes de leerlo o el dataframe df
 
+    """Elimina filas axis = 0 o columnas si axis = 1. El limite de NaN lo marca number"""
     def dropna(self, number=10000, axis=1, inplace=False):
-        """Elimina filas/registros axis=0 o columnas/atributos si axis=1. El limite de NaN lo marca number"""
         length = self.df.shape[axis - 1]  # -1 ¿porque era esto?
         df_resultado = self.df.dropna(thresh=length - number, axis=axis)
         valor = self._inplace("df", df_resultado, inplace)
         return valor
 
+    """Selecciona columnas con datos numericos"""
     def ints(self, inplace=False):
         df_resultado = self.df.select_dtypes(include=["int64", "float64"])
         return self._inplace("df", df_resultado, inplace)
 
+    """Imputacion de valores faltantes con media, mediana o moda"""
     def mvs(self, columns=None, strategy="constant", inplace=False):
         imp_mean = SimpleImputer(missing_values=np.nan, strategy=strategy)
         aux = imp_mean.fit_transform(self.df)
         try:
             df_resultado = pd.DataFrame(data=aux, columns=self.df.columns)
         except ValueError:
-            raise ValueError("Necesitas borrar columnas con NANs y columnas con Strings primero. También puede que tengas mas columas que anters"
+            raise ValueError("Necesitas borrar columnas con NANs y columnas con Strings primero. También puede que "
+                             "tengas mas columas que anters "
                              "Ejecutar self.dropna() y self.ints() antes de self.mvs()")
         return self._inplace("df", df_resultado, inplace)
 
+    """Elimina filas con outliers"""
     def outliers(self, grado=3, inplace=False):  # Eliminar filas con outlier y escoger grado de eliminacion)
         z_scores = stats.zscore(self.df)  # self.df.values ????
         where_are_NaNs = np.isnan(z_scores)
@@ -88,21 +96,25 @@ class CSVPreprocesamiento():
         df_resultado = self.df[filtered_entries]
         return self._inplace("df", df_resultado, inplace)
 
+    """Reescalar dataset"""
     def reescalar(self, inplace=False):
         scaler = MinMaxScaler(feature_range=(0, 1))
         df_resultado = scaler.fit_transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
+    """Estandarizar dataset"""
     def estandarizar(self, inplace=False):
         scaler = StandardScaler().fit(self.df)
         df_resultado = scaler.transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
+    """Normalizar dataset"""
     def normalizada(self, inplace=False):
         scaler = Normalizer().fit(self.df)
         df_resultado = scaler.transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
+    """Binarizar dataset"""
     def binarizar(self, inplace=False):
         binarizer = Binarizer(threshold=0.0).fit(self.df)
         df_resultado = binarizer.transform(self.df)
@@ -116,6 +128,7 @@ class CSV(CSVExploracion, CSVPreprocesamiento):
             self.df = df
         else:
             self.df = pd.read_csv(self.csv)
+
 
 if __name__ == "__main__":
     preprocesamiento = CSVPreprocesamiento("../../data/csv_barcelona.csv")
