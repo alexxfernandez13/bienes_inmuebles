@@ -333,7 +333,7 @@ if __name__ == "__main__":
 
             listaEscribirCsv = []
             for inmueble in objetos:
-                #ObjMetodosDb.addDbFotocasa(inmueble)
+                ObjMetodosDb.addDbFotocasa(inmueble)
                 listaEscribirCsv.append(inmueble)
 
             fotocasa.creaTxt(listaEscribirCsv)
@@ -344,4 +344,4 @@ if __name__ == "__main__":
 
             time.sleep(10)
 
-    fotocasa.creaTxt(listaEscribirCsv)
+    #fotocasa.creaTxt(listaEscribirCsv)
