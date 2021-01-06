@@ -30,20 +30,22 @@ class CSVPlot():
                 except ValueError:
                     pass
 
-    """Grafico de diagrama de barras"""
+    """Grafico Barras"""
     def plot_histograma(self, output=False):
         self.df.hist()
         self._show(output)
 
-    """Grafico de """
+    """Grafico Densidad"""
     def plot_densidad(self, output=False):
         self.df.plot(subplots=True, layout=(10, 4), sharex=False)  # kind="density" ¿No funciona?
         self._show(output)
 
+    """Grafico Box & Whisker"""
     def plot_bigotes(self, output=False):
         self.df.plot(kind='box', subplots=True, layout=(10, 4), sharex=False, sharey=False)
         self._show(output)
 
+    """Matriz Correlacion"""
     def plot_correlacion(self, output=False):
         correlaciones = self.df.corr()
         fig = plt.figure()
@@ -52,6 +54,7 @@ class CSVPlot():
         fig.colorbar(cax)
         self._show(output)
 
+    """Matriz Dispersion"""
     def plot_dispersion(self, output=False):
         scatter_matrix(self.df, alpha=0.2)
         self._show(output)
@@ -73,9 +76,7 @@ class CSVPlot():
 
 
 if __name__ == "__main__":
-    # df = pd.read_csv("../../data/csv_barcelona.csv")
-    df = pd.DataFrame(np.random.randn(1000, 4), columns=['A', 'B', 'C', 'D'])
-    print(df)
+    df = pd.read_csv("../../data/csv_barcelona.csv")
+    # df = pd.DataFrame(np.random.randn(1000, 4), columns=['A', 'B', 'C', 'D'])
     plot = CSVPlot(df)
-    plot.plot_dispersion(output=True)
-    # plot.borrar_output()
+    plot.plot_bigotes()

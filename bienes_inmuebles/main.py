@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from bienes_inmuebles.dataset.csv_preprocesamiento import CSV, PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
-from bienes_inmuebles.machine_learning.no_supervisado.no_supervisado import NO_Supervisado
+from bienes_inmuebles.machine_learning.ml_no_supervisado import NOsupervisado
 
 """FUNCIONES --> API"""
 
@@ -24,7 +24,7 @@ def main():
     csv_int = csv_na2.ints()
     # print(csv_int.df.dtypes)
     print("AQUIIII")
-    csv_int.vistazo(show=True)
+    csv_int.vistazo()
     print(csv_int.df.isnull().sum())
     csv_mvs = csv_int.mvs()
     print(csv_mvs.df.isnull().sum())
@@ -37,7 +37,7 @@ def main():
     print(csv_binar.df[0:5, 0:5])
     binar1 = csv_outliers.estandarizar()
     print(binar1.df[0:5, 0:5])
-    no_supervisado = NO_Supervisado(binar1.df)
+    no_supervisado = NOsupervisado(binar1.df)
     print(no_supervisado.df)
     pca = no_supervisado.pca()
     # print(pca)
