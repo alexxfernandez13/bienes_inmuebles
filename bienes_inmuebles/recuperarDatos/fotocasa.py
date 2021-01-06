@@ -9,6 +9,7 @@ from bienes_inmuebles.recuperarDatos.inmueble import Inmueble
 from bienes_inmuebles.database.metodosDb import MetodosDb
 from bienes_inmuebles.utilidades.urlPath import UrlPath
 import requests
+import csv
 
 import os
 
@@ -20,30 +21,39 @@ class Fotocasa():
         # crea el fichero datos_fotocasa.txt en el modulo data
         fp = open(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa.txt", 'a')
         for linea in listaEscribirCsv:
-            fp.writelines(str(linea.getIdInmueble()) + ',' +
-                          str(linea.getUrlInmueble()) + ',' +
-                          str(linea.getFuenteInfo()) + ',' +
-                          str(linea.getTipoInmueble()) + ',' +
-                          str(linea.getTipoOperacion()) + ',' +
-                          str(linea.getPrecio()) + ',' +
-                          str(linea.getNumHab()) + ',' +
-                          str(linea.getTamano()) + ',' +
-                          str(linea.getPlanta()) + ',' +
-                          str(linea.getDistrito()) + ',' +
-                          str(linea.getCiudad()) + ',' +
-                          str(linea.getFecha()) + ',' +
-                          str(linea.getEficienciaEnergetica()) + ',' +
-                          str(linea.getAscensor()) + ',' +
-                          str(linea.getTerraza()) + ',' +
-                          str(linea.getTrastero()) + ',' +
-                          str(linea.getGaraje()) + ',' +
-                          str(linea.getBalcon()) + ',' +
-                          str(linea.getAireAcondicionado()) + ',' +
-                          str(linea.getPiscina()) + ',' +
-                          str(linea.getVendedor()) + ',' +
+            fp.writelines(str(linea.getIdInmueble()) + ';' +
+                          str(linea.getUrlInmueble()) + ';' +
+                          str(linea.getFuenteInfo()) + ';' +
+                          str(linea.getTipoInmueble()) + ';' +
+                          str(linea.getTipoOperacion()) + ';' +
+                          str(linea.getPrecio()) + ';' +
+                          str(linea.getNumHab()) + ';' +
+                          str(linea.getTamano()) + ';' +
+                          str(linea.getPlanta()) + ';' +
+                          str(linea.getDistrito()) + ';' +
+                          str(linea.getCiudad()) + ';' +
+                          str(linea.getFecha()) + ';' +
+                          str(linea.getEficienciaEnergetica()) + ';' +
+                          str(linea.getAscensor()) + ';' +
+                          str(linea.getTerraza()) + ';' +
+                          str(linea.getTrastero()) + ';' +
+                          str(linea.getGaraje()) + ';' +
+                          str(linea.getBalcon()) + ';' +
+                          str(linea.getAireAcondicionado()) + ';' +
+                          str(linea.getPiscina()) + ';' +
+                          str(linea.getVendedor()) + ';' +
                           str(linea.getBanios()) +
                           '\n')
         fp.close()
+
+
+    def crearCsv(self, listaEscribirCsv):
+        csvsalida = open(str(UrlPath.getPath(__file__, 2)) + '\data\datos_fotocasa.csv', 'w', newline='')
+        salida = csv.writer(csvsalida)
+        salida.writerow(['idInmueble','urlInmueble','fuenteInfo','tipoInmueble','tipoOperacion','precio','habitaciones','tamaño','planta','distrito','ciudad','fecha','eficienciaEnergetica','ascensor','terraza','trastero','garaje','balcon','aireAcondicinado','piscina','baños'])
+        salida.writerows(listaEscribirCsv)
+        del salida
+        csvsalida.close()
 
     def getDistrito(self, url):
         return (url.split("/")[7])
@@ -90,8 +100,8 @@ class Fotocasa():
 
         html_txt = browser.page_source
         soup = BeautifulSoup(html_txt)
-        listaInmuebles = []
-
+        listaInmueblesCsv = []
+        listaInmueblesDb = []
         productos = soup.find_all('div', class_="re-Card-secondary")
 
         for producto in productos:
@@ -252,14 +262,19 @@ class Fotocasa():
                         fecha = datetime.datetime.now()
                         fecha = str(fecha.year) + "-" + str(fecha.month) + "-" + str(fecha.day)
 
-                        obInm = Inmueble(idInmueble, urlInmueble, fuenteInfo, tipoInmueble, tipoOperacion, precio, numHab, tamano,
+                        obInmDb = Inmueble(idInmueble, urlInmueble, fuenteInfo, tipoInmueble, tipoOperacion, precio, numHab, tamano,
                                          planta, distrito, ciudad, fecha, descripcion, eficienciaEnergetica, ascensor, terraza,
                                          trastero, garaje, balcon, aireAcondicionado, piscina, vendedor, banios)
+                        listaInmueblesDb.append(obInmDb)
+                        obInmCsv = [idInmueble, urlInmueble, fuenteInfo, tipoInmueble, tipoOperacion, precio, numHab, tamano, planta,
+                                 distrito, ciudad, fecha, eficienciaEnergetica, ascensor, terraza, trastero, garaje,
+                                 balcon, aireAcondicionado, piscina, banios]
+                        listaInmueblesCsv.append(obInmCsv)
 
-                        listaInmuebles.append(obInm)
+
         browser.quit()
 
-        return (listaInmuebles)
+        return (listaInmueblesDb, listaInmueblesCsv)
 
 
 ###### APLICACION PRINCIPAL ########
@@ -318,10 +333,10 @@ if __name__ == "__main__":
     ]
 
     # borra el fichero datos_fotocasa.txt del directorio data
-    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa.txt"):
-        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa.txt")
+    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa.csv"):
+        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa.csv")
 
-
+    listaEscribirCsv = []
     for url in direcciones:
         for pagina in range(1, 100):
             pestana = "/l/" + str(pagina) + "/?"
@@ -329,19 +344,20 @@ if __name__ == "__main__":
 
             print(urlConsulta)
             fotocasa = Fotocasa(urlConsulta)
-            objetos = fotocasa.descargarInfo(urlConsulta)
+            objetosDb, objetosCsv = fotocasa.descargarInfo(urlConsulta)
 
-            listaEscribirCsv = []
-            for inmueble in objetos:
+
+            for inmueble in objetosDb:
                 ObjMetodosDb.addDbFotocasa(inmueble)
+
+
+            for inmueble in objetosCsv:
                 listaEscribirCsv.append(inmueble)
 
-            fotocasa.creaTxt(listaEscribirCsv)
 
-
-            if (len(objetos) < 30):
+            if (len(objetosDb) < 30):
                 break
 
             time.sleep(10)
 
-    #fotocasa.creaTxt(listaEscribirCsv)
+    fotocasa.crearCsv(listaEscribirCsv)
