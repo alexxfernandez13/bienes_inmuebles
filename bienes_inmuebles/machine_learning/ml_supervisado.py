@@ -68,44 +68,41 @@ class Supervisado(CSVPlot):
 
     def pipeline_clasificacion(self):
         # Usaremos 6 tipos:
-        self.models = []
-        self.models.append(('LR', LogisticRegression(solver='lbfgs', random_state=self.seed)))
-        self.models.append(('LDA', LinearDiscriminantAnalysis()))
-        self.models.append(('KNN', KNeighborsClassifier()))
-        self.models.append(('CART', DecisionTreeClassifier(random_state=self.seed)))
-        self.models.append(('NB', GaussianNB()))
-        self.models.append(('SVM', SVC(gamma='scale', random_state=self.seed)))
-        return self.models
+        models = []
+        models.append(('LR', LogisticRegression(solver='lbfgs', random_state=self.seed)))
+        models.append(('LDA', LinearDiscriminantAnalysis()))
+        models.append(('KNN', KNeighborsClassifier()))
+        models.append(('CART', DecisionTreeClassifier(random_state=self.seed)))
+        models.append(('NB', GaussianNB()))
+        models.append(('SVM', SVC(gamma='scale', random_state=self.seed)))
+        return models
 
-    def pipeline_evaluacion(self,X_train, Y_train):
+    def pipeline_evaluacion(self,models, X_train, Y_train):
         # Evaluamos cada modelo por turnos
         results = []
         names = []
-        for name, model in self.models:
+        for name, model in models:
             kfold = KFold(n_splits=self.num_folds, random_state=self.seed)
             cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring=self.scoring)
             results.append(cv_results)
             names.append(name)
             print(f"{name}: {round(cv_results.mean(),2)} ({round(cv_results.std(),2)})")
+        return results, names
 
-    def comparar_plot (self):
-    # Escogemos el más preciso, que en este caso será SVM
-    fig = pyplot.figure()
-    fig.suptitle('Comparación de Algoritmos')
-    ax = fig.add_subplot(111)
-    pyplot.boxplot(results)
-    ax.set_xticklabels(names)
-    pyplot.show()
+    def comparar_plot (self, results, names):
+        # Escogemos el más preciso, que en este caso será SVM
+        fig = pyplot.figure()
+        fig.suptitle('Comparación de Algoritmos')
+        ax = fig.add_subplot(111)
+        pyplot.boxplot(results)
+        ax.set_xticklabels(names)
+        pyplot.show()
 
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     dataset = Supervisado('../../data/18. visitasUsuarios.csv')
     X_train, X_validation, Y_train, Y_validation = dataset.split_out()
-    dataset.pipeline_clasificacion()
-    dataset.pipeline_evaluacion(X_train,Y_train)
-    dataset.plot_bigotes()
-
-
-
-
+    modelos = dataset.pipeline_clasificacion()
+    resultado, nombre = dataset.pipeline_evaluacion(modelos, X_train,Y_train)
+    dataset.comparar_plot(resultado, nombre)
