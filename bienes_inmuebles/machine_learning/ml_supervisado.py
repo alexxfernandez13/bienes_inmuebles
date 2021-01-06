@@ -66,7 +66,7 @@ class Supervisado(CSVPlot):
                                                                         random_state=self.seed)
         return X_train, X_validation, Y_train, Y_validation
 
-    def pipeline_clasificacion(self):
+    def pipeline_clasificacion_normales(self):
         # Usaremos 6 tipos:
         models = []
         models.append(('LR', LogisticRegression(solver='lbfgs', random_state=self.seed)))
@@ -77,10 +77,33 @@ class Supervisado(CSVPlot):
         models.append(('SVM', SVC(gamma='scale', random_state=self.seed)))
         return models
 
-    def pipeline_evaluacion(self,models, X_train, Y_train):
+    def pipeline_clasificacion_estandarizados(self):
+        pipelines = []
+        pipelines.append(('ScaledLR', Pipeline([('Scaler', StandardScaler()), (
+        'LR', LogisticRegression(solver='lbfgs', max_iter=500, random_state=self.seed))])))
+        pipelines.append(('ScaledLDA', Pipeline([('Scaler', StandardScaler()), ('LDA', LinearDiscriminantAnalysis())])))
+        pipelines.append(('ScaledKNN', Pipeline([('Scaler', StandardScaler()), ('KNN', KNeighborsClassifier())])))
+        pipelines.append(('ScaledCART', Pipeline(
+            [('Scaler', StandardScaler()), ('CART', DecisionTreeClassifier(random_state=self.seed))])))
+        pipelines.append(('ScaledNB', Pipeline([('Scaler', StandardScaler()), ('NB', GaussianNB())])))
+        pipelines.append(
+            ('ScaledSVC', Pipeline([('Scaler', StandardScaler()), ('SVC', SVC(gamma='scale', random_state=self.seed))])))
+        return pipelines
+    def pipeline_emsembles(self):
+        # Usaremos 6 tipos:
+        models = []
+        models.append(('AB', AdaBoostClassifier(random_state=self.seed)))
+        models.append(('GBM', GradientBoostingClassifier(random_state=self.seed)))
+        models.append(('BC', BaggingClassifier(random_state=self.seed)))
+        models.append(('RF', RandomForestClassifier(random_state=self.seed)))
+        models.append(('ET', ExtraTreesClassifier(random_state=self.seed)))
+        return models
+
+    def evaluacion(self,models, X_train, Y_train):
         # Evaluamos cada modelo por turnos
         results = []
         names = []
+        print("\nLos Resultados son:")
         for name, model in models:
             kfold = KFold(n_splits=self.num_folds, random_state=self.seed)
             cv_results = cross_val_score(model, X_train, Y_train, cv=kfold, scoring=self.scoring)
@@ -103,6 +126,6 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     dataset = Supervisado('../../data/18. visitasUsuarios.csv')
     X_train, X_validation, Y_train, Y_validation = dataset.split_out()
-    modelos = dataset.pipeline_clasificacion()
-    resultado, nombre = dataset.pipeline_evaluacion(modelos, X_train,Y_train)
+    modelos = dataset.pipeline_clasificacion_normales()
+    resultado, nombre = dataset.evaluacion(modelos, X_train,Y_train)
     dataset.comparar_plot(resultado, nombre)
