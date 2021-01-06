@@ -4,7 +4,7 @@ from sklearn.cluster import KMeans
 
 from bienes_inmuebles.dataset.csv_plot import CSVPlot
 
-class NO_Supervisado(CSVPlot):
+class NOsupervisado(CSVPlot):
     def __init__(self, df):
         self.df = df
 
@@ -29,5 +29,5 @@ class NO_Supervisado(CSVPlot):
 
 
 if __name__ == "__main__":
-    no_supervisado = NO_Supervisado("../../data/csv_barcelona.csv")
+    no_supervisado = NOsupervisado("../../data/csv_barcelona.csv")
 
