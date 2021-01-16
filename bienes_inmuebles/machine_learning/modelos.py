@@ -1,7 +1,8 @@
 import warnings
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
 
 class Model():
 
@@ -12,19 +13,24 @@ class Model():
         self.clf_optimizado = None
 
     ###DED DONDE VIENEN LOS DATOS?? CSV --> PREPROCES --> TrainTestSplitter
-    def inicializar(self, X, Y):
+    def inicializar(self,X, Y):
         self.X = X
         self.Y = Y
 
-    def optimizacion(self, parametros):
+    def optimizacion(self , parametros):
         if self.X and self.Y:
             parametros = parametros
-            grid = GridSearch()
-            grid.fit(self.clf, self.X, self.Y)
-            self.clf_optimizado = grid._best_parameters
+            #grid = GridSearch()
+            #grid.fit(self.clf, self.X, self.Y)
+            #self.clf_optimizado = grid._best_parameters
             return self.clf.optimizado
         else:
             print("Run method fit first")
+    def evaluar(self):
+        pass
+
+    def voting(self):
+        pass
 
     def predict(self, X):
         if self.clf_optimizado:
@@ -35,13 +41,16 @@ class Model():
 
 
 if __name__ == "__main__":
-    df = preprocesamiento()
-    X_train, y_train, X_test, y_test = TrainTestSplit.split_out(df, siz=0.3, score="accuracy")
+    df = pd.read_csv('./18. visitasUsuarios.csv')
+
+
+    X_train, y_train, X_test, y_test = train_test_split.split_out(df, siz=0.3, score="accuracy")
+"""
     for modelo in []:
-        modelo = Model(KNeighbours())
-        molo.fit(X_train, y_train)
+        modelo = Model(KNeighborsClassifier())
+        modelo.fit(X_train, y_train)
         modelo.optimizacion(parametro_kneighbours)
-        modelo.predict(X_test)
+        modelo.predict(X_test)"""
 
 """
 1) Split datos
@@ -49,7 +58,7 @@ if __name__ == "__main__":
 3) Modelo predecir (transform)
 """
 
-
+"""
 
 class Models():
 
@@ -78,4 +87,4 @@ if __name__ == "__main__":
     dataset = '../../data/18. visitasUsuarios.csv'
     df = pd.read_csv(dataset)
     modelo = Models(df)
-
+"""
