@@ -1,8 +1,8 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-
-from bienes_inmuebles.dataset.csv_preprocesamiento import CSV, PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
+from bienes_inmuebles.dataset.csv_utilities import CSV
+from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
 from bienes_inmuebles.machine_learning.ml_no_supervisado import NOsupervisado
 
 """FUNCIONES --> API"""
