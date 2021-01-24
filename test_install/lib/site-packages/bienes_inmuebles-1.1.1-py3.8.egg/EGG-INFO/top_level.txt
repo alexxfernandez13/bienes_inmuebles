@@ -1,3 +1,0 @@
-bienes_inmuebles
-docs
-tests
