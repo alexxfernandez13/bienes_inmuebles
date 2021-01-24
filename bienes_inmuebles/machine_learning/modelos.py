@@ -6,7 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
-
+from sklearn.svm import SVC
+from bienes_inmuebles.machine_learning.evaluacion import Evaluation
 
 class Model(Evaluation):
 
@@ -46,7 +47,11 @@ if __name__ == "__main__":
     X_columns = df[['PeriodA', 'PeriodB']].values
     Y_columns = df["Equipo"].values
     X_train, X_test, y_train, y_test = train_test_split(X_columns, Y_columns, test_size=0.3, random_state=42)
-    modelos_parametros = {KNeighborsClassifier(): {'n_neighbors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]}}
+
+    modelos_parametros = {KNeighborsClassifier(): {'n_neighbors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]},
+                          SVC(): {'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],
+                         'C': [1, 10, 100, 1000]}}
+
     for classificador, parametros in modelos_parametros.items():
         modelo = Model(classificador, X_train, y_train)
         model, score =modelo.optimizacion(parametros) #train -> train/validation -> score
@@ -56,10 +61,10 @@ if __name__ == "__main__":
         print("Test score", confusion_matrix(y_test, y_pred)) # scoring en situacion real
 
     #escoger 3 mejores modelos
-
+"""
     #Voting 3 mejores
     voting = Voting(clf[0], clf[1], clf[2])
-    Modelo(voting)
+    Modelo(voting)"""
 
 """
 1) Split datos

@@ -14,6 +14,8 @@ def main():
     csv_int = csv_na.ints()
     csv_mvs = csv_int.mvs()
     csv_outliers = csv_mvs.outliers()
+    estandarizar = csv_outliers.estandarizar()
+    normalizar = csv_outliers.normalizar()
 
     """pd.set_option('max_rows', None)
     csv_binar = csv_outliers.normalizada()

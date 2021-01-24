@@ -109,7 +109,7 @@ class CSVPreprocesamiento():
         return self._inplace("df", df_resultado, inplace)
 
     """Normalizar dataset"""
-    def normalizada(self, inplace=False):
+    def normalizar(self, inplace=False):
         scaler = Normalizer().fit(self.df)
         df_resultado = scaler.transform(self.df)
         return self._inplace("df", df_resultado, inplace)
