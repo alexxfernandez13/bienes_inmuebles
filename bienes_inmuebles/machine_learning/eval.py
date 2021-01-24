@@ -1,5 +1,4 @@
 
-
 class Evaluation():
 
     def __init__(self, pred, y_true):
@@ -7,8 +6,7 @@ class Evaluation():
         self.y_true = y_true
 
     def confusion_matrix(self):
-
+        pass
 
     def eval(self, scoring):
-
-
+        pass
