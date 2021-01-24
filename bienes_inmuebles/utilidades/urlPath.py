@@ -8,3 +8,7 @@ class UrlPath():
        pathFinal = Path(path.parents[dir])
        return pathFinal
 
+class TrainTestSplit():
+    @staticmethod
+    def split_out():
+

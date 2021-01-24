@@ -31,7 +31,13 @@ PATH4 = str(Path(path3.parent))  # C:\bienes_inmuebles
 # -------------------2 formas de Herenciar---------------
 # from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
 # class CSV (csv_exploracion.CSVExploracion, csv_prepocesamiento.CSVPreprocesamiento)
-
+class CSV(CSVExploracion, CSVPreprocesamiento):
+    def __init__(self, csv, df=None):
+        self.csv = csv
+        if df:
+            self.df = df
+        else:
+            self.df = pd.read_csv(self.csv)
 
 """EJECUCION"""
 # Path Absoluto: solo funciona en mi PC

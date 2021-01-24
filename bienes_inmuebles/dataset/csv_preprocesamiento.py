@@ -10,6 +10,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import Binarizer
+import copy
 
 # Import libreria interna
 from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
@@ -50,7 +51,7 @@ class CSVPreprocesamiento():
         if inplace:
             setattr(atributo, valor_atributo)
         else:
-            nuevo_objeto = CSV(self.csv)
+            nuevo_objeto = copy.deepcopy(self)
             setattr(nuevo_objeto, atributo, valor_atributo)
             # self.atributo = valor_atributo
             # self.df = resultado_df
@@ -121,13 +122,7 @@ class CSVPreprocesamiento():
         return self._inplace("df", df_resultado, inplace)
 
 
-class CSV(CSVExploracion, CSVPreprocesamiento):
-    def __init__(self, csv, df=None):
-        self.csv = csv
-        if df:
-            self.df = df
-        else:
-            self.df = pd.read_csv(self.csv)
+
 
 
 if __name__ == "__main__":
