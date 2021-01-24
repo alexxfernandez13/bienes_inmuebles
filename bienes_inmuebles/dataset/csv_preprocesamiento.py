@@ -44,7 +44,6 @@ PATH4 = str(Path(path3.parent))
 class CSVPreprocesamiento():
     def __init__(self, csv):
         self.csv = csv
-        self.df = pd.read_csv(self.csv)
 
     """Permite sobrescribir objetos o realizar copias"""
     def _inplace(self, atributo, valor_atributo, inplace=False):

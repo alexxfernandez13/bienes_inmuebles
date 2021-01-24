@@ -37,7 +37,7 @@ class CSV(CSVExploracion, CSVPreprocesamiento):
         if df:
             self.df = df
         else:
-            self.df = pd.read_csv(self.csv)
+            self.df = pd.read_csv(self.csv, sep=';')
 
 """EJECUCION"""
 # Path Absoluto: solo funciona en mi PC

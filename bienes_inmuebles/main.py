@@ -3,36 +3,19 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from bienes_inmuebles.dataset.csv_utilities import CSV
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
-from bienes_inmuebles.machine_learning.ml_no_supervisado import NOsupervisado
 
 """FUNCIONES --> API"""
 
 
 def main():
-    csv = CSV(os.path.join(PATH4, "data/csv_barcelona.csv"))
-    # pd.set_option('max_rows', None)
-    # pd.reset_option("max_rows")
-    # csv.vistazo()
-    # csv.estadistica()
-    # csv.plot()
+    csv = CSV(os.path.join(PATH4, "data/datos_fotocasa.csv"))
     csv_dup = csv.duplicados()
-    csv_dup.vistazo()  # porque pone a show=1 #¿para mostrar cabecera?
-    csv_na = csv_dup.dropna(number=1000, axis=1)
-    # print(csv_na.vistazo())
-    csv_na2 = csv_dup.dropna(number=10, axis=0)
-    # print(csv_na2.df.shape)
-    csv_int = csv_na2.ints()
-    # print(csv_int.df.dtypes)
-    print("AQUIIII")
-    csv_int.vistazo()
-    print(csv_int.df.isnull().sum())
+    csv_na = csv_dup.dropna(number=10, axis=0)
+    csv_int = csv_na.ints()
     csv_mvs = csv_int.mvs()
-    print(csv_mvs.df.isnull().sum())
     csv_outliers = csv_mvs.outliers()
-    print(csv_outliers)
-    # csv.guardar_plot()
-    pd.set_option('max_rows', None)
-    # set_printoptions(precision=3)
+
+    """pd.set_option('max_rows', None)
     csv_binar = csv_outliers.normalizada()
     print(csv_binar.df[0:5, 0:5])
     binar1 = csv_outliers.estandarizar()
@@ -48,7 +31,7 @@ def main():
     #no_supervisado.df = pd.DataFrame(kmeans)
     # no_supervisado.plot()
     plt.scatter(pca[:, 0],pca[:, 1],c=labels)
-    plt.show()
+    plt.show()"""
 
 """ COMMAND LINE / EJECUTAS LA FILE DIRECTO"""
 if __name__ == "__main__":
