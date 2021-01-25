@@ -31,6 +31,29 @@ PATH4 = str(Path(path3.parent))  # C:\bienes_inmuebles
 # -------------------2 formas de Herenciar---------------
 # from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
 # class CSV (csv_exploracion.CSVExploracion, csv_prepocesamiento.CSVPreprocesamiento)
+
+"""
+ULITMA CLASE DE ARQUITECTURA
+
+ARQUITECTURA HERENCIA 1
+
+CSV(CSVPlots, CSVPreprocesamiento)
+
+Pickle (CSVPlots)
+
+ hereda de CSVPreprocesamientov y CSVExploracion
+ 
+CSVPreprocesamiento --> Metodos para limpiar csvs
+
+CSVPlots --> Metodos para hacer estadistica
+
+ARQUITECTURA HERENCIA 2
+
+Motos() y Coches() que heredan de Vehiculo()
+
+    Vehiculo: Caract general (motor, marca, comunes coche moto)
+    Motos y Coche (cosas especificas)
+"""
 class CSV(CSVExploracion, CSVPreprocesamiento):
     def __init__(self, csv, df=None):
         self.csv = csv

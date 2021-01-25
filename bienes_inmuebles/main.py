@@ -9,6 +9,8 @@ from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase
 
 def main():
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa.csv"))
+    pd.set_option('display.max_columns', None)
+    csv.vistazo()
     csv_dup = csv.duplicados()
     csv_na = csv_dup.dropna(number=10, axis=0)
     csv_int = csv_na.ints()

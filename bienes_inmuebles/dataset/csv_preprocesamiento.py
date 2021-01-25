@@ -50,11 +50,16 @@ class CSVPreprocesamiento():
         if inplace:
             setattr(atributo, valor_atributo)
         else:
-            nuevo_objeto = copy.deepcopy(self)
+            nuevo_objeto = copy.deepcopy(self) # Copia profunda en otro registro de memoria
             setattr(nuevo_objeto, atributo, valor_atributo)
             # self.atributo = valor_atributo
             # self.df = resultado_df
             return nuevo_objeto
+
+    "Castear columnas indicadas"
+    def casting (self, inplace=False):
+        df_resultado = self.df[19].astype(int)
+        return self._inplace("df", df_resultado, inplace)
 
     """Elimina filas con duplicados"""
     def duplicados(self, inplace=False):
