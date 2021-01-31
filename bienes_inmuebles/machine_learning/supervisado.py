@@ -4,6 +4,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 
+from sklearn.metrics import mean_squared_error
+
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 
@@ -23,7 +25,7 @@ class Supervisado():
 
     # Argumentos Obligatorios: son parametros posicionales
     # Argumentos Opcionales: son parametros no posicionales (aquellos que tienen un valor por defecto mediante un igual)
-    def optimizacion(self, clave, parametros, cv=10, scoring='accuracy'):
+    def optimizacion(self, clave, parametros, cv=10, scoring='neg_mean_squared_error'):
 
         if self.X.tolist() and self.Y.tolist() and parametros:
             grid = GridSearchCV(self.clf, parametros, scoring=scoring, cv=cv)
@@ -51,22 +53,24 @@ if __name__ == "__main__":
     # array = dataset.values
     # X = array[:, 0:13]
     # Y = array[:, 13]
-    df = pd.read_csv('./18. visitasUsuarios.csv')
-    X_columns = df[['PeriodA', 'PeriodB']].values
-    Y_columns = df["Equipo"].values
+    nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+    df = pd.read_csv('housing - copia.csv', delim_whitespace=True, names=nombres)
+    X_columns = df[['CRIM', 'ZN']].values
+    Y_columns = df['MEDV'].values
     X_train, X_test, y_train, y_test = train_test_split(X_columns, Y_columns, test_size=0.3, random_state=42)
 
     obj_eva = Modelo()
 
-    for classificador, parametros in obj_eva.modelos_clasificacion().items():
+    for classificador, parametros in obj_eva.modelos_regresion().items():
         modelo = Supervisado(classificador, X_train, y_train)
         model, score = modelo.optimizacion(classificador, parametros)  # train -> train/validation -> score
         y_pred = modelo.predict(X_test)  # test -> pred(test) == y_test???
         if parametros == None:
             print(
                 f"-> Modelo NO Optimizado: {classificador}\n Validation Score: {score}\n "
-                f"Test score: {accuracy_score(y_test, y_pred)}\n "
-                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+                f"Test score: {mean_squared_error(y_test, y_pred)} \n ")
+                # f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+                # ‘r2’ mejor metrica regresion
         else:
             print(
                 f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\n "
