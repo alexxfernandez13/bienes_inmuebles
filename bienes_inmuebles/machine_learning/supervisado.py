@@ -73,7 +73,8 @@ if __name__ == "__main__":
                 # ‘r2’ mejor metrica regresion
         else:
             print(
-                f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\n "
+                f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\
+                n "
                 f"Test score: {accuracy_score(y_test, y_pred)}\n "
                 f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
 
