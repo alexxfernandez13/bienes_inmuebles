@@ -1,15 +1,16 @@
-import warnings
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
+
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import cross_val_score
+
+from sklearn.metrics import mean_squared_error
+
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
+
 from bienes_inmuebles.machine_learning.modelos import Modelo
-from sklearn.model_selection import cross_val_score
+
 
 class Supervisado():
 
@@ -20,52 +21,68 @@ class Supervisado():
         self.clf_optimizado = None
         self.best_score = None
 
-    ###DED DONDE VIENEN LOS DATOS?? CSV --> PREPROCES --> TrainTestSplitter
+    # DE DONDE VIENEN LOS DATOS? CSV --> PREPROCES --> TrainTestSplitter
 
-    # argumentos posicionales y argunmentos no posicionales
-    def optimizacion(self, clave, parametros, cv=10, scoring='f1_weighted'):
+    # Argumentos Obligatorios: son parametros posicionales
+    # Argumentos Opcionales: son parametros no posicionales (aquellos que tienen un valor por defecto mediante un igual)
+    def optimizacion(self, clave, parametros, cv=10, scoring='neg_mean_squared_error'):
 
         if self.X.tolist() and self.Y.tolist() and parametros:
-
             grid = GridSearchCV(self.clf, parametros, scoring=scoring, cv=cv)
             grid.fit(self.X, self.Y)
             self.clf_optimizado = grid.best_estimator_
             self.best_score = grid.best_score_
             return self.clf_optimizado, self.best_score
         else:
-            print("No ha corrido la optimizacion")
-            self.clf = cross_val_score(clave, self.X, self.Y, cv=cv, scoring=scoring)
-            return self.clf, self.clf.mean()
+            cross_val = cross_val_score(clave, self.X, self.Y, cv=cv, scoring=scoring)
+            modelo_entrenado = clave.fit(self.X, self.Y)
+            return modelo_entrenado, cross_val.mean()
 
-    def predict(self, X_test): #error en predict cuando no recibe modelo optimizado
+    def predict(self, X_test):  # Error en predict cuando no recibe modelo optimizado
         if self.clf_optimizado:
             pred = self.clf_optimizado.predict(X_test)
             return pred
         else:
-            print("Run optimizacion method first")
             pred = self.clf.predict(X_test)
             return pred
 
 
 if __name__ == "__main__":
-    df = pd.read_csv('./18. visitasUsuarios.csv')
-    X_columns = df[['PeriodA', 'PeriodB']].values
-    Y_columns = df["Equipo"].values
+    # nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+    # dataset = pd.read_csv('./housing - copia.csv', delim_whitespace=True, names=nombres)
+    # array = dataset.values
+    # X = array[:, 0:13]
+    # Y = array[:, 13]
+    nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+    df = pd.read_csv('housing - copia.csv', delim_whitespace=True, names=nombres)
+    X_columns = df[['CRIM', 'ZN']].values
+    Y_columns = df['MEDV'].values
     X_train, X_test, y_train, y_test = train_test_split(X_columns, Y_columns, test_size=0.3, random_state=42)
 
     obj_eva = Modelo()
 
-    for classificador, parametros in obj_eva.modelos_clasificacion().items():
+    for classificador, parametros in obj_eva.modelos_regresion().items():
         modelo = Supervisado(classificador, X_train, y_train)
         model, score = modelo.optimizacion(classificador, parametros)  # train -> train/validation -> score
         y_pred = modelo.predict(X_test)  # test -> pred(test) == y_test???
-        print(f"-> Modelo: {classificador}\n Validation Score: {score}\n Test score: {accuracy_score(y_test,y_pred)}\n Matriz de confusion:\n{confusion_matrix(y_test,y_pred)}")
+        if parametros == None:
+            print(
+                f"-> Modelo NO Optimizado: {classificador}\n Validation Score: {score}\n "
+                f"Test score: {mean_squared_error(y_test, y_pred)} \n ")
+                # f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+                # ‘r2’ mejor metrica regresion
+        else:
+            print(
+                f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\
+                n "
+                f"Test score: {accuracy_score(y_test, y_pred)}\n "
+                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
 
 # acabar funcion añadir modelos
 # corregir error predict = cuando no recibe modelo optimizado
 
 
-    # escoger 3 mejores modelos
+# escoger 3 mejores modelos
 """
     #Voting 3 mejores
     voting = Voting(clf[0], clf[1], clf[2])
@@ -73,6 +90,12 @@ if __name__ == "__main__":
 
 """
 1) Split datos
+    a) Separar columnas (solo los valores): una columna con los datos para predecir, el resto de columnas como base de prediccion
+    b) Utilizar funcion train_test_split para recibir de cada columna dos conjuntos de datos, uno para entrenar y otro para testear (en total 4)
 2) Modelo fittear
-3) Modelo predecir (transform)
+    a) En caso de ser un modelo optimizado, utilizar gridesearch para recibir resultado y despues entrenar
+    b) En caso de ser un modelo no optimo, utilizar cross_val_score para recibir resultado y despues entrenar
+3) Modelo predecir (transform): con los modelos entrenados, predecir
+4) Revisar puntuacion sobre prediccion:
+    a) Verificar que no existe mucha diferencia entre el resultado obtenido con el modelo sin entrenar y el modelo entrenado en la prediccion
 """
