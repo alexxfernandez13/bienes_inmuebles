@@ -61,6 +61,10 @@ class CSVExploracion(CSVPlot):
         fit = modelo.fit(X, Y)
         print(f"Importancia de caracteristicas: {fit.feature_importances_}")
 
+
+
+
+
 if __name__ == "__main__":
     df = pd.read_csv("../../data/csv_barcelona.csv")
     exploracion = CSVExploracion(df)

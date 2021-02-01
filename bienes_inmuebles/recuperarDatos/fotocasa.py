@@ -50,7 +50,7 @@ class Fotocasa():
     def crearCsv(self, listaEscribirCsv):
         csvsalida = open(str(UrlPath.getPath(__file__, 2)) + '\data\datos_fotocasa.csv', 'w', newline='')
         salida = csv.writer(csvsalida)
-        salida.writerow(['idInmueble','urlInmueble','fuenteInfo','tipoInmueble','tipoOperacion','precio','habitaciones','tamaño','planta','distrito','ciudad','fecha','eficienciaEnergetica','ascensor','terraza','trastero','garaje','balcon','aireAcondicinado','piscina','baños'])
+        salida.writerow(['tipoInmueble','tipoOperacion','precio','habitaciones','tamano','planta','distrito','ciudad','eficienciaEnergetica','ascensor','terraza','trastero','garaje','balcon','aireAcondicinado','piscina','banos'])
         salida.writerows(listaEscribirCsv)
         del salida
         csvsalida.close()

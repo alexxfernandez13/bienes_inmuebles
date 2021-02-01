@@ -57,9 +57,18 @@ class CSVPreprocesamiento():
             return nuevo_objeto
 
     "Castear columnas indicadas"
-    def casting (self, inplace=False):
-        df_resultado = self.df[19].astype(int)
-        return self._inplace("df", df_resultado, inplace)
+    def casteo_columnas (self, columnas_casteo, inplace=False):
+        for clave,valor in columnas_casteo.items():
+            self.df[clave] = self.df[clave].astype(valor)
+        return self._inplace("df", self.df, inplace)
+
+    def one_hot_encoding (self, columna, inplace=False):
+        y = pd.get_dummies(self.df[columna], prefix=columna)
+        #borramos la columna
+        self.df.drop(columna, axis='columns', inplace=True)
+        # concatenamos al df las columnas nuevas
+        self.df = pd.concat([self.df, y], axis=1)
+        return self._inplace("df", self.df, inplace)
 
     """Elimina filas con duplicados"""
     def duplicados(self, inplace=False):

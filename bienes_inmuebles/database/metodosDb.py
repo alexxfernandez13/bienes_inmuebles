@@ -24,6 +24,10 @@ class MetodosDb():
         try:
             # Ejecutamos comando SQL
             #cursor.execute(sql)
+
+            if (inmueble.getPlanta()=='Superior a Planta 15'):
+                inmueble.setPlanta('16')
+
             print(str(inmueble.getIdInmueble()) + ", " + str(inmueble.getUrlInmueble()) + ", " + str(inmueble.getFuenteInfo()) + ", " + str(inmueble.getTipoInmueble()) +
                   ", " + str(inmueble.getTipoOperacion()) + ", " + str(inmueble.getPrecio()) + ", " + str(inmueble.getNumHab()) + ", " + str(inmueble.getTamano()) +
                   ", " + str(inmueble.getPlanta()) + ", " + str(inmueble.getDistrito()) + ", " + str(inmueble.getCiudad()) +

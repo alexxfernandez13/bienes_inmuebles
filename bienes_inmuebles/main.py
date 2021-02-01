@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from bienes_inmuebles.dataset.csv_utilities import CSV
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
@@ -8,16 +9,78 @@ from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase
 
 
 def main():
-    csv = CSV(os.path.join(PATH4, "data/datos_fotocasa.csv"))
-    pd.set_option('display.max_columns', None)
+    csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     csv.vistazo()
-    csv_dup = csv.duplicados()
+    casteo_variables = {'precio':np.float64,
+                      'tamano':np.float64,
+                      'trastero':np.int64,
+                      'balcon':np.int64,
+                      'aireAcondicinado':np.int64,
+                      'piscina':np.int64,
+                      'ascensor':np.int64,
+                      'terraza':np.int64,
+                      'planta':np.int64}
+
+    csv_casteados = csv.casteo_columnas(casteo_variables)
+    csv_casteados.vistazo()
+
+    # one hot encoding Garaje
+    csv_oneHotEncoding = csv.one_hot_encoding("garaje")
+    # one hot encoding Garaje
+
+    # one hot encoding distrito
+    csv_oneHotEncoding = csv.one_hot_encoding("distrito")
+    # one hot encoding distrito
+
+    # one hot encoding ciudad
+    csv_oneHotEncoding = csv.one_hot_encoding("ciudad")
+    # one hot encoding ciudad
+
+    # one hot encoding eficienciaEnergetica
+    csv_oneHotEncoding = csv.one_hot_encoding("eficienciaEnergetica")
+    # one hot encoding eficienciaEnergetica
+
+    print(csv_oneHotEncoding.df.head())
+    print(csv_oneHotEncoding.vistazo())
+
+    #formulario
+    enc = False
+    while enc==False:
+        tipoOperacion = int(input("Introduzca el tipo de operacion (1= Comprar, 2= Alquilar"))
+        if (tipoOperacion==1 or tipoOperacion==2):
+            enc= True
+
+    tipoOperacion = int(input("Introduzca el tipo de operacion (1= Comprar, 2= Alquilar"))
+
+
+
+
+    """print(csv_casteados.df['garaje'])
+    y = pd.get_dummies(csv_casteados.df['garaje'], prefix='Garaje')
+    print(y)
+
+    csv_casteados.df.drop('garaje', axis='columns', inplace=True)
+    csv_casteados.vistazo()
+
+    unidos = pd.concat([csv_casteados.df, y], axis=1)
+    print(unidos.head())"""
+    # one hot encoding
+
+
+    """csv = CSV(os.path.join(PATH4, "data/datos_fotocasa.csv"))
+    pd.set_option('display.max_columns', None)
+    csv.vistazo()"""
+
+
+
+
+    """csv_dup = csv.duplicados()
     csv_na = csv_dup.dropna(number=10, axis=0)
     csv_int = csv_na.ints()
     csv_mvs = csv_int.mvs()
     csv_outliers = csv_mvs.outliers()
     estandarizar = csv_outliers.estandarizar()
-    normalizar = csv_outliers.normalizar()
+    normalizar = csv_outliers.normalizar()"""
 
     """pd.set_option('max_rows', None)
     csv_binar = csv_outliers.normalizada()
