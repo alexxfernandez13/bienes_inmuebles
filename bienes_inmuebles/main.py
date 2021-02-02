@@ -43,28 +43,34 @@ def main():
     print(csv_oneHotEncoding.df.head())
     print(csv_oneHotEncoding.vistazo())
 
+    csv_dup = csv.duplicados()
+    csv_na = csv_dup.dropna(number=10, axis=0)
+    csv_int = csv_na.ints()
+    csv_mvs = csv_int.mvs()
+    csv_outliers = csv_mvs.outliers()
+    estandarizar = csv_outliers.estandarizar()
+    normalizar = csv_outliers.normalizar()
+
+
+
     #formulario
     enc = False
     while enc==False:
-        tipoOperacion = int(input("Introduzca el tipo de operacion (1= Comprar, 2= Alquilar"))
-        if (tipoOperacion==1 or tipoOperacion==2):
+        tipoOperacion = input("Introduzca el tipo de operacion (1= Comprar, 2= Alquilar): \n")
+        if (tipoOperacion=='1' or tipoOperacion=='2'):
             enc= True
 
-    tipoOperacion = int(input("Introduzca el tipo de operacion (1= Comprar, 2= Alquilar"))
+    while enc==False:
+        habitaciones = int(input("Introduzca las habiytaciones del inmueble (Minimo = 0, Max=16: \n"))
+        if (habitaciones >= 0 or   habitaciones<=16):
+            enc= True
 
 
 
 
-    """print(csv_casteados.df['garaje'])
-    y = pd.get_dummies(csv_casteados.df['garaje'], prefix='Garaje')
-    print(y)
 
-    csv_casteados.df.drop('garaje', axis='columns', inplace=True)
-    csv_casteados.vistazo()
 
-    unidos = pd.concat([csv_casteados.df, y], axis=1)
-    print(unidos.head())"""
-    # one hot encoding
+
 
 
     """csv = CSV(os.path.join(PATH4, "data/datos_fotocasa.csv"))
