@@ -46,21 +46,22 @@ class Supervisado():
             pred = self.clf.predict(X_test)
             return pred
 
-
-if __name__ == "__main__":
-    # nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
-    # dataset = pd.read_csv('./housing - copia.csv', delim_whitespace=True, names=nombres)
-    # array = dataset.values
-    # X = array[:, 0:13]
-    # Y = array[:, 13]
-    nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
-    df = pd.read_csv('housing - copia.csv', delim_whitespace=True, names=nombres)
-    X_columns = df[['CRIM', 'ZN']].values
-    Y_columns = df['MEDV'].values
+def prepare_dataset(csv, regresion=False, clasificacion=False):
+    dataset = pd.read_csv(csv)
+    array = dataset.values
+    X_columns = array[:, 0:2]
+    Y_columns = array[:, 2]
+    #nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+    #df = pd.read_csv(csv, delim_whitespace=True, names=nombres)
+    df = pd.read_csv(csv)
+    #X_columns = df[['CRIM', 'ZN']].values
+    #Y_columns = df['MEDV'].values
     X_train, X_test, y_train, y_test = train_test_split(X_columns, Y_columns, test_size=0.3, random_state=42)
+    return X_train, X_test, y_train, y_test
 
+
+def regresion(X_train, X_test, y_train, y_test):
     obj_eva = Modelo()
-
     for classificador, parametros in obj_eva.modelos_regresion().items():
         modelo = Supervisado(classificador, X_train, y_train)
         model, score = modelo.optimizacion(classificador, parametros)  # train -> train/validation -> score
@@ -69,7 +70,26 @@ if __name__ == "__main__":
             print(
                 f"-> Modelo NO Optimizado: {classificador}\n Validation Score: {score}\n "
                 f"Test score: {mean_squared_error(y_test, y_pred)} \n ")
-                # f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+            # f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+            # ‘r2’ mejor metrica regresion
+        else:
+            print(
+                f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\
+                  n "
+                f"Test score: {accuracy_score(y_test, y_pred)}\n "
+                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+
+def clasificacion(X_train, X_test, y_train, y_test):
+    obj_eva = Modelo()
+    for classificador, parametros in obj_eva.modelos_clasificacion().items():
+        modelo = Supervisado(classificador, X_train, y_train)
+        model, score = modelo.optimizacion(classificador, parametros, scoring="accuracy")  # train -> train/validation -> score
+        y_pred = modelo.predict(X_test)  # test -> pred(test) == y_test???
+        if parametros == None:
+            print(
+                f"-> Modelo NO Optimizado: {classificador}\n Validation Score: {score}\n "
+                f"Test score: {accuracy_score(y_test, y_pred)} \n ")
+                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
                 # ‘r2’ mejor metrica regresion
         else:
             print(
@@ -77,6 +97,27 @@ if __name__ == "__main__":
                 n "
                 f"Test score: {accuracy_score(y_test, y_pred)}\n "
                 f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+
+def predict(is_regresion=False, is_clasificacion=False):
+    X_train, X_test, y_train, y_test = prepare_dataset("18. visitasUsuarios.csv")
+    if is_regresion:
+        regresion(X_train, X_test, y_train, y_test)
+    elif is_clasificacion:
+        clasificacion(X_train, X_test, y_train, y_test)
+
+if __name__ == "__main__":
+    """
+    main(clasificacion=true, regresion=true)
+    """
+    # nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+    predict(clasificacion=True)
+
+
+
+
+
+
+
 
 # acabar funcion añadir modelos
 # corregir error predict = cuando no recibe modelo optimizado
