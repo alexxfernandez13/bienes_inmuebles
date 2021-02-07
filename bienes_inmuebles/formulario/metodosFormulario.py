@@ -1,4 +1,5 @@
 from colorama import Fore, Back, Style
+from bienes_inmuebles.formulario.objetoFormulario import ObjetoFormulario
 
 class MetodosFormulario():
 
@@ -70,7 +71,7 @@ class MetodosFormulario():
 
     def formulario ():
 
-        objetoForm =
+        objetoForm = ObjetoFormulario()
 
         tipoOperacion = getOpcion(listaOperaciones, "¿Que TIPO de OPERACION tiene pesando realizar?")
 
