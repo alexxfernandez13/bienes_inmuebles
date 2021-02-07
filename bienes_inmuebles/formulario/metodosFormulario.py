@@ -11,17 +11,21 @@ class MetodosFormulario():
         self.listaEficiencias = ["eficienciaEnergetica_A", "eficienciaEnergetica_B", "eficienciaEnergetica_C"]
         self.listaOperaciones = ["Comprar", "Alquiler"]
         self.listaOpcionesGarage = ["garaje-comunitario", "garaje-No-detallado", "garaje-Privado"]
+        self.maxHabitaciones = 20
+        self.maxPlantas = 16
+        self.maxMetros = 999999
+        self.maxBaños = 20
 
 
     def getSIoNO(objetoPreguntado):
-    dato = input("¿La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no \n> ").lower()
-    while (dato != 's' and dato != 'n'):
-        print(Style.RESET_ALL)
-        print(Back.YELLOW + "El dato introducido no es valido. Intentelo otra vez")
-        print(Style.RESET_ALL)
-        dato = input("La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no\n> ").lower()
+        dato = input("¿La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no \n> ").lower()
+        while (dato != 's' and dato != 'n'):
+            print(Style.RESET_ALL)
+            print(Back.YELLOW + "El dato introducido no es valido. Intentelo otra vez")
+            print(Style.RESET_ALL)
+            dato = input("La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no\n> ").lower()
 
-    return (dato)
+        return (dato)
 
     def getNumero(consulta, numeroMaximo):
         dato = input(consulta + "\n> ")
@@ -69,40 +73,60 @@ class MetodosFormulario():
         return (listaElementos[opcion - 1])
 
 
-    def formulario ():
+    def formulario (self):
 
         objetoForm = ObjetoFormulario()
 
-        tipoOperacion = getOpcion(listaOperaciones, "¿Que TIPO de OPERACION tiene pesando realizar?")
+        tipoOperacion = self.getOpcion(self.listaOperaciones, "¿Que TIPO de OPERACION tiene pesando realizar?")
+        if tipoOperacion=='Comprar':
+            objetoForm.setTipoOperacion(1)
+        elif tipoOperacion=='Alquiler':
+            objetoForm.setTipoOperacion(2)
 
-        distrito = getOpcion(listaDistritos, "¿En qué DISTRITO se encuentra la vivienda?")
-        distrito = "distrito_" + distrito
+        distrito = self.getOpcion(self.listaDistritos, "¿En qué DISTRITO se encuentra la vivienda?")
+        objetoForm.setDistrito("distrito_" + distrito)
 
-        habitaciones = getNumero("¿Cuantos HABITACIONES tiene la vivienda?,", maxHabitaciones)
+        objetoForm.setHabitaciones(self.getNumero("¿Cuantos HABITACIONES tiene la vivienda?,", self.maxHabitaciones))
 
-        planta = getNumero("¿En qué PLANTA esta la vivienda?", maxPlantas)
+        objetoForm.setPlanta(self.selfgetNumero("¿En qué PLANTA esta la vivienda?", self.maxPlantas))
 
-        tamano = getNumero("¿Cuantos METROS CUADRADOS tiene la vivienda?", maxMetros)
+        objetoForm.setTamano(self.getNumero("¿Cuantos METROS CUADRADOS tiene la vivienda?", self.maxMetros))
 
-        banos = getNumero("¿Cuantos BAÑOS tiene la vivienda?", maxBaños)
+        objetoForm.setBanos(self.getNumero("¿Cuantos BAÑOS tiene la vivienda?", self.maxBaños))
 
-        eficiencia = getOpcion(listaEficiencias, "¿Qué EFICIENCIA energetica tiene la vivienda")
+        terraza = self.getSIoNO("TERRAZA")
+        if terraza=='s' or terraza=='S':
+            objetoForm.setTerraza(1)
+        elif terraza=='n' or terraza=='N':
+            objetoForm.setTerraza(0)
 
-        ascensor = getSIoNO("ASCENSOR")
 
-        terraza = getSIoNO("TERRAZA")
+        trastero = self.getSIoNO("TRASTERO")
+        if trastero=='s' or trastero=='S':
+            objetoForm.setTrastero(1)
+        elif trastero=='n' or trastero=='N':
+            objetoForm.setTrastero(0)
 
-        trastero = getSIoNO("TRASTERO")
-
-        garaje = getSIoNO("GARAJE")
+        garaje = self.getSIoNO("GARAJE")
         if (garaje == 's'):
-            garaje = getOpcion(listaOpcionesGarage, "¿Qué TIPO de GARAJE tiene?")
+            garaje = self.getOpcion(self.listaOpcionesGarage, "¿Qué TIPO de GARAJE tiene?")
 
-        balcon = getSIoNO("BALCON")
+        balcon = self.getSIoNO("BALCON")
+        if balcon=='s' or balcon=='S':
+            objetoForm.setBalcon(1)
+        elif balcon=='n' or balcon=='N':
+            objetoForm.setBalcon(0)
 
-        AireAcondicionado = getSIoNO("AIRE ACONDICIONADO")
+        aireAcondicionado = self.getSIoNO("AIRE ACONDICIONADO")
+        if aireAcondicionado=='s' or aireAcondicionado=='S':
+            objetoForm.setAireAcondicionadoa(1)
+        elif aireAcondicionado=='n' or aireAcondicionado=='N':
+            objetoForm.setAireAcondicionadoa(0)
 
-        piscina = getSIoNO("PISCINA")
-
+        piscina = self.getSIoNO("PISCINA")
+        if piscina=='s' or piscina=='S':
+            objetoForm.setAireAcondicionado(1)
+        elif piscina=='n' or piscina=='N':
+            objetoForm.setAireAcondicionado(0)
 
     if __name__ == "__main__":
