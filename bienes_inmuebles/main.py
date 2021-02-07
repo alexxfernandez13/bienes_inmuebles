@@ -2,6 +2,8 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
+from bienes_inmuebles.dataset.csv_plot import CSVPlot
 from bienes_inmuebles.dataset.csv_utilities import CSV
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
 
@@ -9,7 +11,7 @@ from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase
 
 
 def main():
-    csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
+    csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final2.csv"))
     csv.vistazo()
     casteo_variables = {'precio':np.float64,
                       'tamano':np.float64,
@@ -51,19 +53,8 @@ def main():
     estandarizar = csv_outliers.estandarizar()
     normalizar = csv_outliers.normalizar()
 
+    #normalizar.plot_histograma()
 
-
-    #formulario
-    enc = False
-    while enc==False:
-        tipoOperacion = input("Introduzca el tipo de operacion (1= Comprar, 2= Alquilar): \n")
-        if (tipoOperacion=='1' or tipoOperacion=='2'):
-            enc= True
-
-    while enc==False:
-        habitaciones = int(input("Introduzca las habiytaciones del inmueble (Minimo = 0, Max=16: \n"))
-        if (habitaciones >= 0 or   habitaciones<=16):
-            enc= True
 
 
 

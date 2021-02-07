@@ -72,7 +72,7 @@ class Fotocasa():
         return (operationType)
 
     def getTipoInmueble(self, url):
-        if (url.find("viviendas")!=-1):
+        if (url.find("vivienda")!=-1):
             tipoInmueble = 1
         elif (url.find("locales")!=-1):
             tipoInmueble = 2
