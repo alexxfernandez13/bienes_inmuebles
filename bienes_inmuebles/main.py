@@ -2,11 +2,13 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from joblib import dump, load
 
 from bienes_inmuebles.dataset.csv_plot import CSVPlot
 from bienes_inmuebles.dataset.csv_utilities import CSV
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
-
+from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion,clasificacion, Supervisado
+from sklearn.ensemble import GradientBoostingRegressor
 """FUNCIONES --> API"""
 
 
@@ -31,28 +33,58 @@ def main():
     # one hot encoding Garaje
 
     # one hot encoding distrito
-    csv_oneHotEncoding = csv.one_hot_encoding("distrito")
+    csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("distrito")
     # one hot encoding distrito
 
     # one hot encoding ciudad
-    csv_oneHotEncoding = csv.one_hot_encoding("ciudad")
+    csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("ciudad")
     # one hot encoding ciudad
 
     # one hot encoding eficienciaEnergetica
-    csv_oneHotEncoding = csv.one_hot_encoding("eficienciaEnergetica")
+    csv = csv_oneHotEncoding.one_hot_encoding("eficienciaEnergetica")
     # one hot encoding eficienciaEnergetica
 
-    print(csv_oneHotEncoding.df.head())
-    print(csv_oneHotEncoding.vistazo())
 
+    print("1",csv.df.columns)
     csv_dup = csv.duplicados()
+    print("2",csv_dup.df.columns)
     csv_na = csv_dup.dropna(number=10, axis=0)
+    print("3",csv_na.df.columns)
     csv_int = csv_na.ints()
+    print(csv_na.vistazo())
+    print("4",csv_int.df.columns)
     csv_mvs = csv_int.mvs()
+    print("5",csv_mvs.df.columns)
     csv_outliers = csv_mvs.outliers()
+    print("6",csv_outliers.df.columns)
     estandarizar = csv_outliers.estandarizar()
-    normalizar = csv_outliers.normalizar()
 
+    print(estandarizar.df.columns)
+
+    X_columns = estandarizar.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
+       'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
+       'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
+       'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
+       'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
+       'distrito_chamartin', 'distrito_chamberi',
+       'distrito_ciudad-lineal', 'distrito_fuencarral',
+       'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
+       'distrito_moratalaz', 'distrito_puente-de-vallecas',
+       'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
+       'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
+       'distrito_villa-de-vallecas', 'distrito_villaverde',
+       'ciudad_madrid-capital', 'eficienciaEnergetica_A',
+       'eficienciaEnergetica_B', 'eficienciaEnergetica_C']].values
+    Y_columns = estandarizar.df['precio'].values
+    X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
+    # regresion(X_train, X_test, y_train, y_test)
+    # importante cuando se entrena el modelo final con todos los datos posibles
+    modelo = GradientBoostingRegressor()
+    modelo.fit(X_columns,Y_columns)
+
+    dump(modelo,os.path.join(PATH4, "data/filename.joblib"))
+
+    # clf = load('filename.joblib')
     #normalizar.plot_histograma()
 
 
