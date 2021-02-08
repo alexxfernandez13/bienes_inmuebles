@@ -1,14 +1,13 @@
 class ObjetoPrediccion(object):
-    def __init__(self, tipoInmueble, tipoOperacion, precio, habitaciones, tamano, planta, ascensor, terraza, trastero, balcon, aireAcondicinado, piscina, banos,
-                 garaje_Comunitario, garaje_No_detallado, garaje_Privado, distrito_arganzuela, distrito_barajas, distrito_carabanchel, distrito_centro,
-                 distrito_chamartin, , distrito_chamberi, distrito_ciudad_lineal, distrito_fuencarral, distrito_hortaleza, distrito_latina, distrito_moncloa,
-                 distrito_moratalaz, distrito_puente_de_vallecas, distrito_retiro, distrito_salamanca, distrito_san_blas, distrito_tetuan, distrito_usera,
-                 distrito_vicalvaro, distrito_villa_de_vallecas, distrito_villaverde, ciudad_madrid_capital, eficienciaEnergetica_A, eficienciaEnergetica_B,
-                 eficienciaEnergetica_C):
+    def __init__(self, tipoInmueble= 0, tipoOperacion= 0, habitaciones= 0, tamano=0, planta=0, ascensor=0, terraza=0, trastero=0, balcon=0, aireAcondicionado=0,
+                 piscina=0, banos=0, garaje_Comunitario=0, garaje_No_detallado=0, garaje_Privado=0, distrito_arganzuela=0, distrito_barajas=0, distrito_carabanchel=0,
+                 distrito_centro=0, distrito_chamartin=0, distrito_chamberi=0, distrito_ciudad_lineal=0, distrito_fuencarral=0, distrito_hortaleza=0, distrito_latina=0, distrito_moncloa=0,
+                 distrito_moratalaz=0, distrito_puente_de_vallecas=0, distrito_retiro=0, distrito_salamanca=0, distrito_san_blas=0, distrito_tetuan=0, distrito_usera=0,
+                 distrito_vicalvaro=0, distrito_villa_de_vallecas=0, distrito_villaverde=0, eficienciaEnergetica_A=0, eficienciaEnergetica_B=0,
+                 eficienciaEnergetica_C=0):
 
         self.tipoInmueble = tipoInmueble
         self.tipoOperacion = tipoOperacion
-        self.precio = precio
         self.habitaciones = habitaciones
         self.tamano = tamano
         self.planta = planta
@@ -16,7 +15,7 @@ class ObjetoPrediccion(object):
         self.terraza = terraza
         self.trastero = trastero
         self.balcon = balcon
-        self.aireAcondicinado = aireAcondicinado
+        self.aireAcondicionado = aireAcondicionado
         self.piscina = piscina
         self.banos = banos
         self.garaje_Comunitario = garaje_Comunitario
@@ -43,7 +42,6 @@ class ObjetoPrediccion(object):
         self.distrito_vicalvaro = distrito_vicalvaro
         self.distrito_villa_de_vallecas = distrito_villa_de_vallecas
         self.distrito_villaverde = distrito_villaverde
-        self.ciudad_madrid_capital = ciudad_madrid_capital
         self.eficienciaEnergetica_A = eficienciaEnergetica_A
         self.eficienciaEnergetica_B = eficienciaEnergetica_B
         self.eficienciaEnergetica_C = eficienciaEnergetica_C
@@ -59,12 +57,6 @@ class ObjetoPrediccion(object):
 
     def setTipoOperacion(self, tipoOperacion):
         self.tipoOperacion = tipoOperacion
-
-    def getPrecio(self):
-        return self.precio
-
-    def setPrecio(self, precio):
-        self.precio = precio
 
     def getHabitaciones(self):
         return self.habitaciones
@@ -108,11 +100,11 @@ class ObjetoPrediccion(object):
     def setBalcon(self, balcon):
         self.balcon = balcon
 
-    def getAireAcondicinado(self):
-        return self.aireAcondicinado
+    def getAireAcondicionado(self):
+        return self.aireAcondicionado
 
-    def setAireAcondicinado(self, aireAcondicinado):
-        self.aireAcondicinado = aireAcondicinado
+    def setAireAcondicionado(self, aireAcondicionado):
+        self.aireAcondicionado = aireAcondicionado
 
     def getPiscina(self):
         return self.piscina
@@ -293,4 +285,5 @@ class ObjetoPrediccion(object):
 
     def setEficienciaEnergetica_C(self, eficienciaEnergetica_C):
         self.eficienciaEnergetica_C = eficienciaEnergetica_C
+
 
