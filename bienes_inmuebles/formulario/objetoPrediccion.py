@@ -3,7 +3,7 @@ class ObjetoPrediccion(object):
                  piscina=0, banos=0, garaje_Comunitario=0, garaje_No_detallado=0, garaje_Privado=0, distrito_arganzuela=0, distrito_barajas=0, distrito_carabanchel=0,
                  distrito_centro=0, distrito_chamartin=0, distrito_chamberi=0, distrito_ciudad_lineal=0, distrito_fuencarral=0, distrito_hortaleza=0, distrito_latina=0, distrito_moncloa=0,
                  distrito_moratalaz=0, distrito_puente_de_vallecas=0, distrito_retiro=0, distrito_salamanca=0, distrito_san_blas=0, distrito_tetuan=0, distrito_usera=0,
-                 distrito_vicalvaro=0, distrito_villa_de_vallecas=0, distrito_villaverde=0, eficienciaEnergetica_A=0, eficienciaEnergetica_B=0,
+                 distrito_vicalvaro=0, distrito_villa_de_vallecas=0, distrito_villaverde=0, ciudad="", eficienciaEnergetica_A=0, eficienciaEnergetica_B=0,
                  eficienciaEnergetica_C=0):
 
         self.tipoInmueble = tipoInmueble
@@ -42,6 +42,7 @@ class ObjetoPrediccion(object):
         self.distrito_vicalvaro = distrito_vicalvaro
         self.distrito_villa_de_vallecas = distrito_villa_de_vallecas
         self.distrito_villaverde = distrito_villaverde
+        self.ciudad = ciudad
         self.eficienciaEnergetica_A = eficienciaEnergetica_A
         self.eficienciaEnergetica_B = eficienciaEnergetica_B
         self.eficienciaEnergetica_C = eficienciaEnergetica_C
@@ -187,7 +188,7 @@ class ObjetoPrediccion(object):
     def getDistrito_hortaleza(self):
         return self.distrito_hortaleza
 
-    def setDistrito_hortalezan(self, distrito_hortaleza):
+    def setDistrito_hortaleza(self, distrito_hortaleza):
         self.distrito_hortaleza = distrito_hortaleza
 
     def getDistrito_latina(self):
@@ -262,11 +263,11 @@ class ObjetoPrediccion(object):
     def setDistrito_villaverde(self, distrito_villaverde):
         self.distrito_villaverde = distrito_villaverde
 
-    def getCiudad_madrid_capitala(self):
-        return self.ciudad_madrid_capital
+    def getCiudad(self):
+        return self.ciudad
 
-    def setCiudad_madrid_capital(self, ciudad_madrid_capital):
-        self.ciudad_madrid_capital = ciudad_madrid_capital
+    def setCiudad(self, ciudad):
+        self.ciudad = ciudad
 
     def getEficienciaEnergetica_A(self):
         return self.eficienciaEnergetica_A
@@ -285,5 +286,4 @@ class ObjetoPrediccion(object):
 
     def setEficienciaEnergetica_C(self, eficienciaEnergetica_C):
         self.eficienciaEnergetica_C = eficienciaEnergetica_C
-
 

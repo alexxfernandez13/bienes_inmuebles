@@ -1,5 +1,6 @@
 from colorama import Fore, Back, Style
 from bienes_inmuebles.formulario.objetoPrediccion import ObjetoPrediccion
+import numpy as np
 
 class MetodosFormulario():
 
@@ -74,7 +75,7 @@ class MetodosFormulario():
 
     def formulario (self):
 
-        objetoPred = ObjetoPrediccion()
+        objetoPred = ObjetoPrediccion("Madrid")
 
         tipoOperacion = self.getOpcion(self.listaOperaciones, "¿Que TIPO de OPERACION tiene pensado realizar?")
         if tipoOperacion == 'Comprar':
@@ -153,6 +154,10 @@ class MetodosFormulario():
         elif eficiencia == 'eficienciaEnergetica_C':
             objetoPred.setEficienciaEnergetica_C(1)
 
+        objetoPred.setCiudad(1)
+        objetoPred.setTipoInmueble(1)
+
+
         return objetoPred
 
 
@@ -164,7 +169,9 @@ if __name__ == "__main__":
 
     objetoPred = form.formulario()
 
-    print(objetoPred.getTipoOperacion())
+    print(type(objetoPred))
+
+    """print(objetoPred.getTipoOperacion())
     print(objetoPred.getHabitaciones())
     print(objetoPred.getTamano())
     print(objetoPred.getPlanta())
@@ -199,7 +206,7 @@ if __name__ == "__main__":
     print(objetoPred.getDistrito_vicalvaro())
     print(objetoPred.getDistrito_villaverde())
     print(objetoPred.getDistrito_usera())
-    print(objetoPred.getDistrito_tetuan())
+    print(objetoPred.getDistrito_tetuan())"""
 
 
 
