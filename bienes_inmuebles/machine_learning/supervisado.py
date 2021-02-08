@@ -5,6 +5,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 
 from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
 
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
@@ -25,7 +26,7 @@ class Supervisado():
 
     # Argumentos Obligatorios: son parametros posicionales
     # Argumentos Opcionales: son parametros no posicionales (aquellos que tienen un valor por defecto mediante un igual)
-    def optimizacion(self, clave, parametros, cv=10, scoring='neg_mean_squared_error'):
+    def optimizacion(self, clave, parametros, cv=10, scoring='r2'):
 
         if self.X.tolist() and self.Y.tolist() and parametros:
             grid = GridSearchCV(self.clf, parametros, scoring=scoring, cv=cv)
@@ -46,16 +47,8 @@ class Supervisado():
             pred = self.clf.predict(X_test)
             return pred
 
-def prepare_dataset(csv, regresion=False, clasificacion=False):
-    dataset = pd.read_csv(csv)
-    array = dataset.values
-    X_columns = array[:, 0:2]
-    Y_columns = array[:, 2]
-    #nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
-    #df = pd.read_csv(csv, delim_whitespace=True, names=nombres)
-    df = pd.read_csv(csv)
-    #X_columns = df[['CRIM', 'ZN']].values
-    #Y_columns = df['MEDV'].values
+def prepare_dataset(X_columns, Y_columns):
+
     X_train, X_test, y_train, y_test = train_test_split(X_columns, Y_columns, test_size=0.3, random_state=42)
     return X_train, X_test, y_train, y_test
 
@@ -69,15 +62,12 @@ def regresion(X_train, X_test, y_train, y_test):
         if parametros == None:
             print(
                 f"-> Modelo NO Optimizado: {classificador}\n Validation Score: {score}\n "
-                f"Test score: {mean_squared_error(y_test, y_pred)} \n ")
-            # f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
-            # ‘r2’ mejor metrica regresion
+                f"Test score: {r2_score(y_test, y_pred)} \n ")
         else:
             print(
                 f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\
                   n "
-                f"Test score: {accuracy_score(y_test, y_pred)}\n "
-                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+                f"Test score: {r2_score(y_test, y_pred)}\n ")
 
 def clasificacion(X_train, X_test, y_train, y_test):
     obj_eva = Modelo()
@@ -88,15 +78,16 @@ def clasificacion(X_train, X_test, y_train, y_test):
         if parametros == None:
             print(
                 f"-> Modelo NO Optimizado: {classificador}\n Validation Score: {score}\n "
-                f"Test score: {accuracy_score(y_test, y_pred)} \n ")
-                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
-                # ‘r2’ mejor metrica regresion
+                f"Test score: {accuracy_score(y_test, y_pred)} \n " 
+                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}") # ‘r2’ mejor metrica regresion
+
         else:
             print(
                 f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\
                 n "
                 f"Test score: {accuracy_score(y_test, y_pred)}\n "
                 f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")
+
 
 def predict(is_regresion=False, is_clasificacion=False):
     X_train, X_test, y_train, y_test = prepare_dataset("18. visitasUsuarios.csv")
@@ -106,11 +97,17 @@ def predict(is_regresion=False, is_clasificacion=False):
         clasificacion(X_train, X_test, y_train, y_test)
 
 if __name__ == "__main__":
+    dataset = pd.read_csv("datos_fotocasa_final.csv")
+    X_columns = dataset[['CRIM', 'ZN']].values
+    Y_columns = dataset['MEDV'].values
+    X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
+    regresion(X_train, X_test, y_train, y_test)
+
     """
     main(clasificacion=true, regresion=true)
     """
     # nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
-    predict(clasificacion=True)
+
 
 
 

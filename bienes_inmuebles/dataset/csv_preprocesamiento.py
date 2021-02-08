@@ -84,7 +84,7 @@ class CSVPreprocesamiento():
 
     """Selecciona columnas con datos numericos"""
     def ints(self, inplace=False):
-        df_resultado = self.df.select_dtypes(include=["int64", "float64"])
+        df_resultado = self.df.select_dtypes(include=["int64", "float64","uint8"])
         return self._inplace("df", df_resultado, inplace)
 
     """Imputacion de valores faltantes con media, mediana o moda"""
@@ -119,7 +119,9 @@ class CSVPreprocesamiento():
     """Estandarizar dataset"""
     def estandarizar(self, inplace=False):
         scaler = StandardScaler().fit(self.df)
-        df_resultado = scaler.transform(self.df)
+        np_escalado = scaler.transform(self.df)
+
+        df_resultado = pd.DataFrame(np_escalado, columns=self.df.columns)
         return self._inplace("df", df_resultado, inplace)
 
     """Normalizar dataset"""
