@@ -1,16 +1,35 @@
 from joblib import dump, load
 import os
+import numpy as np
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4
 from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 
 def main():
     modelo = load(os.path.join(PATH4, "data/filename.joblib"))
-    print(modelo)
 
-    form = MetodosFormulario()
-    objetoPred = form.formulario()
+    #form = MetodosFormulario()
+    #objetoPred = form.formulario()
 
-    print(modelo.predict([[objetoPred.getTipoInmueble(),
+    datos = []
+    # rea
+    fichero_path = os.path.join(PATH4, "data/scaler.pkl")
+    scaler = load(open(fichero_path, 'rb'))
+    predecir = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1])
+
+    escalado=scaler.transform(predecir.reshape(1,-1))
+    resultado_final= modelo.predict(escalado)[0] #get out of the array
+    print(round(resultado_final,2))
+    predecir_comprobacion = np.array([0, - 1.95449518, - 0.75529407,  0.01537159, - 0.9277343, - 1.4858903,
+                             - 0.41280987, - 0.31011403, - 0.50665808, - 1.31425748, - 0.18103409, - 0.64527728,
+                             0,          0.2638086, - 0.2638086,   0,          0,          0,
+                             0.90672898,  0, - 0.90672898,  0,          0,          0,
+                             0,          0,          0,          0,          0,          0,
+                             0,          0,          0,          0,          0,          0,
+                             0,          0,          0,          0]) # set de datos del main
+    escalado=predecir_comprobacion.reshape(1,-1)
+    resultado_final= modelo.predict(escalado)[0] #get out of the array
+    print(round(resultado_final,2))
+    """print(modelo.predict([[objetoPred.getTipoInmueble(),
                          objetoPred.getTipoOperacion(),
                          objetoPred.getHabitaciones(),
                          objetoPred.getTamano(),
@@ -49,7 +68,7 @@ def main():
                          objetoPred.getCiudad(),
                          objetoPred.getEficienciaEnergetica_A(),
                          objetoPred.getEficienciaEnergetica_B(),
-                         objetoPred.getEficienciaEnergetica_C()]]))
+                         objetoPred.getEficienciaEnergetica_C()]]))"""
 
 
     #print(modelo.predict([[1,1,3,66,5,1,1,0,1,0,0,2,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0]]))

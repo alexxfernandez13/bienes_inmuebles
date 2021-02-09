@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from joblib import dump, load
-
+from copy import copy
 from bienes_inmuebles.dataset.csv_plot import CSVPlot
 from bienes_inmuebles.dataset.csv_utilities import CSV
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
@@ -57,11 +57,9 @@ def main():
     print("5",csv_mvs.df.columns)
     csv_outliers = csv_mvs.outliers()
     print("6",csv_outliers.df.columns)
-    estandarizar = csv_outliers.estandarizar()
 
-    print(estandarizar.df.columns)
 
-    X_columns = estandarizar.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
+    X_columns_df = csv_outliers.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
        'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
        'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
        'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
@@ -74,18 +72,50 @@ def main():
        'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
        'distrito_villa-de-vallecas', 'distrito_villaverde',
        'ciudad_madrid-capital', 'eficienciaEnergetica_A',
-       'eficienciaEnergetica_B', 'eficienciaEnergetica_C']].values
-    Y_columns = estandarizar.df['precio'].values
+       'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
+
+    csv_X = copy(csv_outliers)
+    csv_X.df = X_columns_df
+    csv_X_estandarizada = csv_X.estandarizar()
+
+    X_columns= csv_X_estandarizada.df.values
+    Y_columns = csv_outliers.df['precio'].values
+
+    csv_outliers.df = csv_outliers.df.drop(['precio'], axis=1)
+    estandarizar = csv_outliers.estandarizar()
+
+    print(estandarizar.df.columns)
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
     # regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo = GradientBoostingRegressor()
     modelo.fit(X_columns,Y_columns)
-
     dump(modelo,os.path.join(PATH4, "data/filename.joblib"))
+    print(X_columns[0,:],"\n")
+    print(Y_columns[0], "\n")
 
-    # clf = load('filename.joblib')
-    #normalizar.plot_histograma()
+    #######
+    #######
+    """
+    0) Separar el dataset:
+        En X y Y
+        Estandarizar X y guardar escaler
+        No tocar las Y ya que queremos aprender como son
+        Entrenar con X estandarizadas y Y normales
+        Guardar Modelo
+        
+    1) Entrenado modelo:
+        CV score : 0.95 (: --> Esta aprendiendo algo
+        Test score: 0.95 (: --> Funciona en datos que no ha visto hasta ahora
+        
+    2) Prediccion modelo: 
+        Saca datos consistentes (: --> Funcion
+        
+    3) Asegurarte que funciona:
+        Datos de fotocasa --> Coger un edificio --> Coger sus features X --> Hacer la predicion y comparar con su precio real
+
+
+    """
 
 
 

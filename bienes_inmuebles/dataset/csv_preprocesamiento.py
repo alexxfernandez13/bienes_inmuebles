@@ -11,6 +11,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import Binarizer
 import copy
+from joblib import dump
+import os
 
 # Import libreria interna
 from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
@@ -118,9 +120,10 @@ class CSVPreprocesamiento():
 
     """Estandarizar dataset"""
     def estandarizar(self, inplace=False):
-        scaler = StandardScaler().fit(self.df)
-        np_escalado = scaler.transform(self.df)
-
+        scaler = StandardScaler().fit(self.df) # aprende la distribucion de los dstos
+        fichero_path = os.path.join(PATH4, "data/scaler.pkl")
+        dump(scaler, open(fichero_path, 'wb'))
+        np_escalado = scaler.transform(self.df) # coge la distribucion y la estandariza
         df_resultado = pd.DataFrame(np_escalado, columns=self.df.columns)
         return self._inplace("df", df_resultado, inplace)
 
