@@ -7,7 +7,7 @@ from copy import copy
 from bienes_inmuebles.dataset.csv_plot import CSVPlot
 from bienes_inmuebles.dataset.csv_utilities import CSV
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
-from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion,clasificacion, Supervisado
+from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion, clasificacion, Supervisado
 from sklearn.ensemble import GradientBoostingRegressor
 """FUNCIONES --> API"""
 
@@ -94,8 +94,6 @@ def main():
     print(X_columns[0,:],"\n")
     print(Y_columns[0], "\n")
 
-    #######
-    #######
     """
     0) Separar el dataset:
         En X y Y
@@ -114,17 +112,7 @@ def main():
     3) Asegurarte que funciona:
         Datos de fotocasa --> Coger un edificio --> Coger sus features X --> Hacer la predicion y comparar con su precio real
 
-
     """
-
-
-
-
-
-
-
-
-
 
     """csv = CSV(os.path.join(PATH4, "data/datos_fotocasa.csv"))
     pd.set_option('display.max_columns', None)

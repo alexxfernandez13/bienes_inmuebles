@@ -1,14 +1,17 @@
-from colorama import Fore, Back, Style
+from colorama import Back, Style
 from bienes_inmuebles.formulario.objetoPrediccion import ObjetoPrediccion
-import numpy as np
+
 
 class MetodosFormulario():
 
     def __init__(self):
-        self.listaDistritos = ["arganzuela", "barajas", "carabanchel", "centro", "chamartin", "chamberi", "ciudad_lineal",
-                          "fuencarral", "hortaleza", "latina", "moncloa", "moratalaz", "puente_de_vallecas", "retiro",
-                          "salamanca", "san_blas", "tetuan", "usera", "vicalvaro", "villa_de_vallecas", "villaverde",
-                          "vicalvaro"]
+        self.listaDistritos = ["arganzuela", "barajas", "carabanchel", "centro", "chamartin", "chamberi",
+                               "ciudad_lineal",
+                               "fuencarral", "hortaleza", "latina", "moncloa", "moratalaz", "puente_de_vallecas",
+                               "retiro",
+                               "salamanca", "san_blas", "tetuan", "usera", "vicalvaro", "villa_de_vallecas",
+                               "villaverde",
+                               "vicalvaro"]
         self.listaEficiencias = ["eficienciaEnergetica_A", "eficienciaEnergetica_B", "eficienciaEnergetica_C"]
         self.listaOperaciones = ["Comprar", "Alquiler"]
         self.listaOpcionesGarage = ["garaje_Comunitario", "garaje_Privado"]
@@ -19,32 +22,32 @@ class MetodosFormulario():
 
     def getSIoNO(self, objetoPreguntado):
         dato = input("¿La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no \n> ").lower()
-        while (dato != 's' and dato != 'n'):
+        while dato != 's' and dato != 'n':
             print(Style.RESET_ALL)
             print(Back.BLUE + "El dato introducido no es valido. Intentelo otra vez")
             print(Style.RESET_ALL)
             dato = input("La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no\n> ").lower()
 
-        return (dato)
+        return dato
 
     def getNumero(self, consulta, numeroMaximo):
         dato = input(consulta + "\n> ")
-        if (dato.isnumeric()):
+        if dato.isnumeric():
             dato = int(dato)
         else:
             dato = -1
 
-        while (dato < 0 or dato > numeroMaximo):
+        while dato < 0 or dato > numeroMaximo:
             print(Style.RESET_ALL)
             print(Back.YELLOW + "El dato introducido no es valido. Intentelo otra vez")
             print(Style.RESET_ALL)
 
             dato = input(consulta + "\n> ").lower()
-            if (dato.isnumeric()):
+            if dato.isnumeric():
                 dato = int(dato)
             else:
                 dato = -1
-        return (dato)
+        return dato
 
     def getOpcion(self, listaElementos, consulta):
         x = 1
@@ -53,27 +56,26 @@ class MetodosFormulario():
             x += 1
 
         opcion = input(consulta + "\n> ")
-        if (opcion.isnumeric()):
+        if opcion.isnumeric():
             opcion = int(opcion)
         else:
             opcion = -1
 
-        while (opcion < 0 or opcion > len(listaElementos)):
+        while opcion < 0 or opcion > len(listaElementos):
             print(Style.RESET_ALL)
             print(Back.YELLOW + "El dato introducido no es valido. Intentelo otra vez")
             print(Style.RESET_ALL)
 
             opcion = input(consulta + "\n> ")
 
-            if (opcion.isnumeric()):
+            if opcion.isnumeric():
                 opcion = int(opcion)
             else:
                 opcion = -1
 
-        return (listaElementos[opcion - 1])
+        return listaElementos[opcion - 1]
 
-
-    def formulario (self):
+    def formulario(self):
 
         objetoPred = ObjetoPrediccion("Madrid")
 
@@ -84,7 +86,7 @@ class MetodosFormulario():
             objetoPred.setTipoOperacion(2)
 
         distrito = self.getOpcion(self.listaDistritos, "¿En qué DISTRITO se encuentra la vivienda?")
-        setattr(objetoPred, "distrito_"+distrito, 1)
+        setattr(objetoPred, "distrito_" + distrito, 1)
 
         habitaciones = self.getNumero("¿Cuantos HABITACIONES tiene la vivienda?,", self.maxHabitaciones)
         objetoPred.setHabitaciones(habitaciones)
@@ -99,51 +101,50 @@ class MetodosFormulario():
         objetoPred.setBanos(banios)
 
         terraza = self.getSIoNO("TERRAZA")
-        if terraza.lower()=='s':
+        if terraza.lower() == 's':
             objetoPred.setTerraza(1)
-        elif terraza.lower()=='n':
+        elif terraza.lower() == 'n':
             objetoPred.setTerraza(0)
 
         trastero = self.getSIoNO("TRASTERO")
-        if trastero.lower()=='s':
+        if trastero.lower() == 's':
             objetoPred.setTrastero(1)
-        elif trastero.lower()=='n':
+        elif trastero.lower() == 'n':
             objetoPred.setTrastero(0)
 
         garaje = self.getSIoNO("GARAJE")
-        if (garaje == 's'):
+        if garaje == 's':
             garaje = self.getOpcion(self.listaOpcionesGarage, "¿Qué TIPO de GARAJE tiene?")
 
-        if garaje.lower()== "n":
+        if garaje.lower() == "n":
             objetoPred.setGaraje_No_detallado(1)
         elif garaje == 'garaje_Comunitario':
             objetoPred.setGaraje_Comunitario(1)
         elif garaje == 'garaje_Privado':
             objetoPred.setGaraje_Privado(1)
 
-
         balcon = self.getSIoNO("BALCON")
-        if balcon.lower()=='s':
+        if balcon.lower() == 's':
             objetoPred.setBalcon(1)
-        elif balcon.lower()=='n':
+        elif balcon.lower() == 'n':
             objetoPred.setBalcon(0)
 
         aireAcondicionado = self.getSIoNO("AIRE ACONDICIONADO")
-        if aireAcondicionado.lower()=='s':
+        if aireAcondicionado.lower() == 's':
             objetoPred.setAireAcondicionado(1)
-        elif aireAcondicionado.lower()=='n':
+        elif aireAcondicionado.lower() == 'n':
             objetoPred.setAireAcondicionado(0)
 
         piscina = self.getSIoNO("PISCINA")
-        if piscina.lower()=='s':
+        if piscina.lower() == 's':
             objetoPred.setPiscina(1)
-        elif piscina.lower()=='n':
+        elif piscina.lower() == 'n':
             objetoPred.setPiscina(0)
 
         ascensor = self.getSIoNO("ASCENSOR")
-        if ascensor.lower()=='s':
+        if ascensor.lower() == 's':
             objetoPred.setAscensor(1)
-        elif ascensor.lower()=='n':
+        elif ascensor.lower() == 'n':
             objetoPred.setAscensor(0)
 
         eficiencia = self.getOpcion(self.listaEficiencias, "¿Qué EFICIENCIA energetica tiene la vivienda")
@@ -157,11 +158,7 @@ class MetodosFormulario():
         objetoPred.setCiudad(1)
         objetoPred.setTipoInmueble(1)
 
-
         return objetoPred
-
-
-
 
 
 if __name__ == "__main__":
@@ -207,7 +204,3 @@ if __name__ == "__main__":
     print(objetoPred.getDistrito_villaverde())
     print(objetoPred.getDistrito_usera())
     print(objetoPred.getDistrito_tetuan())"""
-
-
-
-
