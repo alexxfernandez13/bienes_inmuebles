@@ -1,4 +1,4 @@
-from joblib import dump, load
+from joblib import load
 import os
 import numpy as np
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4

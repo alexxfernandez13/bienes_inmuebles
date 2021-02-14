@@ -1,10 +1,6 @@
 import pandas as pd
-
-## Para RFE
 from sklearn.feature_selection import RFE
 from sklearn.linear_model import LogisticRegression, SGDClassifier
-
-## Para importancia de la característica
 from sklearn.ensemble import ExtraTreesClassifier
 
 from bienes_inmuebles.dataset.csv_plot import CSVPlot
@@ -14,7 +10,9 @@ class CSVExploracion(CSVPlot):
 
     def __init__(self, df):
         self.df = df
+
     """Muestra informacion general del dataset"""
+
     def vistazo(self):
         info = self.df.info()
         cabecera = self.df.head()
@@ -22,10 +20,12 @@ class CSVExploracion(CSVPlot):
         columnas = self.df.columns.values
         faltantes = self.df.isnull().sum()
         forma = self.df.shape
-        print(f'\nCABECERA:\n{cabecera}\n\nFINAL:\n{final}\n\nCOLUMNAS:\n{columnas}\n\nMVs:\n{faltantes}\n\nFORMA:\n{forma}')
+        print(
+            f'\nCABECERA:\n{cabecera}\n\nFINAL:\n{final}\n\nCOLUMNAS:\n{columnas}\n\nMVs:\n{faltantes}\n\nFORMA:\n{forma}')
         return info, cabecera, final, columnas, faltantes, forma
 
     """Muestra informacion estadistica del dataset. Indicando columnas por una lista realiza ademas la agrupacion"""
+
     def estadistica(self, columnas=[], agrupar=None, method="pearson"):
         if columnas:
             df = self.df[columnas]
@@ -42,6 +42,7 @@ class CSVExploracion(CSVPlot):
         return agrupar, describir, correlaciones, sesgo
 
     """Indica columnas importantes del Dataset para ML"""
+
     def caracteristicas(self, n_caracteristicas=3):
         print(self.df.columns.values)
         X = self.df[:, 0:8]
@@ -60,9 +61,6 @@ class CSVExploracion(CSVPlot):
         modelo = ExtraTreesClassifier()
         fit = modelo.fit(X, Y)
         print(f"Importancia de caracteristicas: {fit.feature_importances_}")
-
-
-
 
 
 if __name__ == "__main__":

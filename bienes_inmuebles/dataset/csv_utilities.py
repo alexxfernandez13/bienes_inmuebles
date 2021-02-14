@@ -54,6 +54,8 @@ Motos() y Coches() que heredan de Vehiculo()
     Vehiculo: Caract general (motor, marca, comunes coche moto)
     Motos y Coche (cosas especificas)
 """
+
+
 class CSV(CSVExploracion, CSVPreprocesamiento):
     def __init__(self, csv, df=None):
         self.csv = csv
@@ -61,6 +63,7 @@ class CSV(CSVExploracion, CSVPreprocesamiento):
             self.df = df
         else:
             self.df = pd.read_csv(self.csv, sep=';')
+
 
 """EJECUCION"""
 # Path Absoluto: solo funciona en mi PC

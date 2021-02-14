@@ -1,11 +1,13 @@
 class ObjetoPrediccion(object):
-    def __init__(self, tipoInmueble= 0, tipoOperacion= 0, habitaciones= 0, tamano=0, planta=0, ascensor=0, terraza=0, trastero=0, balcon=0, aireAcondicionado=0,
-                 piscina=0, banos=0, garaje_Comunitario=0, garaje_No_detallado=0, garaje_Privado=0, distrito_arganzuela=0, distrito_barajas=0, distrito_carabanchel=0,
-                 distrito_centro=0, distrito_chamartin=0, distrito_chamberi=0, distrito_ciudad_lineal=0, distrito_fuencarral=0, distrito_hortaleza=0, distrito_latina=0, distrito_moncloa=0,
-                 distrito_moratalaz=0, distrito_puente_de_vallecas=0, distrito_retiro=0, distrito_salamanca=0, distrito_san_blas=0, distrito_tetuan=0, distrito_usera=0,
-                 distrito_vicalvaro=0, distrito_villa_de_vallecas=0, distrito_villaverde=0, ciudad="", eficienciaEnergetica_A=0, eficienciaEnergetica_B=0,
-                 eficienciaEnergetica_C=0):
-
+    def __init__(self, tipoInmueble=0, tipoOperacion=0, habitaciones=0, tamano=0, planta=0, ascensor=0, terraza=0,
+                 trastero=0, balcon=0, aireAcondicionado=0, piscina=0, banos=0, garaje_Comunitario=0,
+                 garaje_No_detallado=0, garaje_Privado=0, distrito_arganzuela=0, distrito_barajas=0,
+                 distrito_carabanchel=0, distrito_centro=0, distrito_chamartin=0, distrito_chamberi=0,
+                 distrito_ciudad_lineal=0, distrito_fuencarral=0, distrito_hortaleza=0, distrito_latina=0,
+                 distrito_moncloa=0, distrito_moratalaz=0, distrito_puente_de_vallecas=0, distrito_retiro=0,
+                 distrito_salamanca=0, distrito_san_blas=0, distrito_tetuan=0, distrito_usera=0, distrito_vicalvaro=0,
+                 distrito_villa_de_vallecas=0, distrito_villaverde=0, ciudad="", eficienciaEnergetica_A=0,
+                 eficienciaEnergetica_B=0, eficienciaEnergetica_C=0):
         self.tipoInmueble = tipoInmueble
         self.tipoOperacion = tipoOperacion
         self.habitaciones = habitaciones
@@ -286,4 +288,3 @@ class ObjetoPrediccion(object):
 
     def setEficienciaEnergetica_C(self, eficienciaEnergetica_C):
         self.eficienciaEnergetica_C = eficienciaEnergetica_C
-

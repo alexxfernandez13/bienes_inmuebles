@@ -1,12 +1,9 @@
 import pandas as pd
-
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
-
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
-
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 
@@ -47,8 +44,8 @@ class Supervisado():
             pred = self.clf.predict(X_test)
             return pred
 
-def prepare_dataset(X_columns, Y_columns):
 
+def prepare_dataset(X_columns, Y_columns):
     X_train, X_test, y_train, y_test = train_test_split(X_columns, Y_columns, test_size=0.3, random_state=42)
     return X_train, X_test, y_train, y_test
 
@@ -69,17 +66,19 @@ def regresion(X_train, X_test, y_train, y_test):
                   n "
                 f"Test score: {r2_score(y_test, y_pred)}\n ")
 
+
 def clasificacion(X_train, X_test, y_train, y_test):
     obj_eva = Modelo()
     for classificador, parametros in obj_eva.modelos_clasificacion().items():
         modelo = Supervisado(classificador, X_train, y_train)
-        model, score = modelo.optimizacion(classificador, parametros, scoring="accuracy")  # train -> train/validation -> score
+        model, score = modelo.optimizacion(classificador, parametros,
+                                           scoring="accuracy")  # train -> train/validation -> score
         y_pred = modelo.predict(X_test)  # test -> pred(test) == y_test???
         if parametros == None:
             print(
                 f"-> Modelo NO Optimizado: {classificador}\n Validation Score: {score}\n "
-                f"Test score: {accuracy_score(y_test, y_pred)} \n " 
-                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}") # ‘r2’ mejor metrica regresion
+                f"Test score: {accuracy_score(y_test, y_pred)} \n "
+                f"Matriz de confusion:\n{confusion_matrix(y_test, y_pred)}")  # ‘r2’ mejor metrica regresion
 
         else:
             print(
@@ -96,31 +95,22 @@ def predict(is_regresion=False, is_clasificacion=False):
     elif is_clasificacion:
         clasificacion(X_train, X_test, y_train, y_test)
 
+
 if __name__ == "__main__":
     dataset = pd.read_csv("datos_fotocasa_final.csv")
     X_columns = dataset[['CRIM', 'ZN']].values
     Y_columns = dataset['MEDV'].values
-    X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
+    X_train, X_test, y_train, y_test = prepare_dataset(X_columns, Y_columns)
     regresion(X_train, X_test, y_train, y_test)
 
     """
     main(clasificacion=true, regresion=true)
     """
     # nombres = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+    # acabar funcion añadir modelos
+    # corregir error predict = cuando no recibe modelo optimizado
+    # escoger 3 mejores modelos
 
-
-
-
-
-
-
-
-
-# acabar funcion añadir modelos
-# corregir error predict = cuando no recibe modelo optimizado
-
-
-# escoger 3 mejores modelos
 """
     #Voting 3 mejores
     voting = Voting(clf[0], clf[1], clf[2])
