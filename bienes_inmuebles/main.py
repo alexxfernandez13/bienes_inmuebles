@@ -7,6 +7,7 @@ from copy import copy
 from bienes_inmuebles.dataset.csv_plot import CSVPlot
 from bienes_inmuebles.dataset.csv_utilities import CSV
 from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
+from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion, clasificacion, Supervisado
 from sklearn.ensemble import GradientBoostingRegressor
 """FUNCIONES --> API"""
@@ -15,6 +16,21 @@ from sklearn.ensemble import GradientBoostingRegressor
 def main():
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final2.csv"))
     csv.vistazo()
+    print(csv.df.groupby('tipoOperacion').size())
+
+    # ------------------------------------------------------------- formulario
+    """form = MetodosFormulario()
+    objetoPred = form.formulario()
+
+    # se filtra el dataframe para que segun que tipo operacion introduzca el usuario (1: Comprar; 2:Alquilar), se quede solo con los que necesita
+    if objetoPred.getTipoOperacion() == 1:
+        csv.df = csv.df[(csv.df.tipoOperacion == 1)]
+    elif  objetoPred.getTipoOperacion() == 2:
+        csv.df = csv.df[(csv.df.tipoOperacion == 2)]
+    print(csv.df.groupby('tipoOperacion').size())"""
+    # ------------------------------------------------------------- formulario
+
+
     casteo_variables = {'precio':np.float64,
                       'tamano':np.float64,
                       'trastero':np.int64,
@@ -25,8 +41,12 @@ def main():
                       'terraza':np.int64,
                       'planta':np.int64}
 
+
     csv_casteados = csv.casteo_columnas(casteo_variables)
     csv_casteados.vistazo()
+
+    pd.set_option('display.max_columns', None)
+    print(csv.df.describe())
 
     # one hot encoding Garaje
     csv_oneHotEncoding = csv.one_hot_encoding("garaje")
@@ -45,18 +65,18 @@ def main():
     # one hot encoding eficienciaEnergetica
 
 
-    print("1",csv.df.columns)
+    #print("1",csv.df.columns)
     csv_dup = csv.duplicados()
-    print("2",csv_dup.df.columns)
+    #print("2",csv_dup.df.columns)
     csv_na = csv_dup.dropna(number=10, axis=0)
-    print("3",csv_na.df.columns)
+    #print("3",csv_na.df.columns)
     csv_int = csv_na.ints()
-    print(csv_na.vistazo())
-    print("4",csv_int.df.columns)
+    #print(csv_na.vistazo())
+    #print("4",csv_int.df.columns)
     csv_mvs = csv_int.mvs()
-    print("5",csv_mvs.df.columns)
+    #print("5",csv_mvs.df.columns)
     csv_outliers = csv_mvs.outliers()
-    print("6",csv_outliers.df.columns)
+    #print("6",csv_outliers.df.columns)
 
 
     X_columns_df = csv_outliers.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
@@ -84,9 +104,9 @@ def main():
     csv_outliers.df = csv_outliers.df.drop(['precio'], axis=1)
     estandarizar = csv_outliers.estandarizar()
 
-    print(estandarizar.df.columns)
+    #print(estandarizar.df.columns)
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
-    # regresion(X_train, X_test, y_train, y_test)
+    regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo = GradientBoostingRegressor()
     modelo.fit(X_columns,Y_columns)
