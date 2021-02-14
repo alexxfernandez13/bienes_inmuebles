@@ -4,9 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from joblib import dump, load
 from copy import copy
-from bienes_inmuebles.dataset.csv_plot import CSVPlot
-from bienes_inmuebles.dataset.csv_utilities import CSV
-from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
+from bienes_inmuebles.preprocesar.csv_plot import CSVPlot
+from bienes_inmuebles.preprocesar.csv_abrir import CSV
+from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
 from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion, clasificacion, Supervisado
 from sklearn.ensemble import GradientBoostingRegressor
@@ -14,7 +14,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 
 
 def main():
-    csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final2.csv"))
+    csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     csv.vistazo()
     print(csv.df.groupby('tipoOperacion').size())
 
@@ -106,7 +106,7 @@ def main():
 
     #print(estandarizar.df.columns)
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo = GradientBoostingRegressor()
     modelo.fit(X_columns,Y_columns)

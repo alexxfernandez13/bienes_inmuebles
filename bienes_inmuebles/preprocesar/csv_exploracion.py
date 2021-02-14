@@ -3,7 +3,7 @@ from sklearn.feature_selection import RFE
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
-from bienes_inmuebles.dataset.csv_plot import CSVPlot
+from bienes_inmuebles.preprocesar.csv_plot import CSVPlot
 
 
 class CSVExploracion(CSVPlot):

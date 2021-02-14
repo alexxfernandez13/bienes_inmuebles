@@ -15,7 +15,7 @@ from joblib import dump
 import os
 
 # Import libreria interna
-from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
+from bienes_inmuebles.preprocesar.csv_exploracion import CSVExploracion
 
 # from .. import csv_exploracion -> significa hacia atras o bajar un nivel (para buscar en carpetas por debajo)
 

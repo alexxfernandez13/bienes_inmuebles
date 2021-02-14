@@ -5,8 +5,8 @@ from pathlib import Path
 import pandas as pd
 
 # Import libreria interna
-from bienes_inmuebles.dataset.csv_exploracion import CSVExploracion
-from bienes_inmuebles.dataset.csv_preprocesamiento import CSVPreprocesamiento
+from bienes_inmuebles.preprocesar.csv_exploracion import CSVExploracion
+from bienes_inmuebles.preprocesar.csv_preprocesamiento import CSVPreprocesamiento
 
 # from .. import csv_exploracion -> significa hacia atras o bajar un nivel (para buscar en carpetas por debajo)
 

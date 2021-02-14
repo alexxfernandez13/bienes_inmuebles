@@ -1,7 +1,7 @@
 from joblib import load
 import os
 import numpy as np
-from bienes_inmuebles.dataset.csv_preprocesamiento import PATH4
+from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4
 from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 
 def main():
