@@ -6,7 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import datetime
 
 from bienes_inmuebles.recuperarDatos.inmueble import Inmueble
-from bienes_inmuebles.database.metodosDb import MetodosDb
+from bienes_inmuebles.base_datos.metodosDb import MetodosDb
 from bienes_inmuebles.utilidades.urlPath import UrlPath
 import requests
 import csv
@@ -333,8 +333,8 @@ if __name__ == "__main__":
     ]
 
     # borra el fichero datos_fotocasa.txt del directorio data
-    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa.csv"):
-        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa.csv")
+    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa_final.csv"):
+        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\datos_fotocasa_final.csv")
 
     listaEscribirCsv = []
     for url in direcciones:
