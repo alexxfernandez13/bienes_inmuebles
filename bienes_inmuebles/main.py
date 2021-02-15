@@ -15,8 +15,11 @@ from sklearn.ensemble import GradientBoostingRegressor
 
 def main():
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
+    pd.set_option('display.max_columns', None)
+    #breakpoint()
+
     csv.vistazo()
-    print(csv.df.groupby('tipoOperacion').size())
+    #print(csv.df.groupby('tipoOperacion').size())
 
     # ------------------------------------------------------------- formulario
     """form = MetodosFormulario()
@@ -40,7 +43,6 @@ def main():
                       'ascensor':np.int64,
                       'terraza':np.int64,
                       'planta':np.int64}
-
 
     csv_casteados = csv.casteo_columnas(casteo_variables)
     csv_casteados.vistazo()
@@ -75,11 +77,13 @@ def main():
     #print("4",csv_int.df.columns)
     csv_mvs = csv_int.mvs()
     #print("5",csv_mvs.df.columns)
-    csv_outliers = csv_mvs.outliers()
+    #csv_outliers = csv_mvs.outliers()
+    print("----------------------------------------------------")
+    #print(csv_outliers.df.head())
     #print("6",csv_outliers.df.columns)
 
 
-    X_columns_df = csv_outliers.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
+    X_columns_df = csv_mvs.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
        'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
        'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
        'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
@@ -94,25 +98,30 @@ def main():
        'ciudad_madrid-capital', 'eficienciaEnergetica_A',
        'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
 
-    csv_X = copy(csv_outliers)
+    csv_X = copy(csv_mvs)
+    #columna Y nunca se estandariza
     csv_X.df = X_columns_df
+    print("-------------------------------------------------------------------------")
+    print(csv_X.df.head())
+
     csv_X_estandarizada = csv_X.estandarizar()
 
+
     X_columns= csv_X_estandarizada.df.values
-    Y_columns = csv_outliers.df['precio'].values
+    Y_columns = csv_mvs.df['precio'].values
 
-    csv_outliers.df = csv_outliers.df.drop(['precio'], axis=1)
-    estandarizar = csv_outliers.estandarizar()
 
-    #print(estandarizar.df.columns)
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
-    #regresion(X_train, X_test, y_train, y_test)
+    regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo = GradientBoostingRegressor()
     modelo.fit(X_columns,Y_columns)
     dump(modelo,os.path.join(PATH4, "data/filename.joblib"))
+    #coger una al azar del entrenamiento
     print(X_columns[0,:],"\n")
+    print(X_columns)
     print(Y_columns[0], "\n")
+    print(Y_columns)
 
     """
     0) Separar el dataset:

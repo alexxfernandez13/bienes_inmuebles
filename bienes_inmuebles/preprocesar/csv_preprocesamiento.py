@@ -128,7 +128,7 @@ class CSVPreprocesamiento():
         df_resultado = scaler.fit_transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
-    """Estandarizar dataset"""
+    """Estandarizar dataset y guardar el scaler en formato pickle"""
 
     def estandarizar(self, inplace=False):
         scaler = StandardScaler().fit(self.df)  # aprende la distribucion de los dstos
