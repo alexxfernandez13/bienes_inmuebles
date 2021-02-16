@@ -16,25 +16,6 @@ from sklearn.ensemble import GradientBoostingRegressor
 def main():
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)
-    #breakpoint()
-    """csv.df = csv.df.loc[((csv.df['tipoOperacion'] == 1) & (csv.df['precio'] >= 50000) & (csv.df["tamano"]>=10)) |
-                              ((csv.df["tipoOperacion"]==2) & (csv.df["precio"]<=9000) & (csv.df["precio"]>=100) & (csv.df["tamano"]>=10)) ]"""
-
-    #csv.vistazo()
-    #print(csv.df.groupby('tipoOperacion').size())
-
-    # ------------------------------------------------------------- formulario
-    """form = MetodosFormulario()
-    objetoPred = form.formulario()
-
-    # se filtra el dataframe para que segun que tipo operacion introduzca el usuario (1: Comprar; 2:Alquilar), se quede solo con los que necesita
-    if objetoPred.getTipoOperacion() == 1:
-        csv.df = csv.df[(csv.df.tipoOperacion == 1)]
-    elif  objetoPred.getTipoOperacion() == 2:
-        csv.df = csv.df[(csv.df.tipoOperacion == 2)]
-    print(csv.df.groupby('tipoOperacion').size())"""
-    # ------------------------------------------------------------- formulario
-
 
     casteo_variables = {'precio':np.float64,
                       'tamano':np.float64,
@@ -67,7 +48,6 @@ def main():
     # one hot encoding eficienciaEnergetica
     csv = csv_oneHotEncoding.one_hot_encoding("eficienciaEnergetica")
     # one hot encoding eficienciaEnergetica
-
 
     #print("1",csv.df.columns)
     csv_dup = csv.duplicados()

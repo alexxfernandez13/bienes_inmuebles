@@ -10,6 +10,13 @@ def main():
     form = MetodosFormulario()
     objetoPred = form.formulario()
 
+    # se filtra el dataframe para que segun que tipo operacion introduzca el usuario (1: Comprar; 2:Alquilar), se quede solo con los que necesita
+    """if objetoPred.getTipoOperacion() == 1:
+        csv.df = csv.df[(csv.df.tipoOperacion == 1)]
+    elif  objetoPred.getTipoOperacion() == 2:
+        csv.df = csv.df[(csv.df.tipoOperacion == 2)]
+    print(csv.df.groupby('tipoOperacion').size())"""
+
     datos = []
     # rea
     fichero_path = os.path.join(PATH4, "data/scaler.pkl")
