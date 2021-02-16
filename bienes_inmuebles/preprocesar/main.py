@@ -17,8 +17,10 @@ def main():
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)
     #breakpoint()
+    """csv.df = csv.df.loc[((csv.df['tipoOperacion'] == 1) & (csv.df['precio'] >= 50000) & (csv.df["tamano"]>=10)) |
+                              ((csv.df["tipoOperacion"]==2) & (csv.df["precio"]<=9000) & (csv.df["precio"]>=100) & (csv.df["tamano"]>=10)) ]"""
 
-    csv.vistazo()
+    #csv.vistazo()
     #print(csv.df.groupby('tipoOperacion').size())
 
     # ------------------------------------------------------------- formulario
@@ -82,7 +84,10 @@ def main():
     #print(csv_outliers.df.head())
     #print("6",csv_outliers.df.columns)
 
-
+    """df_alquiler =csv.df.loc[(csv.df["tipoOperacion"]==2) & (csv.df["precio"]<=9000) & (csv.df["precio"]>=100) & (csv.df["tamano"]>=10)]
+    df_compra = csv.df.loc[(csv.df['tipoOperacion'] == 1) & (csv.df['precio'] >= 50000) & (csv.df["tamano"] >= 10)]
+    print(df_alquiler.shape)
+    print(df_compra.shape)"""
     X_columns_df = csv_mvs.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
        'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
        'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',

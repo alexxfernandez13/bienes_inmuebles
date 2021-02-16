@@ -28,7 +28,8 @@ class Inmueble(object):
         self.vendedor = vendedor
         self.banios = banios
 
-
+    # self.precio = precio
+    # self.set_precio(precio)
     def getIdInmueble(self):
         return self.idInmueble
 

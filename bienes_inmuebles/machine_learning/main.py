@@ -7,16 +7,16 @@ from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 def main():
     modelo = load(os.path.join(PATH4, "data/filename.joblib"))
 
-    #form = MetodosFormulario()
-    #objetoPred = form.formulario()
-
+    form = MetodosFormulario()
+    objetoPred = form.formulario()
 
     datos = []
     # rea
     fichero_path = os.path.join(PATH4, "data/scaler.pkl")
     scaler = load(open(fichero_path, 'rb'))
-    predecir=np.array([1, 1, 1, 69, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1])
-    """predecir = np.array([1,
+
+    #predecir=np.array([1, 1, 1, 69, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]) #comprar
+    predecir = np.array([1,
                          objetoPred.getTipoOperacion(),
                          objetoPred.getHabitaciones(),
                          objetoPred.getTamano(),
@@ -55,7 +55,7 @@ def main():
                          objetoPred.getCiudad(),
                          objetoPred.getEficienciaEnergetica_A(),
                          objetoPred.getEficienciaEnergetica_B(),
-                         objetoPred.getEficienciaEnergetica_C()])"""
+                         objetoPred.getEficienciaEnergetica_C()])
     #print(predecir)
 
     escalado=scaler.transform(predecir.reshape(1,-1))
