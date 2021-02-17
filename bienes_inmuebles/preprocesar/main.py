@@ -164,11 +164,3 @@ def main():
 """ COMMAND LINE / EJECUTAS LA FILE DIRECTO"""
 if __name__ == "__main__":
     main()
-
-"""
-csv = CSV("datos.csv")
-csv_dupl = csv.duplicados()
-csv_na = csv_dupl.dropna()
-
-ml = ML(csv_na.df)
-"""
