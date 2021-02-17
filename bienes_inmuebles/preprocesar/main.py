@@ -15,6 +15,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 
 
 def main():
+
     """Carga de CSV y configura la informacion por pantalla de Pandas mostrando TODOS los atributos"""
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)

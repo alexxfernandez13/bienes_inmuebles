@@ -47,57 +47,52 @@ class CSVPreprocesamiento():
     def __init__(self, csv):
         self.csv = csv
 
-    """Permite sobrescribir objetos o realizar copias"""
-
+    """Permite sobrescribir objetos (inplace=True) o realizar copias (inplace=False)"""
     def _inplace(self, atributo, valor_atributo, inplace=False):
         if inplace:
             setattr(atributo, valor_atributo)
         else:
-            nuevo_objeto = copy.deepcopy(self)  # Copia profunda en otro registro de memoria
+            nuevo_objeto = copy.deepcopy(self)  # Copia del objeto en otro registro de memoria
             setattr(nuevo_objeto, atributo, valor_atributo)
             # self.atributo = valor_atributo
             # self.df = resultado_df
             return nuevo_objeto
 
     "Castear columnas indicadas"
-
     def casteo_columnas(self, columnas_casteo, inplace=False):
         for clave, valor in columnas_casteo.items():
             self.df[clave] = self.df[clave].astype(valor)
-        return self._inplace("df", self.df, inplace)
+        return self._inplace("df", self.df, inplace) # Permite pasar tanto CSVs (antes de leerlo) o el Dataframe
 
     "Codifcar datos categoricos a datos numericos"
-
     def one_hot_encoding(self, columna, inplace=False):
         y = pd.get_dummies(self.df[columna], prefix=columna)
-        # borramos la columna
+        # Borra la columna no codificada (columna introducida como input)
         self.df.drop(columna, axis='columns', inplace=True)
-        # concatenamos al df las columnas nuevas
+        # Concatena las nuevas columnas con el Dataframe
         self.df = pd.concat([self.df, y], axis=1)
         return self._inplace("df", self.df, inplace)
 
     """Elimina filas con duplicados"""
-
     def duplicados(self, inplace=False):
         df_resultado = self.df.drop_duplicates()
-        return self._inplace("df", df_resultado, inplace)  # se le puede pasar el csv antes de leerlo o el dataframe df
+        return self._inplace("df", df_resultado, inplace)
 
-    """Elimina filas axis = 0 o columnas si axis = 1. El limite de NaN lo marca number"""
-
+    """Eliminar filas (axis = 0) o columnas (axis = 1). El limite de NaN lo marca number"""
     def dropna(self, number=10000, axis=1, inplace=False):
-        length = self.df.shape[axis - 1]  # -1 ¿porque era esto?
+        length = self.df.shape[axis - 1] # Esta opereacion permite que siempre salga 0, es decir, logitud de filas
         df_resultado = self.df.dropna(thresh=length - number, axis=axis)
         valor = self._inplace("df", df_resultado, inplace)
         return valor
 
-    """Selecciona columnas con datos numericos"""
-
+    """Filtrar Dataset por columnas con datos numericos"""
     def ints(self, inplace=False):
         df_resultado = self.df.select_dtypes(include=["int64", "float64", "uint8"])
         return self._inplace("df", df_resultado, inplace)
 
-    """Imputacion de valores faltantes con media, mediana o moda"""
-
+    """Imputar valores faltantes. La estrategia puede ser:
+                                    - "constant" y "most frecuent" para categoricos y numericos
+                                    - "mean" y "median" para solo numericos"""
     def mvs(self, columns=None, strategy="constant", inplace=False):
         imp_mean = SimpleImputer(missing_values=np.nan, strategy=strategy)
         aux = imp_mean.fit_transform(self.df)
@@ -109,8 +104,7 @@ class CSVPreprocesamiento():
                              "Ejecutar self.dropna() y self.ints() antes de self.mvs()")
         return self._inplace("df", df_resultado, inplace)
 
-    """Elimina filas con outliers"""
-
+    """Eliminar filas con outliers"""
     def outliers(self, grado=3, inplace=False):  # Eliminar filas con outlier y escoger grado de eliminacion)
         z_scores = stats.zscore(self.df)  # self.df.values ????
         where_are_NaNs = np.isnan(z_scores)
@@ -122,14 +116,12 @@ class CSVPreprocesamiento():
         return self._inplace("df", df_resultado, inplace)
 
     """Reescalar dataset"""
-
     def reescalar(self, inplace=False):
         scaler = MinMaxScaler(feature_range=(0, 1))
         df_resultado = scaler.fit_transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
     """Estandarizar dataset y guardar el scaler en formato pickle"""
-
     def estandarizar(self, inplace=False):
         scaler = StandardScaler().fit(self.df)  # aprende la distribucion de los dstos
         fichero_path = os.path.join(PATH4, "data/scaler.pkl")
@@ -139,14 +131,12 @@ class CSVPreprocesamiento():
         return self._inplace("df", df_resultado, inplace)
 
     """Normalizar dataset"""
-
     def normalizar(self, inplace=False):
         scaler = Normalizer().fit(self.df)
         df_resultado = scaler.transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
     """Binarizar dataset"""
-
     def binarizar(self, inplace=False):
         binarizer = Binarizer(threshold=0.0).fit(self.df)
         df_resultado = binarizer.transform(self.df)
