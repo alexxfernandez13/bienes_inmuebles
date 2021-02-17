@@ -10,100 +10,80 @@ from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4  # Importa c
 from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion, clasificacion, Supervisado
 from sklearn.ensemble import GradientBoostingRegressor
+
 """FUNCIONES --> API"""
 
 
 def main():
+    """Carga de CSV y configura la informacion por pantalla de Pandas mostrando TODOS los atributos"""
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)
 
-    casteo_variables = {'precio':np.float64,
-                      'tamano':np.float64,
-                      'trastero':np.int64,
-                      'balcon':np.int64,
-                      'aireAcondicinado':np.int64,
-                      'piscina':np.int64,
-                      'ascensor':np.int64,
-                      'terraza':np.int64,
-                      'planta':np.int64}
-
+    """Casteo atributos en enteros"""
+    casteo_variables = {'precio': np.float64,
+                        'tamano': np.float64,
+                        'trastero': np.int64,
+                        'balcon': np.int64,
+                        'aireAcondicinado': np.int64,
+                        'piscina': np.int64,
+                        'ascensor': np.int64,
+                        'terraza': np.int64,
+                        'planta': np.int64}
     csv_casteados = csv.casteo_columnas(casteo_variables)
     csv_casteados.vistazo()
 
-    pd.set_option('display.max_columns', None)
-    print(csv.df.describe())
-
-    # one hot encoding Garaje
+    """One Hot Encoding de atributos categoricos"""
     csv_oneHotEncoding = csv.one_hot_encoding("garaje")
-    # one hot encoding Garaje
-
-    # one hot encoding distrito
     csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("distrito")
-    # one hot encoding distrito
-
-    # one hot encoding ciudad
     csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("ciudad")
-    # one hot encoding ciudad
-
-    # one hot encoding eficienciaEnergetica
     csv = csv_oneHotEncoding.one_hot_encoding("eficienciaEnergetica")
-    # one hot encoding eficienciaEnergetica
 
-    #print("1",csv.df.columns)
+    """Preprocesamiento"""
     csv_dup = csv.duplicados()
-    #print("2",csv_dup.df.columns)
     csv_na = csv_dup.dropna(number=10, axis=0)
-    #print("3",csv_na.df.columns)
     csv_int = csv_na.ints()
-    #print(csv_na.vistazo())
-    #print("4",csv_int.df.columns)
     csv_mvs = csv_int.mvs()
-    #print("5",csv_mvs.df.columns)
-    #csv_outliers = csv_mvs.outliers()
-    print("----------------------------------------------------")
-    #print(csv_outliers.df.head())
-    #print("6",csv_outliers.df.columns)
+    # csv_outlier = csv_int.outliers()
+    # print(csv_outliers.df.head())
 
     """df_alquiler =csv.df.loc[(csv.df["tipoOperacion"]==2) & (csv.df["precio"]<=9000) & (csv.df["precio"]>=100) & (csv.df["tamano"]>=10)]
     df_compra = csv.df.loc[(csv.df['tipoOperacion'] == 1) & (csv.df['precio'] >= 50000) & (csv.df["tamano"] >= 10)]
     print(df_alquiler.shape)
     print(df_compra.shape)"""
     X_columns_df = csv_mvs.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
-       'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
-       'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
-       'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
-       'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
-       'distrito_chamartin', 'distrito_chamberi',
-       'distrito_ciudad-lineal', 'distrito_fuencarral',
-       'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
-       'distrito_moratalaz', 'distrito_puente-de-vallecas',
-       'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
-       'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
-       'distrito_villa-de-vallecas', 'distrito_villaverde',
-       'ciudad_madrid-capital', 'eficienciaEnergetica_A',
-       'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
+                               'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
+                               'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
+                               'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
+                               'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
+                               'distrito_chamartin', 'distrito_chamberi',
+                               'distrito_ciudad-lineal', 'distrito_fuencarral',
+                               'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
+                               'distrito_moratalaz', 'distrito_puente-de-vallecas',
+                               'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
+                               'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
+                               'distrito_villa-de-vallecas', 'distrito_villaverde',
+                               'ciudad_madrid-capital', 'eficienciaEnergetica_A',
+                               'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
 
     csv_X = copy(csv_mvs)
-    #columna Y nunca se estandariza
+    # columna Y nunca se estandariza
     csv_X.df = X_columns_df
     print("-------------------------------------------------------------------------")
     print(csv_X.df.head())
 
     csv_X_estandarizada = csv_X.estandarizar()
 
-
-    X_columns= csv_X_estandarizada.df.values
+    X_columns = csv_X_estandarizada.df.values
     Y_columns = csv_mvs.df['precio'].values
 
-
-    X_train, X_test, y_train, y_test = prepare_dataset(X_columns,Y_columns)
-    regresion(X_train, X_test, y_train, y_test)
+    X_train, X_test, y_train, y_test = prepare_dataset(X_columns, Y_columns)
+    #regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo = GradientBoostingRegressor()
-    modelo.fit(X_columns,Y_columns)
-    dump(modelo,os.path.join(PATH4, "data/filename.joblib"))
-    #coger una al azar del entrenamiento
-    print(X_columns[0,:],"\n")
+    modelo.fit(X_columns, Y_columns)
+    dump(modelo, os.path.join(PATH4, "data/filename.joblib"))
+    # coger una al azar del entrenamiento
+    print(X_columns[0, :], "\n")
     print(X_columns)
     print(Y_columns[0], "\n")
     print(Y_columns)
@@ -132,9 +112,6 @@ def main():
     pd.set_option('display.max_columns', None)
     csv.vistazo()"""
 
-
-
-
     """csv_dup = csv.duplicados()
     csv_na = csv_dup.dropna(number=10, axis=0)
     csv_int = csv_na.ints()
@@ -160,6 +137,7 @@ def main():
     # no_supervisado.plot()
     plt.scatter(pca[:, 0],pca[:, 1],c=labels)
     plt.show()"""
+
 
 """ COMMAND LINE / EJECUTAS LA FILE DIRECTO"""
 if __name__ == "__main__":
