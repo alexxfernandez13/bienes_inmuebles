@@ -19,6 +19,7 @@ class NO_Supervisado(CSVPlot):
 
     def unam(self):
         pass
+
     """Clustering"""
     def kmeans_clustering(self,n_cluster=2, random_state=0):
         kmeans = KMeans(n_clusters=n_cluster, random_state=random_state).fit(self.df)

@@ -5,22 +5,25 @@ from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4
 from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 
 def main():
-    modelo = load(os.path.join(PATH4, "data/filename.joblib"))
+
 
     form = MetodosFormulario()
     objetoPred = form.formulario()
 
     # se filtra el dataframe para que segun que tipo operacion introduzca el usuario (1: Comprar; 2:Alquilar), se quede solo con los que necesita
-    """if objetoPred.getTipoOperacion() == 1:
-        csv.df = csv.df[(csv.df.tipoOperacion == 1)]
+    if objetoPred.getTipoOperacion() == 1:
+        modelo = load(os.path.join(PATH4, "data/model_compra.joblib"))
+        fichero_path = os.path.join(PATH4, "data/scaler_compra.pkl")
+        scaler = load(open(fichero_path, 'rb'))
+
     elif  objetoPred.getTipoOperacion() == 2:
-        csv.df = csv.df[(csv.df.tipoOperacion == 2)]
-    print(csv.df.groupby('tipoOperacion').size())"""
+        modelo = load(os.path.join(PATH4, "data/model_alquiler.joblib"))
+        fichero_path = os.path.join(PATH4, "data/scaler_alquiler.pkl")
+        scaler = load(open(fichero_path, 'rb'))
 
     datos = []
     # rea
-    fichero_path = os.path.join(PATH4, "data/scaler.pkl")
-    scaler = load(open(fichero_path, 'rb'))
+
 
     #predecir=np.array([1, 1, 1, 69, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]) #comprar
     predecir = np.array([1,
@@ -69,6 +72,8 @@ def main():
     print(escalado)
     resultado_final= modelo.predict(escalado)[0] # Get out of the array
     print(round(resultado_final,2))
+
+    print("aqui acabaaaaaaaaa --------------------------------------")
     """Comprobacion con los mismos datos del train"""
     predecir_comprobacion = np.array([0, - 1.95449518, - 0.75529407,  0.01537159, - 0.9277343, - 1.4858903,
                              - 0.41280987, - 0.31011403, - 0.50665808, - 1.31425748, - 0.18103409, - 0.64527728,

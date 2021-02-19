@@ -47,11 +47,22 @@ def main():
     # csv_outlier = csv_int.outliers()
     # print(csv_outliers.df.head())
 
-    """df_alquiler =csv.df.loc[(csv.df["tipoOperacion"]==2) & (csv.df["precio"]<=9000) & (csv.df["precio"]>=100) & (csv.df["tamano"]>=10)]
-    df_compra = csv.df.loc[(csv.df['tipoOperacion'] == 1) & (csv.df['precio'] >= 50000) & (csv.df["tamano"] >= 10)]
-    print(df_alquiler.shape)
-    print(df_compra.shape)"""
-    X_columns_df = csv_mvs.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
+    # Separamos en 2 dataframe los datos.
+    csv_compra = copy(csv_mvs)
+    csv_alquiler = copy(csv_mvs)
+    # 1 con los registros de tipoOperacion= 1 = Comprar
+    # 2 con los registros de tipoOperacion= 2 = Alquilar
+    csv_compra.df = csv_mvs.df.loc[(csv_mvs.df['tipoOperacion'] == 1) & (csv_mvs.df['precio'] >= 50000) & (csv_mvs.df["tamano"] >= 10)]
+
+    csv_alquiler.df =csv_mvs.df.loc[(csv_mvs.df["tipoOperacion"]==2) & (csv_mvs.df["precio"]<=9000) & (csv_mvs.df["precio"]>=100) & (csv_mvs.df["tamano"]>=10)]
+
+    # Separamos en 2 dataframe los datos.
+
+
+    # --------------------------- COMPRA -----------------------------
+    # Separar columna X Estandarizada y NO estandarizar  columna Y
+    print("------------------------ Compra --------------------")
+    X_columns_df_compra = csv_compra.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
                                'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
                                'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
                                'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
@@ -65,29 +76,60 @@ def main():
                                'distrito_villa-de-vallecas', 'distrito_villaverde',
                                'ciudad_madrid-capital', 'eficienciaEnergetica_A',
                                'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
+    csv_Compra_X = copy(csv_compra)
+    csv_Compra_X.df = X_columns_df_compra
+    csv_Compra_X_estandarizada = csv_Compra_X.estandarizar(True)
+    X_columns_Compra = csv_Compra_X_estandarizada.df.values
 
-    csv_X = copy(csv_mvs)
-    # columna Y nunca se estandariza
-    csv_X.df = X_columns_df
-    print("-------------------------------------------------------------------------")
-    print(csv_X.df.head())
+    Y_columns_Compra = csv_compra.df['precio'].values
 
-    csv_X_estandarizada = csv_X.estandarizar()
-
-    X_columns = csv_X_estandarizada.df.values
-    Y_columns = csv_mvs.df['precio'].values
-
-    X_train, X_test, y_train, y_test = prepare_dataset(X_columns, Y_columns)
-    #regresion(X_train, X_test, y_train, y_test)
+    X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
+    regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
-    modelo = GradientBoostingRegressor()
-    modelo.fit(X_columns, Y_columns)
-    dump(modelo, os.path.join(PATH4, "data/filename.joblib"))
+    modelo_compra = GradientBoostingRegressor()
+    modelo_compra.fit(X_columns_Compra, Y_columns_Compra)
+    dump(modelo_compra, os.path.join(PATH4, "data/model_compra.joblib"))
+    print("------------------------ Compra --------------------")
+    # --------------------------- COMPRA -----------------------------
+
+    # --------------------------- ALQUILER -----------------------------
+    # Separar columna X Estandarizada y NO estandarizar  columna Y
+    print("------------------------ Alquiler --------------------")
+    X_columns_df_alquier = csv_alquiler.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
+                               'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
+                               'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
+                               'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
+                               'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
+                               'distrito_chamartin', 'distrito_chamberi',
+                               'distrito_ciudad-lineal', 'distrito_fuencarral',
+                               'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
+                               'distrito_moratalaz', 'distrito_puente-de-vallecas',
+                               'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
+                               'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
+                               'distrito_villa-de-vallecas', 'distrito_villaverde',
+                               'ciudad_madrid-capital', 'eficienciaEnergetica_A',
+                               'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
+    csv_Alquiler_X = copy(csv_alquiler)
+    csv_Alquiler_X.df = X_columns_df_alquier
+    csv_Alquiler_X_estandarizada = csv_Alquiler_X.estandarizar(False)
+    X_columns_Alquiler = csv_Alquiler_X_estandarizada.df.values
+
+    Y_columns_Alquiler = csv_alquiler.df['precio'].values
+
+    X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
+    regresion(X_train, X_test, y_train, y_test)
+    # importante cuando se entrena el modelo final con todos los datos posibles
+    modelo_alquiler = GradientBoostingRegressor()
+    modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler)
+    dump(modelo_alquiler, os.path.join(PATH4, "data/model_alquiler.joblib"))
+    print("------------------------ Alquiler --------------------")
+    # --------------------------- ALQUILER -----------------------------
+
     # coger una al azar del entrenamiento
-    print(X_columns[0, :], "\n")
+    """print(X_columns[0, :], "\n")
     print(X_columns)
     print(Y_columns[0], "\n")
-    print(Y_columns)
+    print(Y_columns)"""
 
     """
     0) Separar el dataset:
