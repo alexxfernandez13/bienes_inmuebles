@@ -7,7 +7,6 @@ from copy import copy
 from bienes_inmuebles.preprocesar.csv_plot import CSVPlot
 from bienes_inmuebles.preprocesar.csv_abrir import CSV
 from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
-from bienes_inmuebles.formulario.metodosFormulario import MetodosFormulario
 from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion, clasificacion, Supervisado
 from sklearn.ensemble import GradientBoostingRegressor
 
@@ -15,7 +14,6 @@ from sklearn.ensemble import GradientBoostingRegressor
 
 
 def main():
-
     """Carga de CSV y configura la informacion por pantalla de Pandas mostrando TODOS los atributos"""
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)
@@ -47,35 +45,33 @@ def main():
     # csv_outlier = csv_int.outliers()
     # print(csv_outliers.df.head())
 
-    # Separamos en 2 dataframe los datos.
+    """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
     csv_alquiler = copy(csv_mvs)
-    # 1 con los registros de tipoOperacion= 1 = Comprar
-    # 2 con los registros de tipoOperacion= 2 = Alquilar
-    csv_compra.df = csv_mvs.df.loc[(csv_mvs.df['tipoOperacion'] == 1) & (csv_mvs.df['precio'] >= 50000) & (csv_mvs.df["tamano"] >= 10)]
 
-    csv_alquiler.df =csv_mvs.df.loc[(csv_mvs.df["tipoOperacion"]==2) & (csv_mvs.df["precio"]<=9000) & (csv_mvs.df["precio"]>=100) & (csv_mvs.df["tamano"]>=10)]
+    csv_compra.df = csv_mvs.df.loc[
+        (csv_mvs.df['tipoOperacion'] == 1) & (csv_mvs.df['precio'] >= 50000) & (csv_mvs.df["tamano"] >= 10)]
+    csv_alquiler.df = csv_mvs.df.loc[
+        (csv_mvs.df["tipoOperacion"] == 2) & (csv_mvs.df["precio"] <= 9000) & (csv_mvs.df["precio"] >= 100) & (
+                    csv_mvs.df["tamano"] >= 10)]
 
-    # Separamos en 2 dataframe los datos.
-
-
-    # --------------------------- COMPRA -----------------------------
-    # Separar columna X Estandarizada y NO estandarizar  columna Y
-    print("------------------------ Compra --------------------")
+    """Seleccion y guardado del modelo para compra"""
+    print("------------------------ Compra ------------------------")
+    # Separar Dataframe Compra en columna X Estandarizada y NO estandarizar  columna Y
     X_columns_df_compra = csv_compra.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
-                               'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
-                               'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
-                               'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
-                               'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
-                               'distrito_chamartin', 'distrito_chamberi',
-                               'distrito_ciudad-lineal', 'distrito_fuencarral',
-                               'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
-                               'distrito_moratalaz', 'distrito_puente-de-vallecas',
-                               'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
-                               'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
-                               'distrito_villa-de-vallecas', 'distrito_villaverde',
-                               'ciudad_madrid-capital', 'eficienciaEnergetica_A',
-                               'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
+                                         'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
+                                         'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
+                                         'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
+                                         'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
+                                         'distrito_chamartin', 'distrito_chamberi',
+                                         'distrito_ciudad-lineal', 'distrito_fuencarral',
+                                         'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
+                                         'distrito_moratalaz', 'distrito_puente-de-vallecas',
+                                         'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
+                                         'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
+                                         'distrito_villa-de-vallecas', 'distrito_villaverde',
+                                         'ciudad_madrid-capital', 'eficienciaEnergetica_A',
+                                         'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
     csv_Compra_X = copy(csv_compra)
     csv_Compra_X.df = X_columns_df_compra
     csv_Compra_X_estandarizada = csv_Compra_X.estandarizar(True)
@@ -89,26 +85,25 @@ def main():
     modelo_compra = GradientBoostingRegressor()
     modelo_compra.fit(X_columns_Compra, Y_columns_Compra)
     dump(modelo_compra, os.path.join(PATH4, "data/model_compra.joblib"))
-    print("------------------------ Compra --------------------")
-    # --------------------------- COMPRA -----------------------------
+    print("------------------------ Compra ------------------------")
 
-    # --------------------------- ALQUILER -----------------------------
-    # Separar columna X Estandarizada y NO estandarizar  columna Y
-    print("------------------------ Alquiler --------------------")
+    """Seleccion y guardado del modelo para Alquiler"""
+    print("------------------------ Alquiler ------------------------")
+    # Separar Dataframe Alquiler en columna X Estandarizada y NO estandarizar  columna Y
     X_columns_df_alquier = csv_alquiler.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
-                               'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
-                               'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
-                               'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
-                               'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
-                               'distrito_chamartin', 'distrito_chamberi',
-                               'distrito_ciudad-lineal', 'distrito_fuencarral',
-                               'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
-                               'distrito_moratalaz', 'distrito_puente-de-vallecas',
-                               'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
-                               'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
-                               'distrito_villa-de-vallecas', 'distrito_villaverde',
-                               'ciudad_madrid-capital', 'eficienciaEnergetica_A',
-                               'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
+                                            'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
+                                            'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
+                                            'garaje_No-detallado', 'garaje_Privado', 'distrito_arganzuela',
+                                            'distrito_barajas', 'distrito_carabanchel', 'distrito_centro',
+                                            'distrito_chamartin', 'distrito_chamberi',
+                                            'distrito_ciudad-lineal', 'distrito_fuencarral',
+                                            'distrito_hortaleza', 'distrito_latina', 'distrito_moncloa',
+                                            'distrito_moratalaz', 'distrito_puente-de-vallecas',
+                                            'distrito_retiro', 'distrito_salamanca', 'distrito_san-blas',
+                                            'distrito_tetuan', 'distrito_usera', 'distrito_vicalvaro',
+                                            'distrito_villa-de-vallecas', 'distrito_villaverde',
+                                            'ciudad_madrid-capital', 'eficienciaEnergetica_A',
+                                            'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
     csv_Alquiler_X = copy(csv_alquiler)
     csv_Alquiler_X.df = X_columns_df_alquier
     csv_Alquiler_X_estandarizada = csv_Alquiler_X.estandarizar(False)
@@ -122,8 +117,7 @@ def main():
     modelo_alquiler = GradientBoostingRegressor()
     modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler)
     dump(modelo_alquiler, os.path.join(PATH4, "data/model_alquiler.joblib"))
-    print("------------------------ Alquiler --------------------")
-    # --------------------------- ALQUILER -----------------------------
+    print("------------------------ Alquiler ------------------------")
 
     # coger una al azar del entrenamiento
     """print(X_columns[0, :], "\n")
@@ -148,38 +142,7 @@ def main():
         
     3) Asegurarte que funciona:
         Datos de fotocasa --> Coger un edificio --> Coger sus features X --> Hacer la predicion y comparar con su precio real
-
-    """
-
-    """csv = CSV(os.path.join(PATH4, "data/datos_fotocasa.csv"))
-    pd.set_option('display.max_columns', None)
-    csv.vistazo()"""
-
-    """csv_dup = csv.duplicados()
-    csv_na = csv_dup.dropna(number=10, axis=0)
-    csv_int = csv_na.ints()
-    csv_mvs = csv_int.mvs()
-    csv_outliers = csv_mvs.outliers()
-    estandarizar = csv_outliers.estandarizar()
-    normalizar = csv_outliers.normalizar()"""
-
-    """pd.set_option('max_rows', None)
-    csv_binar = csv_outliers.normalizada()
-    print(csv_binar.df[0:5, 0:5])
-    binar1 = csv_outliers.estandarizar()
-    print(binar1.df[0:5, 0:5])
-    no_supervisado = NOsupervisado(binar1.df)
-    print(no_supervisado.df)
-    pca = no_supervisado.pca()
-    # print(pca)
-    #no_supervisado.df = pd.DataFrame(pca)
-    # print("a")
-    kmeans, labels, centroide = no_supervisado.kmeans_clustering(n_cluster=3)
-    # print(kmeans)
-    #no_supervisado.df = pd.DataFrame(kmeans)
-    # no_supervisado.plot()
-    plt.scatter(pca[:, 0],pca[:, 1],c=labels)
-    plt.show()"""
+"""
 
 
 """ COMMAND LINE / EJECUTAS LA FILE DIRECTO"""
