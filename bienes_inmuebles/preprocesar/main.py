@@ -4,12 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from joblib import dump, load
 from copy import copy
+from bienes_inmuebles.preprocesar.csv_exploracion import CSVExploracion
 from bienes_inmuebles.preprocesar.csv_plot import CSVPlot
 from bienes_inmuebles.preprocesar.csv_abrir import CSV
 from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
 from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion, clasificacion, Supervisado
 from sklearn.ensemble import GradientBoostingRegressor
-
+from bienes_inmuebles.utilidades.urlPath import UrlPath
 """FUNCIONES --> API"""
 
 
@@ -17,6 +18,7 @@ def main():
     """Carga de CSV y configura la informacion por pantalla de Pandas mostrando TODOS los atributos"""
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)
+
 
     """Casteo atributos en enteros"""
     casteo_variables = {'precio': np.float64,
@@ -29,21 +31,34 @@ def main():
                         'terraza': np.int64,
                         'planta': np.int64}
     csv_casteados = csv.casteo_columnas(casteo_variables)
-    csv_casteados.vistazo()
+    #csv_casteados.vistazo()
 
     """One Hot Encoding de atributos categoricos"""
-    csv_oneHotEncoding = csv.one_hot_encoding("garaje")
+    csv_oneHotEncoding = csv_casteados.one_hot_encoding("garaje")
     csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("distrito")
     csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("ciudad")
     csv = csv_oneHotEncoding.one_hot_encoding("eficienciaEnergetica")
 
+
     """Preprocesamiento"""
     csv_dup = csv.duplicados()
     csv_na = csv_dup.dropna(number=10, axis=0)
-    csv_int = csv_na.ints()
-    csv_mvs = csv_int.mvs()
+    #csv_int = csv_na.ints()
+    csv_mvs = csv_na.mvs()
     # csv_outlier = csv_int.outliers()
     # print(csv_outliers.df.head())
+
+    csv_mvs.vistazo()
+
+    # describir, correlaciones, sesgo, media
+    csv_exploracion = CSVExploracion(csv_mvs.df)
+    csv_exploracion.estadistica()
+    # describir, correlaciones, sesgo, media
+
+    # plots
+    csv_plot = CSVPlot(csv_mvs.df)
+    csv_plot.plot_histograma()
+    # plots
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
@@ -53,9 +68,20 @@ def main():
         (csv_mvs.df['tipoOperacion'] == 1) & (csv_mvs.df['precio'] >= 50000) & (csv_mvs.df["tamano"] >= 10)]
     csv_alquiler.df = csv_mvs.df.loc[
         (csv_mvs.df["tipoOperacion"] == 2) & (csv_mvs.df["precio"] <= 9000) & (csv_mvs.df["precio"] >= 100) & (
-                    csv_mvs.df["tamano"] >= 10)]
+                csv_mvs.df["tamano"] >= 10)]
+
+    # creacion de csv a partir de dataframe de compra
+    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv"):
+        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv.csv")
+    csv_compra.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv", index=False)
+
+    # creacion de csv a partir de dataframe de alquiler
+    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv"):
+        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv")
+    csv_alquiler.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv", index=False)
 
     """Seleccion y guardado del modelo para compra"""
+
     print("------------------------ Compra ------------------------")
     # Separar Dataframe Compra en columna X Estandarizada y NO estandarizar  columna Y
     X_columns_df_compra = csv_compra.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
@@ -81,6 +107,7 @@ def main():
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
     regresion(X_train, X_test, y_train, y_test)
+
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_compra = GradientBoostingRegressor()
     modelo_compra.fit(X_columns_Compra, Y_columns_Compra)
@@ -132,17 +159,17 @@ def main():
         No tocar las Y ya que queremos aprender como son
         Entrenar con X estandarizadas y Y normales
         Guardar Modelo
-        
+
     1) Entrenado modelo:
         CV score : 0.95 (: --> Esta aprendiendo algo
         Test score: 0.95 (: --> Funciona en datos que no ha visto hasta ahora
-        
+
     2) Prediccion modelo: 
         Saca datos consistentes (: --> Funcion
-        
+
     3) Asegurarte que funciona:
         Datos de fotocasa --> Coger un edificio --> Coger sus features X --> Hacer la predicion y comparar con su precio real
-"""
+    """
 
 
 """ COMMAND LINE / EJECUTAS LA FILE DIRECTO"""
