@@ -72,7 +72,7 @@ def main():
 
     # creacion de csv a partir de dataframe de compra
     if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv"):
-        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv.csv")
+        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv")
     csv_compra.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv", index=False)
 
     # creacion de csv a partir de dataframe de alquiler
@@ -107,7 +107,7 @@ def main():
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
 
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
 
 
     # importante cuando se entrena el modelo final con todos los datos posibles
