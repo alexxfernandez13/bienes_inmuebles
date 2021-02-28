@@ -2,7 +2,7 @@ import os
 import copy
 import pandas as pd
 import numpy as np
-from bienes_inmuebles.preprocesar.csv_preprocesamiento import CSV, PATH4
+from bienes_inmuebles.preprocesar.csv_abrir import CSV, PATH4
 
 
 def test_cvs_to_dataframe():
