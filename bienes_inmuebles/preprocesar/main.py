@@ -1,24 +1,22 @@
 import os
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from joblib import dump, load
 from copy import copy
+
 from bienes_inmuebles.preprocesar.csv_exploracion import CSVExploracion
 from bienes_inmuebles.preprocesar.csv_plot import CSVPlot
 from bienes_inmuebles.preprocesar.csv_abrir import CSV
-from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4  # Importa clase csv y variable (CONSTANTE) PATH4
-from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion, clasificacion, Supervisado
+from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4
+from bienes_inmuebles.machine_learning.supervisado import prepare_dataset
 from sklearn.ensemble import GradientBoostingRegressor
 from bienes_inmuebles.utilidades.urlPath import UrlPath
+
 """FUNCIONES --> API"""
-
-
 def main():
     """Carga de CSV y configura la informacion por pantalla de Pandas mostrando TODOS los atributos"""
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)
-
 
     """Casteo atributos en enteros"""
     casteo_variables = {'precio': np.float64,
@@ -31,7 +29,7 @@ def main():
                         'terraza': np.int64,
                         'planta': np.int64}
     csv_casteados = csv.casteo_columnas(casteo_variables)
-    #csv_casteados.vistazo()
+    # csv_casteados.vistazo()
 
     """One Hot Encoding de atributos categoricos"""
     csv_oneHotEncoding = csv_casteados.one_hot_encoding("garaje")
@@ -39,26 +37,22 @@ def main():
     csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("ciudad")
     csv = csv_oneHotEncoding.one_hot_encoding("eficienciaEnergetica")
 
-
     """Preprocesamiento"""
     csv_dup = csv.duplicados()
     csv_na = csv_dup.dropna(number=10, axis=0)
-    #csv_int = csv_na.ints()
+    # csv_int = csv_na.ints()
     csv_mvs = csv_na.mvs()
+    # csv_mvs.vistazo()
     # csv_outlier = csv_int.outliers()
     # print(csv_outliers.df.head())
 
-    csv_mvs.vistazo()
-
-    # describir, correlaciones, sesgo, media
+    """Analitica descriptiva por pantalla"""
     csv_exploracion = CSVExploracion(csv_mvs.df)
     csv_exploracion.estadistica()
-    # describir, correlaciones, sesgo, media
 
-    # plots
+    """Plots por pantalla"""
     csv_plot = CSVPlot(csv_mvs.df)
     csv_plot.plot_histograma()
-    # plots
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
@@ -107,8 +101,7 @@ def main():
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
 
-    #regresion(X_train, X_test, y_train, y_test)
-
+    # regresion(X_train, X_test, y_train, y_test)
 
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_compra = GradientBoostingRegressor()
@@ -140,7 +133,7 @@ def main():
     Y_columns_Alquiler = csv_alquiler.df['precio'].values
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
-    #regresion(X_train, X_test, y_train, y_test)
+    # regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_alquiler = GradientBoostingRegressor()
     modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler)
