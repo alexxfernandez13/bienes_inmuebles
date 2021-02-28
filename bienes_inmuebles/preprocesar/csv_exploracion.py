@@ -26,7 +26,7 @@ class CSVExploracion(CSVPlot):
 
     """Muestra informacion estadistica del dataset. Indicando columnas por una lista realiza ademas la agrupacion"""
 
-    def estadistica(self, columnas=[], agrupar=None, method="pearson"):
+    def estadistica(self ,columnas=[], agrupar=None, method="pearson"):
         if columnas:
             df = self.df[columnas]
         else:
@@ -38,8 +38,9 @@ class CSVExploracion(CSVPlot):
         describir = df.describe()
         correlaciones = df.corr(method=method)
         sesgo = df.skew()
-        print(f'\nAGRUPAR:\n{agrupar}\n\nDESCRIBIR:\n{describir}\n\nCORRELACIONES:\n{correlaciones}\n\nSESGO:\n{sesgo}')
-        return agrupar, describir, correlaciones, sesgo
+        media = df.mean()
+        print(f'\nAGRUPAR:\n{agrupar}\n\nDESCRIBIR:\n{describir}\n\nCORRELACIONES:\n{correlaciones}\n\nSESGO:\n{sesgo}\n\nMEDIA:\n{media}')
+        return agrupar, describir, correlaciones, sesgo, media
 
     """Indica columnas importantes del Dataset para ML"""
 
