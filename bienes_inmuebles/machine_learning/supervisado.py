@@ -62,8 +62,7 @@ def regresion(X_train, X_test, y_train, y_test):
                 f"Test score: {r2_score(y_test, y_pred)} \n ")
         else:
             print(
-                f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\
-                  n "
+                f"-> Modelo Optimizado: {classificador}\n Validation Score: {score}\n "
                 f"Test score: {r2_score(y_test, y_pred)}\n ")
 
 

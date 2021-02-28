@@ -8,7 +8,7 @@ from bienes_inmuebles.preprocesar.csv_exploracion import CSVExploracion
 from bienes_inmuebles.preprocesar.csv_plot import CSVPlot
 from bienes_inmuebles.preprocesar.csv_abrir import CSV
 from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4
-from bienes_inmuebles.machine_learning.supervisado import prepare_dataset
+from bienes_inmuebles.machine_learning.supervisado import prepare_dataset, regresion
 from sklearn.ensemble import GradientBoostingRegressor
 from bienes_inmuebles.utilidades.urlPath import UrlPath
 
@@ -40,19 +40,17 @@ def main():
     """Preprocesamiento"""
     csv_dup = csv.duplicados()
     csv_na = csv_dup.dropna(number=10, axis=0)
-    # csv_int = csv_na.ints()
-    csv_mvs = csv_na.mvs()
+    csv_int = csv_na.ints()
+    csv_mvs = csv_int.mvs()
     # csv_mvs.vistazo()
     # csv_outlier = csv_int.outliers()
-    # print(csv_outliers.df.head())
 
     """Analitica descriptiva por pantalla"""
-    csv_exploracion = CSVExploracion(csv_mvs.df)
-    csv_exploracion.estadistica()
+    csv_mvs.vistazo()
 
     """Plots por pantalla"""
-    csv_plot = CSVPlot(csv_mvs.df)
-    csv_plot.plot_histograma()
+    #csv_plot = CSVPlot(csv_mvs.df)
+    #csv_plot.plot_histograma()
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
@@ -101,7 +99,7 @@ def main():
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
 
-    # regresion(X_train, X_test, y_train, y_test)
+    regresion(X_train, X_test, y_train, y_test)
 
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_compra = GradientBoostingRegressor()
@@ -133,7 +131,7 @@ def main():
     Y_columns_Alquiler = csv_alquiler.df['precio'].values
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
-    # regresion(X_train, X_test, y_train, y_test)
+    regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_alquiler = GradientBoostingRegressor()
     modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler)

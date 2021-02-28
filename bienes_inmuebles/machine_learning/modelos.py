@@ -19,6 +19,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+import numpy as np
 
 
 class Modelo():
@@ -43,9 +44,10 @@ class Modelo():
     def modelos_regresion(self):
         modelos_parametros = {
             LinearRegression(): None,
-            Lasso(): None,
-            ElasticNet(): None,
-            KNeighborsRegressor(): None,
+            Lasso(): {'alpha':[0.02, 0.024, 0.025, 0.026, 0.03]},
+            ElasticNet(): {"alpha": [0.0001, 0.001, 0.01, 0.1, 1, 10, 100]},
+            KNeighborsRegressor(): {'n_neighbors': np.arange(1, 12, 2),
+              'weights': ['uniform', 'distance']},
             DecisionTreeRegressor(): None,
             SVR(): None,
             AdaBoostRegressor(): None,
