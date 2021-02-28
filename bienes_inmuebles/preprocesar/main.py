@@ -49,8 +49,11 @@ def main():
     csv_mvs.vistazo()
 
     """Plots por pantalla"""
-    #csv_plot = CSVPlot(csv_mvs.df)
-    #csv_plot.plot_histograma()
+    csv_mvs.plot_histograma()
+    csv_mvs.plot_bigotes(por_columnas=True)
+    csv_mvs.plot_dispersion()
+    csv_mvs.plot_correlacion()
+    csv_mvs.plot_densidad()
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
@@ -99,7 +102,7 @@ def main():
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
 
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
 
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_compra = GradientBoostingRegressor()
@@ -131,7 +134,7 @@ def main():
     Y_columns_Alquiler = csv_alquiler.df['precio'].values
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_alquiler = GradientBoostingRegressor()
     modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler)

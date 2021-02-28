@@ -35,14 +35,23 @@ class CSVPlot():
         self._show(output)
 
     """Grafico Densidad"""
-    def plot_densidad(self, output=False):
+    def plot_densidad(self, por_columnas=False):
         self.df.plot(subplots=True, layout=(10, 4), sharex=False)  # kind="density" ¿No funciona?
         self._show(output)
 
     """Grafico Box & Whisker"""
-    def plot_bigotes(self, output=False):
-        self.df.plot(kind='box', subplots=True, layout=(10, 4), sharex=False, sharey=False)
-        self._show(output)
+    def plot_bigotes(self, por_columnas=False):
+        if por_columnas:
+            columns = self.df.columns.values
+            for column in columns:
+                fig1, ax1 = plt.subplots()
+                ax1.set_title(column)
+                ax1.boxplot(self.df[column])
+                my_file = f"data/{column}.png"
+                plt.savefig(os.path.join(PATH4, my_file))
+        else:
+            self.df.plot(kind='box', subplots=True, layout=(10, 5), sharex=False, sharey=False)
+            self._show(por_columnas)
 
     """Matriz Correlacion"""
     def plot_correlacion(self, output=False):

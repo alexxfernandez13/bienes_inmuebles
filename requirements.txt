@@ -1,5 +1,8 @@
 pandas
 scipy
 scikit-learn
-matplotlib
+matplotlib==3.2
 pytest
+numpy
+joblib
+colorama
