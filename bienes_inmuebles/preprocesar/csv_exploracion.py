@@ -4,7 +4,7 @@ from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
 from bienes_inmuebles.preprocesar.csv_plot import CSVPlot
-
+from sklearn.svm import SVR
 
 class CSVExploracion(CSVPlot):
 
@@ -46,13 +46,13 @@ class CSVExploracion(CSVPlot):
 
     def caracteristicas(self, n_caracteristicas=3):
         print(self.df.columns.values)
-        X = self.df[:, 0:8]
-        Y = self.df[:, 8]
+        X = self.df.drop(['precio'], axis=1)
+        Y = self.df['precio']
 
         # 2.Extracción de características con RFE
         # modelo = LogisticRegression(solver='lbfgs')
-        modelo = SGDClassifier()
-        rfe = RFE(modelo, n_caracteristicas)
+        modelo = SVR(kernel="linear")
+        rfe = RFE(modelo, n_caracteristicas, step=1)
         fit = rfe.fit(X, Y)
         print(f"Numero de Caracteristicas Seleccionadas por RFE: {fit.n_features_}\n")
         print(f"Columnas del Dataset: {self.df.columns.values}")
