@@ -57,12 +57,13 @@ Motos() y Coches() que heredan de Vehiculo()
 
 
 class CSV(CSVExploracion, CSVPreprocesamiento):
-    def __init__(self, csv, df=None):
-        self.csv = csv
-        if df:
-            self.df = df
-        else:
+    def __init__(self, csv=None, df=None):
+        if csv:
+            self.csv = csv
             self.df = pd.read_csv(self.csv, sep=';')
+        else:
+            self.csv = None
+            self.df = df
 
 
 """EJECUCION"""

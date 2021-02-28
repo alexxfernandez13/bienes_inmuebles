@@ -72,15 +72,15 @@ def main():
                                          'distrito_villa-de-vallecas', 'distrito_villaverde',
                                          'ciudad_madrid-capital', 'eficienciaEnergetica_A',
                                          'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
-    csv_Compra_X = copy(csv_compra)
-    csv_Compra_X.df = X_columns_df_compra
-    csv_Compra_X_estandarizada = csv_Compra_X.estandarizar(True)
+
+    csv_Compra_X = CSV(df=X_columns_df_compra)
+    csv_Compra_X_estandarizada = csv_Compra_X.estandarizar(os.path.join(PATH4, "data/scaler_compra.pkl"))
     X_columns_Compra = csv_Compra_X_estandarizada.df.values
 
     Y_columns_Compra = csv_compra.df['precio'].values
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_compra = GradientBoostingRegressor()
     modelo_compra.fit(X_columns_Compra, Y_columns_Compra)
@@ -104,15 +104,14 @@ def main():
                                             'distrito_villa-de-vallecas', 'distrito_villaverde',
                                             'ciudad_madrid-capital', 'eficienciaEnergetica_A',
                                             'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
-    csv_Alquiler_X = copy(csv_alquiler)
-    csv_Alquiler_X.df = X_columns_df_alquier
-    csv_Alquiler_X_estandarizada = csv_Alquiler_X.estandarizar(False)
+    csv_Alquiler_X = CSV(df=X_columns_df_alquier)
+    csv_Alquiler_X_estandarizada = csv_Alquiler_X.estandarizar(os.path.join(PATH4, "data/scaler_alquiler.pkl"))
     X_columns_Alquiler = csv_Alquiler_X_estandarizada.df.values
 
     Y_columns_Alquiler = csv_alquiler.df['precio'].values
 
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
     # importante cuando se entrena el modelo final con todos los datos posibles
     modelo_alquiler = GradientBoostingRegressor()
     modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler)
@@ -120,10 +119,15 @@ def main():
     print("------------------------ Alquiler ------------------------")
 
     # coger una al azar del entrenamiento
-    """print(X_columns[0, :], "\n")
-    print(X_columns)
-    print(Y_columns[0], "\n")
-    print(Y_columns)"""
+    print(X_columns_Compra[0, :], "\n")
+    print(X_columns_Compra)
+    print(Y_columns_Compra[0], "\n")
+    print(Y_columns_Compra)
+
+    print(X_columns_Alquiler[0, :], "\n")
+    print(X_columns_Alquiler)
+    print(Y_columns_Alquiler[0], "\n")
+    print(Y_columns_Alquiler)
 
     """
     0) Separar el dataset:

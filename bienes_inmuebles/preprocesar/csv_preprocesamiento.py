@@ -122,13 +122,13 @@ class CSVPreprocesamiento():
         return self._inplace("df", df_resultado, inplace)
 
     """Estandarizar dataset y guardar el scaler en formato pickle"""
-    def estandarizar(self,  compra,  inplace=False):
+    def estandarizar(self,  scaler_file, inplace=False):
         scaler = StandardScaler().fit(self.df)  # aprende la distribucion de los dstos
 
-        if compra==True:
-            fichero_path = os.path.join(PATH4, "data/scaler_compra.pkl")
-        elif compra==False:
-            fichero_path = os.path.join(PATH4, "data/scaler_alquiler.pkl")
+        #if compra==True:
+        fichero_path = scaler_file
+        #elif compra==False:
+        #fichero_path = os.path.join(PATH4, "data/scaler_alquiler.pkl")
 
         dump(scaler, open(fichero_path, 'wb'))
         np_escalado = scaler.transform(self.df)  # coge la distribucion y la estandariza
