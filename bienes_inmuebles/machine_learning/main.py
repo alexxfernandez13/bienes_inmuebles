@@ -71,7 +71,7 @@ def main():
     escalado = scaler.transform(predecir.reshape(1, -1))
     resultado_final = modelo.predict(escalado)[0]  # Get out of the array
     resultado_final = float(resultado_final)
-    print("El resultado de su prediccion es:", round(resultado_final, 2),"€")
+    print("El resultado de su prediccion es:", round(resultado_final, 2), "€")
 
     """Exportar CSV con los datos de la prediccion"""
     csvPrediccion = open(str(UrlPath.getPath(__file__, 2)) + '\data\datos_usuario_prediccion.csv', 'w', newline='')

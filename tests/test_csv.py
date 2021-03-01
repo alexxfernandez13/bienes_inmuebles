@@ -31,8 +31,8 @@ csv2.df = df2
 def test_vistazo():
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     info, cabecera, final, columnas, faltantes, forma = csv.vistazo()
-    assert "neighborhood_overview" in columnas
-    assert "https://www.airbnb.com/rooms/21974" in cabecera.values[0]
+    assert "precio" in columnas
+    assert 219000 in cabecera.values[0]
 
 
 def test_duplicates(csv=csv):
@@ -55,31 +55,3 @@ def delete_test_output(output="file.png"):
         os.remove(output)
     except FileNotFoundError:
         pass
-
-
-def test_histograma(csv=csv2, output="file.png"):
-    delete_test_output(output)
-    csv.plot_histograma(df=csv.df, output=output)
-    assert os.path.exists(output)
-    delete_test_output(output)
-
-
-def test_densidad(csv=csv2, output="file.png"):
-    delete_test_output(output)
-    csv.plot_densidad(df=csv.df, output=output)
-    assert os.path.exists(output)
-    delete_test_output(output)
-
-
-def test_bigotes(csv=csv2, output="file.png"):
-    delete_test_output(output)
-    csv.plot_bigotes(df=csv.df, output=output)
-    assert os.path.exists(output)
-    delete_test_output(output)
-
-
-def test_correlacion(csv=csv2, output="file.png"):
-    delete_test_output(output)
-    csv.plot_correlacion(df=csv.df, output=output)
-    assert os.path.exists(output)
-    delete_test_output(output)
