@@ -15,29 +15,30 @@ class CSVPlot():
     def __init__(self, df):
         self.df = df
 
-    """Muestra el grafico del dataset por pantalla output=False o 
-    Guarda una imagen graficada por columna en /data output=True"""
-    def _show(self, output=False):
-        if not output:
-            plt.show()
-        else:
+    """Grafico Barras"""
+    def plot_histograma(self, por_columnas=False):
+        if por_columnas:
             columns = self.df.columns.values
             for column in columns:
-                try:
-                    my_file = f"data/{column}.png"
-                    plt.savefig(os.path.join(PATH4, my_file))
-                except ValueError:
-                    pass
-
-    """Grafico Barras"""
-    def plot_histograma(self, output=False):
-        self.df.hist()
-        self._show(output)
+                self.df.hist(column=column)
+                my_file = f"data/{column}.png"
+                plt.savefig(os.path.join(PATH4, my_file))
+        else:
+            self.df.hist()
+            plt.show()
 
     """Grafico Densidad"""
     def plot_densidad(self, por_columnas=False):
-        self.df.plot(subplots=True, layout=(10, 4), sharex=False)  # kind="density" ¿No funciona?
-        self._show(output)
+        if por_columnas:
+            columns = self.df.columns.values
+            for column in columns:
+                self.df[column].plot()
+                my_file = f"data/{column}.png"
+                plt.savefig(os.path.join(PATH4, my_file))
+        else:
+            print("aqui")
+            self.df.plot(subplots=True)
+            plt.show()
 
     """Grafico Box & Whisker"""
     def plot_bigotes(self, por_columnas=False):
@@ -51,21 +52,34 @@ class CSVPlot():
                 plt.savefig(os.path.join(PATH4, my_file))
         else:
             self.df.plot(kind='box', subplots=True, layout=(10, 5), sharex=False, sharey=False)
-            self._show(por_columnas)
+            plt.show
 
     """Matriz Correlacion"""
-    def plot_correlacion(self, output=False):
-        correlaciones = self.df.corr()
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
-        fig.colorbar(cax)
-        self._show(output)
+    def plot_correlacion(self, plot_columnas = []):
+        if plot_columnas:
+            columns = self.df.columns.values
+            correlaciones = self.df.iloc[:,plot_columnas].corr()
+            fig = plt.figure()
+            ax = fig.add_subplot(111)
+            cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
+            fig.colorbar(cax)
+            plt.show()
+        else:
+            correlaciones = self.df.corr()
+            fig = plt.figure()
+            ax = fig.add_subplot(111)
+            cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
+            fig.colorbar(cax)
+            plt.show()
 
     """Matriz Dispersion"""
-    def plot_dispersion(self, output=False):
-        scatter_matrix(self.df, alpha=0.2)
-        self._show(output)
+    def plot_dispersion(self, plot_columnas=[]):
+        if plot_columnas:
+            scatter_matrix(self.df.iloc[:,plot_columnas])
+            plt.show()
+        else:
+            scatter_matrix(self.df)
+            plt.show()
 
     """Elimina imagenes generadas en carpeta /data"""
     def borrar_output(self):
@@ -74,7 +88,7 @@ class CSVPlot():
             try:
                 my_file = f"data/{column}.png"
                 os.remove(os.path.join(PATH4, my_file))
-            except ValueError:
+            except ValueError and FileNotFoundError:
                 pass
         """    
         if os.path.exists("archivo_ejemplo.txt"):

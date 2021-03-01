@@ -29,7 +29,6 @@ def main():
                         'terraza': np.int64,
                         'planta': np.int64}
     csv_casteados = csv.casteo_columnas(casteo_variables)
-    # csv_casteados.vistazo()
 
     """One Hot Encoding de atributos categoricos"""
     csv_oneHotEncoding = csv_casteados.one_hot_encoding("garaje")
@@ -42,18 +41,20 @@ def main():
     csv_na = csv_dup.dropna(number=10, axis=0)
     csv_int = csv_na.ints()
     csv_mvs = csv_int.mvs()
-    # csv_mvs.vistazo()
     # csv_outlier = csv_int.outliers()
 
     """Analitica descriptiva por pantalla"""
     csv_mvs.vistazo()
+    csv_mvs.estadistica()
 
     """Plots por pantalla"""
+    csv_mvs.borrar_output()
     csv_mvs.plot_histograma()
-    csv_mvs.plot_bigotes(por_columnas=True)
-    csv_mvs.plot_dispersion()
-    csv_mvs.plot_correlacion()
     csv_mvs.plot_densidad()
+    csv_mvs.plot_bigotes()
+    csv_mvs.plot_correlacion()
+    # csv_mvs.plot_dispersion()
+    csv_mvs.borrar_output()
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
