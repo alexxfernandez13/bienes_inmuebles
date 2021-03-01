@@ -3,7 +3,7 @@ from joblib import load
 import os
 from bienes_inmuebles.preprocesar.csv_preprocesamiento import PATH4
 
-# PREDICCION DE EDIFICIO INVENTADO COMPRA
+"""PREDICCION DE EDIFICIO INVENTADO COMPRA"""
 modelo = load(os.path.join(PATH4, "data/model_compra.joblib"))
 fichero_path = os.path.join(PATH4, "data/scaler_compra.pkl")
 scaler = load(open(fichero_path, 'rb'))
@@ -12,9 +12,9 @@ predecir = np.array(
      1, 0])  # Compra inventado
 escalado = scaler.transform(predecir.reshape(1, -1))
 resultado_final = modelo.predict(escalado)[0]  # Get out of the array
-print("Resultado inventado compra: ",round(resultado_final, 2))
+print("Resultado Inventado compra: ",round(resultado_final, 2))
 
-# PREDICCION DE EDIFICIO INVENTADO ALQUILER
+"""PREDICCION DE EDIFICIO INVENTADO ALQUILER"""
 modelo = load(os.path.join(PATH4, "data/model_alquiler.joblib"))
 fichero_path = os.path.join(PATH4, "data/scaler_alquiler.pkl")
 scaler = load(open(fichero_path, 'rb'))
@@ -23,9 +23,9 @@ predecir = np.array(
      0, 1])  # Alquiler inventado
 escalado = scaler.transform(predecir.reshape(1, -1))
 resultado_final = modelo.predict(escalado)[0]  # Get out of the array
-print("Resultado inventado alquiler: ",round(resultado_final, 2))
+print("Resultado inventado Alquiler: ",round(resultado_final, 2))
 
-# PRDICCION DE EDIFICIO COMPRA DEL TRAIN
+"""PREDICCION DE EDIFICIO COMPRA DEL TRAIN"""
 modelo = load(os.path.join(PATH4, "data/model_compra.joblib"))
 fichero_path = os.path.join(PATH4, "data/scaler_compra.pkl")
 scaler = load(open(fichero_path, 'rb'))
@@ -37,9 +37,9 @@ predecir_comprobacion = np.array([0, 0, -1.27043022, -0.03037415, -0.80451695, 0
                                   -0.14261481, -0.14921177, -0.36208628, -0.10219523, -0.14126153, -0.13851844,
                                   0, -0.11440719, -0.14660564, 0.18749602]).reshape(1, -1) # set de datos del main para compra
 resultado_final = modelo.predict(predecir_comprobacion)[0]  # Get out of the array
-print("Resultado real dataset compra: ",round(resultado_final, 2), "Esperado: 219000")
+print("\nResultado real dataset compra: ",round(resultado_final, 2), "Esperado: 219000")
 
-# PREDICCION DE EDIFICIO ALQUILER TRAIN
+"""PREDICCION DE EDIFICIO ALQUILER TRAIN"""
 modelo = load(os.path.join(PATH4, "data/model_alquiler.joblib"))
 fichero_path = os.path.join(PATH4, "data/scaler_alquiler.pkl")
 scaler = load(open(fichero_path, 'rb'))

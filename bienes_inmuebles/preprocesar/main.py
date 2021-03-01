@@ -43,13 +43,13 @@ def main():
     csv_mvs = csv_int.mvs()
     # csv_outlier = csv_int.outliers()
 
-    """Analitica Descriptiva por Pantalla"""
+    """Analitica Descriptiva"""
     print("\n------------------------ Analisis Dataset ------------------------")
     csv_mvs.vistazo()
     print("\n------------------------ Estadistica Dataset ------------------------")
     csv_mvs.estadistica()
 
-    """Plots por Pantalla"""
+    """Plots"""
     csv_mvs.borrar_output()
     csv_mvs.plot_histograma()
     csv_mvs.plot_densidad()
@@ -103,7 +103,7 @@ def main():
     """COMPRA - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
     print("\n------------------------ Scoring Modelos - Compra ------------------------")
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
     print("------------------------ Scoring Modelos - Compra ------------------------")
 
     """COMPRA - Guardar Modelo Seleccionado"""
@@ -138,7 +138,7 @@ def main():
     """ALQUILER - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
     print("\n------------------------ Scoring Modelos - Alquiler ------------------------")
-    regresion(X_train, X_test, y_train, y_test)
+    #regresion(X_train, X_test, y_train, y_test)
     print("------------------------ Scoring Modelos - Alquiler ------------------------")
 
     """Alquiler - Guardar Modelo Seleccionado"""
@@ -146,16 +146,13 @@ def main():
     modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler) # Entrenar el modelo final con TODOS los datos posibles
     dump(modelo_alquiler, os.path.join(PATH4, "data/model_alquiler.joblib"))
 
-    # Coger una al azar del entrenamiento
-    print(X_columns_Compra[0, :], "\n")
-    print(X_columns_Compra)
-    print(Y_columns_Compra[0], "\n")
-    print(Y_columns_Compra)
+    """Seleccionar fila del Dataset para comprobar Funcionamiento del Modelo"""
+    print("\n------------------------ Comprobacion Funcionamiento Modelo ------------------------")
 
-    print(X_columns_Alquiler[0, :], "\n")
-    print(X_columns_Alquiler)
-    print(Y_columns_Alquiler[0], "\n")
-    print(Y_columns_Alquiler)
+    print("-> 1ª fila Compra - Columna X Estandarizada:\n", X_columns_Compra[0, :])
+    print("-> Precio 1ª fila Compra: ", Y_columns_Compra[0])
+    print("\n-> 1ª fila Alquiler - Columna X Estandarizada:\n", X_columns_Alquiler[0, :])
+    print("-> Precio 1ª fila Compra: ",Y_columns_Alquiler[0])
 
     """
     0) Separar el dataset:
