@@ -18,7 +18,7 @@ def main():
     csv = CSV(os.path.join(PATH4, "data/datos_fotocasa_final.csv"))
     pd.set_option('display.max_columns', None)
 
-    """Casteo atributos en enteros"""
+    """Casteo Atributos en Enteros"""
     casteo_variables = {'precio': np.float64,
                         'tamano': np.float64,
                         'trastero': np.int64,
@@ -30,7 +30,7 @@ def main():
                         'planta': np.int64}
     csv_casteados = csv.casteo_columnas(casteo_variables)
 
-    """One Hot Encoding de atributos categoricos"""
+    """One Hot Encoding de Atributos Categoricos"""
     csv_oneHotEncoding = csv_casteados.one_hot_encoding("garaje")
     csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("distrito")
     csv_oneHotEncoding = csv_oneHotEncoding.one_hot_encoding("ciudad")
@@ -43,18 +43,19 @@ def main():
     csv_mvs = csv_int.mvs()
     # csv_outlier = csv_int.outliers()
 
-    """Analitica descriptiva por pantalla"""
+    """Analitica Descriptiva por Pantalla"""
+    print("\n------------------------ Analisis Dataset ------------------------")
     csv_mvs.vistazo()
+    print("\n------------------------ Estadistica Dataset ------------------------")
     csv_mvs.estadistica()
 
-    """Plots por pantalla"""
+    """Plots por Pantalla"""
     csv_mvs.borrar_output()
     csv_mvs.plot_histograma()
     csv_mvs.plot_densidad()
     csv_mvs.plot_bigotes()
     csv_mvs.plot_correlacion()
     # csv_mvs.plot_dispersion()
-    csv_mvs.borrar_output()
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
@@ -76,10 +77,8 @@ def main():
         os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv")
     csv_alquiler.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv", index=False)
 
-    """Seleccion y guardado del modelo para compra"""
-
-    print("------------------------ Compra ------------------------")
-    # Separar Dataframe Compra en columna X Estandarizada y NO estandarizar  columna Y
+    """COMPRA - Separar X e Y"""
+    # Estandarizar Columna X --> Optimiza el Modelado
     X_columns_df_compra = csv_compra.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
                                          'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
                                          'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
@@ -94,26 +93,27 @@ def main():
                                          'distrito_villa-de-vallecas', 'distrito_villaverde',
                                          'ciudad_madrid-capital', 'eficienciaEnergetica_A',
                                          'eficienciaEnergetica_B', 'eficienciaEnergetica_C']]
-
     csv_Compra_X = CSV(df=X_columns_df_compra)
     csv_Compra_X_estandarizada = csv_Compra_X.estandarizar(os.path.join(PATH4, "data/scaler_compra.pkl"))
     X_columns_Compra = csv_Compra_X_estandarizada.df.values
 
+    # Columna Y NO Estandarizada
     Y_columns_Compra = csv_compra.df['precio'].values
 
+    """COMPRA - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
+    print("\n------------------------ Scoring Modelos - Compra ------------------------")
+    regresion(X_train, X_test, y_train, y_test)
+    print("------------------------ Scoring Modelos - Compra ------------------------")
 
-    #regresion(X_train, X_test, y_train, y_test)
-
-    # importante cuando se entrena el modelo final con todos los datos posibles
+    """COMPRA - Guardar Modelo Seleccionado"""
     modelo_compra = GradientBoostingRegressor()
-    modelo_compra.fit(X_columns_Compra, Y_columns_Compra)
+    modelo_compra.fit(X_columns_Compra, Y_columns_Compra) # Entrenar el modelo final con TODOS los datos posibles
     dump(modelo_compra, os.path.join(PATH4, "data/model_compra.joblib"))
-    print("------------------------ Compra ------------------------")
 
-    """Seleccion y guardado del modelo para Alquiler"""
-    print("------------------------ Alquiler ------------------------")
-    # Separar Dataframe Alquiler en columna X Estandarizada y NO estandarizar  columna Y
+
+    """ALQUILER - Separar X e Y"""
+    # Estandarizar Columna X --> Optimiza el Modelado
     X_columns_df_alquier = csv_alquiler.df[['tipoInmueble', 'tipoOperacion', 'habitaciones',
                                             'tamano', 'planta', 'ascensor', 'terraza', 'trastero', 'balcon',
                                             'aireAcondicinado', 'piscina', 'banos', 'garaje_Comunitario',
@@ -132,17 +132,21 @@ def main():
     csv_Alquiler_X_estandarizada = csv_Alquiler_X.estandarizar(os.path.join(PATH4, "data/scaler_alquiler.pkl"))
     X_columns_Alquiler = csv_Alquiler_X_estandarizada.df.values
 
+    # Columna Y NO Estandarizada
     Y_columns_Alquiler = csv_alquiler.df['precio'].values
 
+    """ALQUILER - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
-    #regresion(X_train, X_test, y_train, y_test)
-    # importante cuando se entrena el modelo final con todos los datos posibles
-    modelo_alquiler = GradientBoostingRegressor()
-    modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler)
-    dump(modelo_alquiler, os.path.join(PATH4, "data/model_alquiler.joblib"))
-    print("------------------------ Alquiler ------------------------")
+    print("\n------------------------ Scoring Modelos - Alquiler ------------------------")
+    regresion(X_train, X_test, y_train, y_test)
+    print("------------------------ Scoring Modelos - Alquiler ------------------------")
 
-    # coger una al azar del entrenamiento
+    """Alquiler - Guardar Modelo Seleccionado"""
+    modelo_alquiler = GradientBoostingRegressor()
+    modelo_alquiler.fit(X_columns_Alquiler, Y_columns_Alquiler) # Entrenar el modelo final con TODOS los datos posibles
+    dump(modelo_alquiler, os.path.join(PATH4, "data/model_alquiler.joblib"))
+
+    # Coger una al azar del entrenamiento
     print(X_columns_Compra[0, :], "\n")
     print(X_columns_Compra)
     print(Y_columns_Compra[0], "\n")

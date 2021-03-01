@@ -16,8 +16,8 @@ class CSVPlot():
         self.df = df
 
     """Grafico Barras"""
-    def plot_histograma(self, por_columnas=False):
-        if por_columnas:
+    def plot_histograma(self, guardar_x_columnas=False):
+        if guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
                 self.df.hist(column=column)
@@ -28,21 +28,20 @@ class CSVPlot():
             plt.show()
 
     """Grafico Densidad"""
-    def plot_densidad(self, por_columnas=False):
-        if por_columnas:
+    def plot_densidad(self, guardar_x_columnas=False):
+        if guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
                 self.df[column].plot()
                 my_file = f"data/{column}.png"
                 plt.savefig(os.path.join(PATH4, my_file))
         else:
-            print("aqui")
             self.df.plot(subplots=True)
             plt.show()
 
     """Grafico Box & Whisker"""
-    def plot_bigotes(self, por_columnas=False):
-        if por_columnas:
+    def plot_bigotes(self, guardar_x_columnas=False):
+        if guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
                 fig1, ax1 = plt.subplots()
@@ -57,7 +56,6 @@ class CSVPlot():
     """Matriz Correlacion"""
     def plot_correlacion(self, plot_columnas = []):
         if plot_columnas:
-            columns = self.df.columns.values
             correlaciones = self.df.iloc[:,plot_columnas].corr()
             fig = plt.figure()
             ax = fig.add_subplot(111)
@@ -90,11 +88,6 @@ class CSVPlot():
                 os.remove(os.path.join(PATH4, my_file))
             except ValueError and FileNotFoundError:
                 pass
-        """    
-        if os.path.exists("archivo_ejemplo.txt"):
-            os.remove("archivo_ejemplo.txt")
-        else:
-            print("El archivo no existe")"""
 
 
 if __name__ == "__main__":

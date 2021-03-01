@@ -11,8 +11,7 @@ class CSVExploracion(CSVPlot):
     def __init__(self, df):
         self.df = df
 
-    """Muestra informacion general del dataset"""
-
+    """Muestra Informacion General del Dataset"""
     def vistazo(self):
         info = self.df.info()
         cabecera = self.df.head()
@@ -21,11 +20,10 @@ class CSVExploracion(CSVPlot):
         faltantes = self.df.isnull().sum()
         forma = self.df.shape
         print(
-            f'\nCABECERA:\n{cabecera}\n\nFINAL:\n{final}\n\nCOLUMNAS:\n{columnas}\n\nMVs:\n{faltantes}\n\nFORMA:\n{forma}')
+            f'\n--> CABECERA:\n{cabecera}\n\n--> FINAL:\n{final}\n\n--> COLUMNAS:\n{columnas}\n\n--> MVs:\n{faltantes}\n\n--> FORMA:\n{forma}')
         return info, cabecera, final, columnas, faltantes, forma
 
     """Muestra informacion estadistica del dataset. Indicando columnas por una lista realiza ademas la agrupacion"""
-
     def estadistica(self ,columnas=[], agrupar=None, method="pearson"):
         if columnas:
             df = self.df[columnas]
@@ -39,11 +37,10 @@ class CSVExploracion(CSVPlot):
         correlaciones = df.corr(method=method)
         sesgo = df.skew()
         media = df.mean()
-        print(f'\nAGRUPAR:\n{agrupar}\n\nDESCRIBIR:\n{describir}\n\nCORRELACIONES:\n{correlaciones}\n\nSESGO:\n{sesgo}\n\nMEDIA:\n{media}')
+        print(f'\n--> AGRUPAR:\n{agrupar}\n\n--> DESCRIBIR:\n{describir}\n\n--> CORRELACIONES:\n{correlaciones}\n\n--> SESGO:\n{sesgo}\n\n--> MEDIA:\n{media}')
         return agrupar, describir, correlaciones, sesgo, media
 
     """Indica columnas importantes del Dataset para ML"""
-
     def caracteristicas(self, n_caracteristicas=3):
         print(self.df.columns.values)
         X = self.df.drop(['precio'], axis=1)
