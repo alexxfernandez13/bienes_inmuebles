@@ -49,7 +49,7 @@ def main():
 
     """Plots"""
     csv_mvs.borrar_output()
-    csv_mvs.plot_histograma()
+    csv_mvs.plot_histograma(guardar_x_columnas=True)
     csv_mvs.plot_densidad()
     csv_mvs.plot_bigotes()
     csv_mvs.plot_correlacion()
@@ -74,6 +74,11 @@ def main():
     if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv"):
         os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv")
     csv_alquiler.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv", index=False)
+
+    # creacion de csv a partir de dataframe total (comprar y alquilar
+    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_preprocesado.csv"):
+        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_preprocesado.csv")
+    csv_mvs.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_preprocesado.csv", index=False)
 
     """COMPRA - Separar X e Y"""
     # Estandarizar Columna X --> Optimiza el Modelado
