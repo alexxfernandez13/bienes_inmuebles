@@ -41,6 +41,52 @@ def main():
     csv_mvs = csv_int.mvs()
     # csv_outlier = csv_int.outliers()
 
+    """Casteo Atributos en Enteros"""
+    casteo_variables = {'tipoInmueble': np.int64,
+                        'tipoOperacion': np.int64,
+                        'habitaciones': np.int64,
+                        'tamano': np.int64,
+                        'planta': np.int64,
+                        'ascensor': np.int64,
+                        'terraza': np.int64,
+                        'trastero': np.int64,
+                        'balcon': np.int64,
+                        'aireAcondicinado': np.int64,
+                        'piscina': np.int64,
+                        'banos': np.int64,
+                        'garaje_Comunitario': np.int64,
+                        'garaje_No-detallado': np.int64,
+                        'garaje_Privado': np.int64,
+                        'distrito_arganzuela': np.int64,
+                        'distrito_barajas': np.int64,
+                        'distrito_carabanchel': np.int64,
+                        'distrito_centro': np.int64,
+                        'distrito_chamartin': np.int64,
+                        'distrito_chamberi': np.int64,
+                        'distrito_ciudad-lineal': np.int64,
+                        'distrito_fuencarral': np.int64,
+                        'distrito_hortaleza': np.int64,
+                        'distrito_latina': np.int64,
+                        'distrito_moncloa': np.int64,
+                        'distrito_moratalaz': np.int64,
+                        'distrito_puente-de-vallecas': np.int64,
+                        'distrito_retiro': np.int64,
+                        'distrito_salamanca': np.int64,
+                        'distrito_san-blas': np.int64,
+                        'distrito_tetuan': np.int64,
+                        'distrito_usera': np.int64,
+                        'distrito_vicalvaro': np.int64,
+                        'distrito_villa-de-vallecas': np.int64,
+                        'distrito_villaverde': np.int64,
+                        'ciudad_madrid-capital': np.int64,
+                        'eficienciaEnergetica_A': np.int64,
+                        'eficienciaEnergetica_B': np.int64,
+                        'eficienciaEnergetica_C': np.int64,
+                        'precio': np.int64}
+
+    csv_casteados_2_vez = csv_mvs.casteo_columnas(casteo_variables)
+
+    csv_casteados_2_vez.vistazo()
     """Analitica Descriptiva"""
     print("\n------------------------ Analisis Dataset ------------------------")
     csv_mvs.vistazo()
