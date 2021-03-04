@@ -49,11 +49,11 @@ def main():
 
     """Plots"""
     csv_mvs.borrar_output()
-    csv_mvs.plot_histograma(guardar_x_columnas=True)
+    csv_mvs.plot_histograma()
     csv_mvs.plot_densidad()
     csv_mvs.plot_bigotes()
     csv_mvs.plot_correlacion()
-    # csv_mvs.plot_dispersion()
+    csv_mvs.plot_dispersion()
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)

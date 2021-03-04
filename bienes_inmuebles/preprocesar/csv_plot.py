@@ -15,8 +15,11 @@ class CSVPlot():
     def __init__(self, df):
         self.df = df
 
-    """Grafico Barras"""
-    def plot_histograma(self, guardar_x_columnas=False):
+
+    def plot_histograma(self, plot_columnas=[], guardar_x_columnas=False):
+        if plot_columnas:
+            self.df[plot_columnas].hist()
+            plt.show()
         if guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
@@ -28,7 +31,10 @@ class CSVPlot():
             plt.show()
 
     """Grafico Densidad"""
-    def plot_densidad(self, guardar_x_columnas=False):
+    def plot_densidad(self, plot_columnas=[], guardar_x_columnas=False):
+        if plot_columnas:
+            self.df[plot_columnas].plot()
+            plt.show()
         if guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
@@ -40,7 +46,10 @@ class CSVPlot():
             plt.show()
 
     """Grafico Box & Whisker"""
-    def plot_bigotes(self, guardar_x_columnas=False):
+    def plot_bigotes(self, plot_columnas=[], guardar_x_columnas=False):
+        if plot_columnas:
+            self.df[plot_columnas].plot(kind='box', layout=(10, 5), sharex=False, sharey=False)
+            plt.show()
         if guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
@@ -51,7 +60,7 @@ class CSVPlot():
                 plt.savefig(os.path.join(PATH4, my_file))
         else:
             self.df.plot(kind='box', subplots=True, layout=(10, 5), sharex=False, sharey=False)
-            plt.show
+            plt.show()
 
     """Matriz Correlacion"""
     def plot_correlacion(self, plot_columnas = []):
