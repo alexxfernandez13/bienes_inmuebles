@@ -88,6 +88,11 @@ class CSVPlot():
             scatter_matrix(self.df)
             plt.show()
 
+    def plot_scatter(self):
+        dfCompra = pd.read_csv("prueba__.csv", sep=',')
+        my_plot = dfCompra.plot("tamano", "precio", kind="scatter")
+        plt.show()
+
     """Elimina imagenes generadas en carpeta /data"""
     def borrar_output(self):
         columns = self.df.columns.values

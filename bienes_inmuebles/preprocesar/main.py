@@ -97,7 +97,7 @@ def main():
     csv_mvs.borrar_output()
     csv_mvs.plot_histograma()
     csv_mvs.plot_densidad()
-    csv_mvs.plot_bigotes()
+    csv_mvs.plot_bigotes(plot_columnas=["precio",'distrito_centro'])
     csv_mvs.plot_correlacion()
     csv_mvs.plot_dispersion()
 
