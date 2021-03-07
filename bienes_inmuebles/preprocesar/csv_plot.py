@@ -103,6 +103,9 @@ class CSVPlot():
             except ValueError and FileNotFoundError:
                 pass
 
+    def scatter_2variables(self, var1, var2):
+        my_plot = self.df.plot("tamano", "precio", kind="scatter")
+        plt.show()
 
 if __name__ == "__main__":
     df = pd.read_csv("../../data/csv_barcelona.csv")
