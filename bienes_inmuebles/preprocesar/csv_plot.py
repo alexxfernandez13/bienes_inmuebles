@@ -88,6 +88,10 @@ class CSVPlot():
             scatter_matrix(self.df)
             plt.show()
 
+    def scatter_2variables(self, var1, var2):
+        my_plot = self.df.plot("tamano", "precio", kind="scatter")
+        plt.show()
+
     def plot_scatter(self):
         dfCompra = pd.read_csv("prueba__.csv", sep=',')
         my_plot = dfCompra.plot("tamano", "precio", kind="scatter")
@@ -105,7 +109,7 @@ class CSVPlot():
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("../../data/csv_barcelona.csv")
+    df = pd.read_csv("../data/csv_barcelona.csv")
     # df = pd.DataFrame(np.random.randn(1000, 4), columns=['A', 'B', 'C', 'D'])
     plot = CSVPlot(df)
     plot.plot_bigotes()

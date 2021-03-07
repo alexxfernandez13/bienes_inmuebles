@@ -1,6 +1,2 @@
 tipoInmueble,tipoOperacion,Habitaciones,Tamano,Planta,Ascensor,Terraza,Trastero,Balcon,AireAcondicionado,Piscina,Banos,Garaje_Comunitario,Garaje_No_detallado,Garaje_Privado,Distrito_arganzuela,Distrito_barajas,Distrito_carabanche,Distrito_centro,Distrito_chamartin,Distrito_chamberi,Distrito_ciudad_lineal,Distrito_fuencarral,Distrito_hortaleza,Distrito_latina,Distrito_moncloa,Distrito_moratalaz,Distrito_puente_de_vallecas,Distrito_retiro,Distrito_salamanca,Distrito_san_blas,Distrito_tetuan,Distrito_usera,Distrito_vicalvaro,Distrito_villa_de_vallecas,Distrito_villaverde,Ciudad,EficienciaEnergetica_A,EficienciaEnergetica_B,EficienciaEnergetica_C,Prediccion
-<<<<<<< HEAD
-1,1,3,90,4,1,1,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,239106.45
-=======
-1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,222282.05
->>>>>>> parent of 971f6ce (commit_nuevo_procesamiento__dividido_en_2)
+1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,357425.56

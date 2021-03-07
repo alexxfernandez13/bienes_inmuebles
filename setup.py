@@ -1,5 +1,7 @@
 import setuptools
+import glob
 
+files = glob.glob("bienes_inmuebles/data/*")
 
 setuptools.setup(name='bienes_inmuebles',
       version="1.1.1",
@@ -9,9 +11,9 @@ setuptools.setup(name='bienes_inmuebles',
       author_email='alexxfernandez@hotmail.es',
       packages=setuptools.find_packages(),
       install_requires=["numpy", "matplotlib==3.2", "scipy", "pandas", "scikit-learn", "sklearn", "pytest", "joblib", "colorama"],
-      classifiers=[
-       "Programming Language :: Python :: 3",
-       "License :: OSI Approved :: MIT License",
-       "Operating System :: OS Independent",
+      data_files=[('bienes_inmuebles/data', files),],
+      classifiers=["Programming Language :: Python :: 3",
+                   "License :: OSI Approved :: MIT License",
+                   "Operating System :: OS Independent",
        ],
      )

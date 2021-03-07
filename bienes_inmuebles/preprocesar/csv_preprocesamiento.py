@@ -23,7 +23,7 @@ from bienes_inmuebles.preprocesar.csv_exploracion import CSVExploracion
 path = Path(__file__)  # PATH A LA FILE EN CUALQUIER ORDENADOR
 path2 = Path(path.parent)  # Un directorio hacia atras
 path3 = Path(path2.parent)
-PATH4 = str(Path(path3.parent))
+PATH4 = str(Path(path2.parent))
 
 """CLASE y FUNCIONES"""
 
@@ -147,6 +147,14 @@ class CSVPreprocesamiento():
         df_resultado = binarizer.transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
+    def outliers_nuevo(self, q1, q2):  # Eliminar filas con outlier y escoger grado de eliminacion)
+        Q1 = self.df.quantile(q1)
+        Q3 = self.df.quantile(q2)
+        IQR = Q3 - Q1
+        self.df = self.df[
+            ~((self.df < (Q1 - 1.5 * IQR)) | (self.df > (Q3 + 1.5 * IQR))).any(axis=1)]
+
+        print(IQR)
 
 if __name__ == "__main__":
     preprocesamiento = CSVPreprocesamiento("../../data/csv_barcelona.csv")

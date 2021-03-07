@@ -74,7 +74,7 @@ def main():
     print("El resultado de su prediccion es:", round(resultado_final, 2), "€")
 
     """Exportar CSV con los datos de la prediccion"""
-    csvPrediccion = open(str(UrlPath.getPath(__file__, 2)) + '\data\datos_usuario_prediccion.csv', 'w', newline='')
+    csvPrediccion = open(str(PATH4) + '\data\datos_usuario_prediccion.csv', 'w', newline='')
     salida = csv.writer(csvPrediccion)
     salida.writerow(
         ['tipoInmueble', 'tipoOperacion', 'Habitaciones', 'Tamano', 'Planta', 'Ascensor', 'Terraza', 'Trastero',

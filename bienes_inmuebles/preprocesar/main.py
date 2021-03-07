@@ -84,10 +84,7 @@ def main():
                         'eficienciaEnergetica_C': np.int64,
                         'precio': np.int64}
 
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of 971f6ce (commit_nuevo_procesamiento__dividido_en_2)
     csv_casteados_2_vez = csv_mvs.casteo_columnas(casteo_variables)
 
     csv_casteados_2_vez.vistazo()
@@ -98,16 +95,14 @@ def main():
     csv_mvs.estadistica()
 
     """Plots"""
-    csv_mvs.borrar_output()
-    csv_mvs.plot_histograma()
-    csv_mvs.plot_densidad()
-<<<<<<< HEAD
-    csv_mvs.plot_bigotes(plot_columnas=["precio",'distrito_centro'])
-=======
-    csv_mvs.plot_bigotes()
->>>>>>> parent of 971f6ce (commit_nuevo_procesamiento__dividido_en_2)
-    csv_mvs.plot_correlacion()
-    csv_mvs.plot_dispersion()
+    #csv_mvs.borrar_output()
+    #csv_mvs.plot_histograma()
+    #csv_mvs.plot_densidad()
+
+    #csv_mvs.plot_bigotes(plot_columnas=["precio",'distrito_centro'])
+
+    #csv_mvs.plot_correlacion()
+    #csv_mvs.plot_dispersion()
 
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_mvs)
@@ -118,7 +113,6 @@ def main():
     csv_alquiler.df = csv_mvs.df.loc[
         (csv_mvs.df["tipoOperacion"] == 2) & (csv_mvs.df["precio"] <= 9000) & (csv_mvs.df["precio"] >= 100) & (
                 csv_mvs.df["tamano"] >= 10)]
-<<<<<<< HEAD
 
     csv = csv.casteo_columnas(casteo_variables)
     csv_dup = csv.duplicados()
@@ -149,24 +143,23 @@ def main():
     csv_compra__out.plot_bigotes(plot_columnas=['precio'])"""
 
     #csv_compra__out.scatter_2variables(var1='tamano', var2='precio')
-=======
->>>>>>> parent of 971f6ce (commit_nuevo_procesamiento__dividido_en_2)
+
 
 
     # creacion de csv a partir de dataframe de compra
-    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv"):
-        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv")
-    csv_compra.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_compra.csv", index=False)
+    if os.path.exists(str(PATH4) + "\data\csv_compra.csv"):
+        os.remove(str(PATH4) + "\data\csv_compra.csv")
+    csv_compra.df.to_csv(str(PATH4) + "\data\csv_compra.csv", index=False)
 
     # creacion de csv a partir de dataframe de alquiler
-    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv"):
-        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv")
-    csv_alquiler.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_alquiler.csv", index=False)
+    if os.path.exists(str(PATH4) + "\data\csv_alquiler.csv"):
+        os.remove(str(PATH4) + "\data\csv_alquiler.csv")
+    csv_alquiler.df.to_csv(str(PATH4) + "\data\csv_alquiler.csv", index=False)
 
     # creacion de csv a partir de dataframe total (comprar y alquilar
-    if os.path.exists(str(UrlPath.getPath(__file__, 2)) + "\data\csv_preprocesado.csv"):
-        os.remove(str(UrlPath.getPath(__file__, 2)) + "\data\csv_preprocesado.csv")
-    csv_mvs.df.to_csv(str(UrlPath.getPath(__file__, 2)) + "\data\csv_preprocesado.csv", index=False)
+    if os.path.exists(str(PATH4) + "\data\csv_preprocesado.csv"):
+        os.remove(str(PATH4) + "\data\csv_preprocesado.csv")
+    csv_mvs.df.to_csv(str(PATH4) + "\data\csv_preprocesado.csv", index=False)
 
     """COMPRA - Separar X e Y"""
     # Estandarizar Columna X --> Optimiza el Modelado
