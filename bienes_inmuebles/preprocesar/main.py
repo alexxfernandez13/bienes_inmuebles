@@ -64,14 +64,6 @@ def main():
     print("\n------------------------ Estadistica Dataset ------------------------")
     csv_procesado.estadistica()
 
-    """Plots"""
-    csv_procesado.borrar_output()
-    csv_procesado.plot_histograma()
-    csv_procesado.plot_densidad()
-    csv_procesado.plot_bigotes(plot_columnas=["precio", 'distrito_centro'])
-    csv_procesado.plot_correlacion()
-    csv_procesado.plot_dispersion()
-
     """Separar datos en 2 Dataframe, uno para compra y otro para alquiler"""
     csv_compra = copy(csv_procesado)
     csv_alquiler = copy(csv_procesado)
@@ -84,7 +76,21 @@ def main():
                                                    csv_procesado.df["precio"] >= 100) & (
                                                    csv_procesado.df["tamano"] >= 10)]
 
-    """Outliers"""
+    """Plots para Compra"""
+    csv_procesado.borrar_output()
+    csv_compra.plot_histograma()
+    csv_compra.plot_densidad()
+    csv_compra.plot_bigotes(plot_columnas=["precio", 'distrito_centro'])
+    csv_compra.plot_correlacion()
+    csv_compra.plot_dispersion()
+
+    """Plots para Alquiler"""
+    csv_procesado.borrar_output()
+    csv_alquiler.plot_histograma()
+    csv_alquiler.plot_densidad()
+    csv_alquiler.plot_bigotes(plot_columnas=["precio", 'distrito_centro'])
+    csv_alquiler.plot_correlacion()
+    csv_alquiler.plot_dispersion()
 
     """**************************************** FASE DE MODELADO ****************************************"""
     """COMPRA - Separar X e Y"""
