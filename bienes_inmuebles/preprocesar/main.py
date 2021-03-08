@@ -53,10 +53,10 @@ def main():
 
     csv_procesado = csv_mvs.casteo_columnas(casteo_variables)
 
-    """Output CSV procesado"""
+    """Output CSV Procesado"""
     if os.path.exists(str(PATH4) + "\data\csv_preprocesado.csv"):
         os.remove(str(PATH4) + "\data\csv_preprocesado.csv")
-    csv_mvs.df.to_csv(str(PATH4) + "\data\csv_preprocesado.csv", index=False)
+    csv_procesado.df.to_csv(str(PATH4) + "\data\csv_preprocesado.csv", index=False)
 
     """Analitica Descriptiva"""
     print("\n------------------------ Analisis Dataset ------------------------")
