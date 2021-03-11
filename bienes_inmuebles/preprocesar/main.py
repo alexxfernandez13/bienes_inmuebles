@@ -53,11 +53,6 @@ def main():
 
     csv_procesado = csv_mvs.casteo_columnas(casteo_variables)
 
-    """Output CSV Procesado"""
-    if os.path.exists(str(PATH4) + "\data\csv_preprocesado.csv"):
-        os.remove(str(PATH4) + "\data\csv_preprocesado.csv")
-    csv_procesado.df.to_csv(str(PATH4) + "\data\csv_preprocesado.csv", index=False)
-
     """Analitica Descriptiva"""
     print("\n------------------------ Analisis Dataset ------------------------")
     csv_procesado.vistazo()
@@ -68,29 +63,39 @@ def main():
     csv_compra = copy(csv_procesado)
     csv_alquiler = copy(csv_procesado)
 
-    csv_compra.df = csv_procesado.df.loc[(csv_procesado.df['tipoOperacion'] == 1) &
-                                         (csv_procesado.df['precio'] >= 50000) & (csv_procesado.df["tamano"] >= 10)]
+    csv_compra.df = csv_procesado.df.loc[(csv_procesado.df['tipoOperacion'] == 1)
+                                         & (csv_procesado.df['precio'] >= 50000)
+                                         & (csv_procesado.df["tamano"] >= 10)]
 
-    csv_alquiler.df = csv_procesado.df.loc[(csv_procesado.df["tipoOperacion"] == 2) &
-                                           (csv_procesado.df["precio"] <= 9000) & (
-                                                   csv_procesado.df["precio"] >= 100) & (
-                                                   csv_procesado.df["tamano"] >= 10)]
+    csv_alquiler.df = csv_procesado.df.loc[(csv_procesado.df["tipoOperacion"] == 2)
+                                           & (csv_procesado.df["precio"] <= 9000)
+                                           & (csv_procesado.df["precio"] >= 100)
+                                           & (csv_procesado.df["tamano"] >= 10)
+                                           & (csv_procesado.df["banos"] > 0)
+                                           & (csv_procesado.df["banos"] < 9)
+                                           & (csv_procesado.df["habitaciones"] < 8)]
+
+    """Output CSV Procesado"""
+    df_procesado = pd.concat([csv_compra.df, csv_alquiler.df])
+    if os.path.exists(str(PATH4) + "\data\csv_preprocesado.csv"):
+        os.remove(str(PATH4) + "\data\csv_preprocesado.csv")
+    df_procesado.to_csv(str(PATH4) + "\data\csv_preprocesado.csv", index=False)
 
     """Plots para Compra"""
     csv_procesado.borrar_output()
-    csv_compra.plot_histograma()
-    csv_compra.plot_densidad()
-    csv_compra.plot_bigotes(plot_columnas=["precio", 'distrito_centro'])
-    csv_compra.plot_correlacion()
-    csv_compra.plot_dispersion()
+    # csv_compra.plot_histograma(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_compra.plot_densidad(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_compra.plot_bigotes(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_compra.plot_correlacion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_compra.plot_dispersion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
 
     """Plots para Alquiler"""
     csv_procesado.borrar_output()
-    csv_alquiler.plot_histograma()
-    csv_alquiler.plot_densidad()
-    csv_alquiler.plot_bigotes(plot_columnas=["precio", 'distrito_centro'])
-    csv_alquiler.plot_correlacion()
-    csv_alquiler.plot_dispersion()
+    # csv_alquiler.plot_histograma(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_alquiler.plot_densidad(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_alquiler.plot_bigotes(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_alquiler.plot_correlacion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    # csv_alquiler.plot_dispersion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
 
     """**************************************** FASE DE MODELADO ****************************************"""
     """COMPRA - Separar X e Y"""
@@ -114,7 +119,7 @@ def main():
     """COMPRA - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
     print("\n------------------------ Scoring Modelos - Compra ------------------------")
-    regresion(X_train, X_test, y_train, y_test)
+    # regresion(X_train, X_test, y_train, y_test)
     print("------------------------ Scoring Modelos - Compra ------------------------")
 
     """COMPRA - Guardar Modelo Seleccionado"""
@@ -143,7 +148,7 @@ def main():
     """ALQUILER - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
     print("\n------------------------ Scoring Modelos - Alquiler ------------------------")
-    regresion(X_train, X_test, y_train, y_test)
+    # regresion(X_train, X_test, y_train, y_test)
     print("------------------------ Scoring Modelos - Alquiler ------------------------")
 
     """Alquiler - Guardar Modelo Seleccionado"""

@@ -20,7 +20,7 @@ class CSVPlot():
         if plot_columnas:
             self.df[plot_columnas].hist()
             plt.show()
-        if guardar_x_columnas:
+        elif guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
                 self.df.hist(column=column)
@@ -33,9 +33,9 @@ class CSVPlot():
     """Grafico Densidad"""
     def plot_densidad(self, plot_columnas=[], guardar_x_columnas=False):
         if plot_columnas:
-            self.df[plot_columnas].plot()
+            self.df[plot_columnas].plot(subplots=True)
             plt.show()
-        if guardar_x_columnas:
+        elif guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
                 self.df[column].plot()
@@ -48,9 +48,9 @@ class CSVPlot():
     """Grafico Box & Whisker"""
     def plot_bigotes(self, plot_columnas=[], guardar_x_columnas=False):
         if plot_columnas:
-            self.df[plot_columnas].plot(kind='box', layout=(10, 5), sharex=False, sharey=False)
+            self.df[plot_columnas].plot(kind='box',subplots=True, layout=(10,5), sharex=False, sharey=False)
             plt.show()
-        if guardar_x_columnas:
+        elif guardar_x_columnas:
             columns = self.df.columns.values
             for column in columns:
                 fig1, ax1 = plt.subplots()
@@ -59,13 +59,13 @@ class CSVPlot():
                 my_file = f"data/{column}.png"
                 plt.savefig(os.path.join(PATH4, my_file))
         else:
-            self.df.plot(kind='box', subplots=True, layout=(10, 5), sharex=False, sharey=False)
+            self.df.plot(kind='box', subplots=True, layout=(10,5), sharex=False, sharey=False)
             plt.show()
 
     """Matriz Correlacion"""
     def plot_correlacion(self, plot_columnas = []):
         if plot_columnas:
-            correlaciones = self.df.iloc[:,plot_columnas].corr()
+            correlaciones = self.df[plot_columnas].corr()
             fig = plt.figure()
             ax = fig.add_subplot(111)
             cax = ax.matshow(correlaciones, vmin=-1, vmax=1)
@@ -82,20 +82,12 @@ class CSVPlot():
     """Matriz Dispersion"""
     def plot_dispersion(self, plot_columnas=[]):
         if plot_columnas:
-            scatter_matrix(self.df.iloc[:,plot_columnas])
+            scatter_matrix(self.df[plot_columnas])
             plt.show()
         else:
-            scatter_matrix(self.df)
+            scatter_matrix(self.df, alpha=0.2)
             plt.show()
 
-    def scatter_2variables(self, var1, var2):
-        my_plot = self.df.plot("tamano", "precio", kind="scatter")
-        plt.show()
-
-    def plot_scatter(self):
-        dfCompra = pd.read_csv("prueba__.csv", sep=',')
-        my_plot = dfCompra.plot("tamano", "precio", kind="scatter")
-        plt.show()
 
     """Elimina imagenes generadas en carpeta /data"""
     def borrar_output(self):

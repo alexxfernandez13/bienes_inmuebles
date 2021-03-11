@@ -124,12 +124,7 @@ class CSVPreprocesamiento():
     """Estandarizar dataset y guardar el scaler en formato pickle"""
     def estandarizar(self,  scaler_file, inplace=False):
         scaler = StandardScaler().fit(self.df)  # aprende la distribucion de los dstos
-
-        #if compra==True:
         fichero_path = scaler_file
-        #elif compra==False:
-        #fichero_path = os.path.join(PATH4, "data/scaler_alquiler.pkl")
-
         dump(scaler, open(fichero_path, 'wb'))
         np_escalado = scaler.transform(self.df)  # coge la distribucion y la estandariza
         df_resultado = pd.DataFrame(np_escalado, columns=self.df.columns)
@@ -147,14 +142,12 @@ class CSVPreprocesamiento():
         df_resultado = binarizer.transform(self.df)
         return self._inplace("df", df_resultado, inplace)
 
-    def outliers_nuevo(self, q1, q2):  # Eliminar filas con outlier y escoger grado de eliminacion)
+    def outliers_nuevo(self, q1, q2, inplace=False):  # Eliminar filas con outlier y escoger grado de eliminacion)
         Q1 = self.df.quantile(q1)
         Q3 = self.df.quantile(q2)
         IQR = Q3 - Q1
-        self.df = self.df[
-            ~((self.df < (Q1 - 1.5 * IQR)) | (self.df > (Q3 + 1.5 * IQR))).any(axis=1)]
-
-        print(IQR)
+        df_resultado = self.df[~((self.df < (Q1 - 1.5 * IQR)) | (self.df > (Q3 + 1.5 * IQR))).any(axis=1)]
+        return self._inplace("df", df_resultado, inplace)
 
 if __name__ == "__main__":
     preprocesamiento = CSVPreprocesamiento("../../data/csv_barcelona.csv")
