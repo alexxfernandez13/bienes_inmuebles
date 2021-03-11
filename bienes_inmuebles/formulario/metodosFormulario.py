@@ -24,7 +24,7 @@ class MetodosFormulario():
         dato = input("¿La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no \n> ").lower()
         while dato != 's' and dato != 'n':
             print(Style.RESET_ALL)
-            print(Back.BLUE + "El dato introducido no es valido. Intentelo otra vez")
+            print("* El dato introducido no es valido. Intentelo otra vez")
             print(Style.RESET_ALL)
             dato = input("La vivienda tiene " + objetoPreguntado + "? (s)si - (n)no\n> ").lower()
 
@@ -39,7 +39,7 @@ class MetodosFormulario():
 
         while dato < 0 or dato > numeroMaximo:
             print(Style.RESET_ALL)
-            print(Back.YELLOW + "El dato introducido no es valido. Intentelo otra vez")
+            print("* El dato introducido no es valido. Intentelo otra vez")
             print(Style.RESET_ALL)
 
             dato = input(consulta + "\n> ").lower()
@@ -63,7 +63,7 @@ class MetodosFormulario():
 
         while opcion < 0 or opcion > len(listaElementos):
             print(Style.RESET_ALL)
-            print(Back.YELLOW + "El dato introducido no es valido. Intentelo otra vez")
+            print("* El dato introducido no es valido. Intentelo otra vez")
             print(Style.RESET_ALL)
 
             opcion = input(consulta + "\n> ")

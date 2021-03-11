@@ -119,7 +119,7 @@ def main():
     """COMPRA - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Compra, Y_columns_Compra)
     print("\n------------------------ Scoring Modelos - Compra ------------------------")
-    # regresion(X_train, X_test, y_train, y_test)
+    regresion(X_train, X_test, y_train, y_test)
     print("------------------------ Scoring Modelos - Compra ------------------------")
 
     """COMPRA - Guardar Modelo Seleccionado"""
@@ -148,7 +148,7 @@ def main():
     """ALQUILER - Evaluacion Modelos"""
     X_train, X_test, y_train, y_test = prepare_dataset(X_columns_Alquiler, Y_columns_Alquiler)
     print("\n------------------------ Scoring Modelos - Alquiler ------------------------")
-    # regresion(X_train, X_test, y_train, y_test)
+    regresion(X_train, X_test, y_train, y_test)
     print("------------------------ Scoring Modelos - Alquiler ------------------------")
 
     """Alquiler - Guardar Modelo Seleccionado"""
