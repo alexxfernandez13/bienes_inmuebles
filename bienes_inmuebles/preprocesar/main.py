@@ -83,19 +83,19 @@ def main():
 
     """Plots para Compra"""
     csv_procesado.borrar_output()
-    # csv_compra.plot_histograma(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_compra.plot_densidad(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_compra.plot_bigotes(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_compra.plot_correlacion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_compra.plot_dispersion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_compra.plot_histograma(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_compra.plot_densidad(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_compra.plot_bigotes(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_compra.plot_correlacion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_compra.plot_dispersion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
 
     """Plots para Alquiler"""
     csv_procesado.borrar_output()
-    # csv_alquiler.plot_histograma(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_alquiler.plot_densidad(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_alquiler.plot_bigotes(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_alquiler.plot_correlacion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
-    # csv_alquiler.plot_dispersion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_alquiler.plot_histograma(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_alquiler.plot_densidad(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_alquiler.plot_bigotes(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_alquiler.plot_correlacion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
+    csv_alquiler.plot_dispersion(plot_columnas=["precio","tamano","habitaciones","banos","planta"])
 
     """**************************************** FASE DE MODELADO ****************************************"""
     """COMPRA - Separar X e Y"""

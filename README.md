@@ -2,10 +2,28 @@
 > ``* Es IMPORTANTE guardar el proyecto en la carpeta C:\ del PC puesto 
 que todos los aplicativos estan configuardos para leer de ese PATH``
 
+## CONFIGURACION / INSTALACION BBDD MySql y WorkBench
+======================= DESCARGAR  ==============================
+> ``https://dev.mysql.com/downloads/mysql/`` (Version Community)  descargar fichero MSI 
+
+> ``Ejecutamos el fichero que se ha descargado, y check developer Default -> 
+pantalla 'check requirements' = Execute (instala el workbecnh entre otros) -> 
+pantalla 'type and networking', el pametro conf type = development Computer -> 
+pantalla 'Acounts and Roles' = contraseña personal a recordar -> 
+pantalla Apply configuration' = execute``
+
+>``Una vez terminada la instalación, podemos abrir el IDE de MySql Workbench , 
+para IMPORTAR la base de datos del proyecto.``
+
+>``Cuando el IDE Workbench esta abierta -> pulsamos Local Instance MySQL80 -> 
+Pulsamos sobre el icono de la parte superior SQL+, y se abrirá un editor SQL -> 
+copiamos el fichero Dump que se le proporciona -> Pulsamos el icono del rayo, 
+y se ha debido de crear la base de datos (tablas con registros)``
+
 ## CONFIGURACION / INSTALACION CODIGO FUENTE
 ======================= DESCARGAR PYCHARM ==============================
 > ``https://www.jetbrains.com/es-es/pycharm/download/#section=windows`` (Version Community)
->
+
 > ``Al instalar marcar con un check todas las opciones -> Seleccionar reboot now -> 
 confirmar acuerdo privavidad no mandar datos anonimos``
 
