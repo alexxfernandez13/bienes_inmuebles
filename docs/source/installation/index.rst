@@ -1,10 +1,9 @@
 Installation
 ================
 
-Source code
+bienes_inmuebles
 ++++++++++++++++
 
-# bienes_inmuebles
 > ``* Es IMPORTANTE guardar el proyecto en la carpeta C:\ del PC puesto
 que todos los aplicativos estan configuardos para leer de ese PATH``
 
