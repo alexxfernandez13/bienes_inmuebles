@@ -6,7 +6,7 @@
 Bienvenido to bienes_inmuebles documentation!
 ===================================================================
 
-What the sfotware do, external requirements, company ...
+What the software do, external requirements, company ...
 
 
 .. toctree::
@@ -14,5 +14,5 @@ What the sfotware do, external requirements, company ...
    :hidden:
 
 .. toctree::
-   changelog/index.rst
+   documentation/index.rst
    :hidden:
