@@ -1,8 +1,5 @@
-ChangeLog
+PROGRAMA SUPERIOR EN BIG DATA Edición septiembre 2020
 ==========
-
-PROGRAMA SUPERIOR EN BIG DATA
-Edición septiembre 2020
 
 REAL ESTATE PREDICTION
 ++++++++
