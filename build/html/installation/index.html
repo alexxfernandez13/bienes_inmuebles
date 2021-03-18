@@ -163,9 +163,55 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="source-code">
 <h2>Source code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">PYTHONPATH=&quot;/path/to/bienes_inmuebeles</span></code> (Windows)</p>
-<p><code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PYTHONPATH=&quot;/path/to/bienes_inmuebeles</span></code> (Linux &amp; MAC)</p>
-<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">bienes_inmuebeles/main.py</span></code></p>
+<p># bienes_inmuebles
+&gt; <code class="docutils literal notranslate"><span class="pre">*</span> <span class="pre">Es</span> <span class="pre">IMPORTANTE</span> <span class="pre">guardar</span> <span class="pre">el</span> <span class="pre">proyecto</span> <span class="pre">en</span> <span class="pre">la</span> <span class="pre">carpeta</span> <span class="pre">C:\</span> <span class="pre">del</span> <span class="pre">PC</span> <span class="pre">puesto</span>
+<span class="pre">que</span> <span class="pre">todos</span> <span class="pre">los</span> <span class="pre">aplicativos</span> <span class="pre">estan</span> <span class="pre">configuardos</span> <span class="pre">para</span> <span class="pre">leer</span> <span class="pre">de</span> <span class="pre">ese</span> <span class="pre">PATH</span></code></p>
+<p>## CONFIGURACION / INSTALACION CODIGO FUENTE
+======================= DESCARGAR PYCHARM ==============================
+&gt; <code class="docutils literal notranslate"><span class="pre">https://www.jetbrains.com/es-es/pycharm/download/#section=windows</span></code> (Version Community)
+&gt; <code class="docutils literal notranslate"><span class="pre">Al</span> <span class="pre">instalar</span> <span class="pre">marcar</span> <span class="pre">con</span> <span class="pre">un</span> <span class="pre">check</span> <span class="pre">todas</span> <span class="pre">las</span> <span class="pre">opciones</span> <span class="pre">-&gt;</span> <span class="pre">Seleccionar</span> <span class="pre">reboot</span> <span class="pre">now</span>
+<span class="pre">&gt;confirmar</span> <span class="pre">acuerdo</span> <span class="pre">privavidad</span> <span class="pre">no</span> <span class="pre">mandar</span> <span class="pre">datos</span> <span class="pre">anonimos</span></code></p>
+<p>## CONFIGURACION / INSTALACION BBDD MySql y WorkBench
+======================= DESCARGAR  ==============================
+&gt; <a class="reference external" href="https://dev.mysql.com/downloads/mysql/">https://dev.mysql.com/downloads/mysql/</a> (Version Community)(descargar fichero MSI)
+&gt; Ejecutamos el fichero que se ha descargado, y check developer Default -&gt; pantalla ‘check requirements’ = Execute (instala el workbecnh entre otros) -&gt; pantalla ‘type and networking’, el pametro conf type = development Computer -&gt; pantalla ‘Acounts and Roles’ = contraseña personal a recordar -&gt; pantalla Apply configuration’ = execute</p>
+<p>&gt;Una vez terminada la instalación, podemos abrir el IDE de MySql Workbench , para IMPORTAR la base de datos del proyecto.
+&gt;Cuando el IDE Workbench esta abierta -&gt; pulsamos Local Instance MySQL80 -&gt; Pulsamos sobre el icono de la parte superior SQL+, y se abrirá un editor SQL -&gt; copiamos el fichero Dump que se le proporciona -&gt; Pulsamos el icono del rayo, y se ha debido de crear la base de datos (tablas con registros)</p>
+<p>&gt; para que la app pueda guardar las publicaciones de fotocasa en ella, el usuario y contraseña en la pantalla ‘Acounts and Roles’ de instalacion de Mysql debe ser root y 1234.
+======================= PATH PROYECTO ==================================
+&gt; <code class="docutils literal notranslate"><span class="pre">Colocar</span> <span class="pre">Proyecto</span> <span class="pre">en:</span> <span class="pre">C:\</span></code>  (root folder bienes_inmuebles)</p>
+<p>======================= CONFIGURAR VARIABLES DE ENTORNO ================
+&gt; <code class="docutils literal notranslate"><span class="pre">Abrir</span> <span class="pre">la</span> <span class="pre">pantalla</span> <span class="pre">de</span> <span class="pre">variables</span> <span class="pre">de</span> <span class="pre">entorno:</span> <span class="pre">Windows</span> <span class="pre">–&gt;</span> <span class="pre">escribir</span> <span class="pre">“variables</span> <span class="pre">de</span> <span class="pre">entorno”</span> <span class="pre">–&gt;</span>
+<span class="pre">Opciones</span> <span class="pre">Avanzadas</span> <span class="pre">–&gt;</span> <span class="pre">Variables</span> <span class="pre">de</span> <span class="pre">Entorno</span></code></p>
+<p>&gt; <code class="docutils literal notranslate"><span class="pre">Cambiar/crear</span> <span class="pre">nueva</span> <span class="pre">variable:</span> <span class="pre">nueva</span> <span class="pre">variable</span> <span class="pre">–&gt;</span> <span class="pre">Nombre</span> <span class="pre">de</span> <span class="pre">la</span> <span class="pre">variable</span> <span class="pre">(“PYTHONPATH”)</span>
+<span class="pre">y</span> <span class="pre">Valor</span> <span class="pre">de</span> <span class="pre">la</span> <span class="pre">variable</span> <span class="pre">(ruta</span> <span class="pre">de</span> <span class="pre">la</span> <span class="pre">root</span> <span class="pre">folder</span> <span class="pre">del</span> <span class="pre">proyecto)</span></code> (C:bienes_inmuebles)</p>
+<p>======================= ABRIR PROYECTO CON PYCHARM =====================
+&gt; <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">–&gt;</span> <span class="pre">open</span></code> (C:bienes_inmuebles)</p>
+<p>======================= CONFIGURAR EJECUCIONES =========================
+&gt; <code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">–&gt;</span> <span class="pre">edit</span> <span class="pre">configurations</span></code></p>
+<p>&gt; <a href="#id1"><span class="problematic" id="id2">``</span></a>click en + –&gt; python``(Añadir configuracion Nueva: son 4 en total)</p>
+<p>&gt; <code class="docutils literal notranslate"><span class="pre">script</span> <span class="pre">path:</span> <span class="pre">C:\bienes_inmuebles\bienes_inmuebles\preprocesar\main.py</span></code> (Preprocesamiento)</p>
+<p>&gt; <code class="docutils literal notranslate"><span class="pre">script</span> <span class="pre">path:</span> <span class="pre">C:\bienes_inmuebles\bienes_inmuebles\machine_learning\main.py</span></code> (Prediccion ML)</p>
+<p>&gt; <code class="docutils literal notranslate"><span class="pre">script</span> <span class="pre">path:</span> <span class="pre">C:\bienes_inmuebles\bienes_inmuebles\machine_learning\comprobacion_prediccion.py</span></code> (Test Prediccion Correcta/Fiable)</p>
+<p>&gt; <code class="docutils literal notranslate"><span class="pre">script</span> <span class="pre">path:</span> <span class="pre">C:\bienes_inmuebles\bienes_inmuebles\machine_learning\main.py</span></code> (Tests)</p>
+<p>## INSTALAR PROYECTO DESDE CLIENTE
+======================= SOURCE CODE ====================================
+&gt; <code class="docutils literal notranslate"><span class="pre">Entrar</span> <span class="pre">en</span> <span class="pre">terminal:</span> <span class="pre">entrar</span> <span class="pre">en</span> <span class="pre">root</span> <span class="pre">folder</span> <span class="pre">del</span> <span class="pre">proyecto</span> <span class="pre">descargado</span> <span class="pre">–&gt;</span>
+<span class="pre">Para</span> <span class="pre">instalar:</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span> <span class="pre">–&gt;</span> <span class="pre">Ir</span> <span class="pre">a</span> <span class="pre">C:/:</span> <span class="pre">cd</span> <span class="pre">..</span> <span class="pre">–&gt;</span>
+<span class="pre">Ejecución:</span> <span class="pre">python</span> <span class="pre">-m</span> <span class="pre">bienes_inmuebles.machine_learning.main</span></code></p>
+<p>&gt; <a href="#id3"><span class="problematic" id="id4">``</span></a>python setup.py install –user || exit 1``(Si da error la instalacion por los permisos)
+&gt; <a href="#id5"><span class="problematic" id="id6">``</span></a>Instalar Pyhton 3.8 desde Microsoft (Si da error por Python, este caso no es habitual)</p>
+<p>======================= PYPI ===========================================
+&gt; <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">“nombre</span> <span class="pre">proyecto”</span> <span class="pre">–&gt;</span> <span class="pre">Ir</span> <span class="pre">a</span> <span class="pre">C:/:</span> <span class="pre">cd</span> <span class="pre">..</span> <span class="pre">–&gt;</span>
+<span class="pre">Ejecución:</span> <span class="pre">python</span> <span class="pre">-m</span> <span class="pre">bienes_inmuebles.machine_learning.main</span></code> (Permite ejecutar desde cualquier ruta poniendo -m)</p>
+<p>======================= CONDA ==========================================
+&gt; <code class="docutils literal notranslate"><span class="pre">terminal</span> <span class="pre">anaconda:</span> <span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">-c</span> <span class="pre">alexxfernandez13</span> <span class="pre">bienes_inmuebles</span> <span class="pre">–&gt;</span> <span class="pre">yes/y</span> <span class="pre">-&gt;</span>
+<span class="pre">Ejecución:</span> <span class="pre">python</span> <span class="pre">-m</span> <span class="pre">bienes_inmuebles.machine_learning.main</span></code></p>
+<p>## CONFIGURACION/INSTALACION DASHBOARD
+======================= POWER BI DESKTOP ===============================
+&gt; <code class="docutils literal notranslate"><span class="pre">https://www.microsoft.com/es-ES/download/details.aspx?id=58494</span></code>
+&gt; <code class="docutils literal notranslate"><span class="pre">Abrir</span> <span class="pre">Dashboard:</span> <span class="pre">Doble</span> <span class="pre">click</span> <span class="pre">en</span> <span class="pre">el</span> <span class="pre">fichero:</span> <span class="pre">Dashboard</span> <span class="pre">Bienes</span> <span class="pre">Inmuebles.pbix</span></code>
+&gt; <code class="docutils literal notranslate"><span class="pre">Abrir</span> <span class="pre">enlace</span> <span class="pre">web:</span> <span class="pre">https://app.powerbi.com/view?r=eyJrIjoiZWVmZmZhZjItZGUyNy00NTI4LThiMDYtZTEyZGI3YmM4NTA3IiwidCI6ImIxNmI2NzE1LTUzZTItNGUxZi04YjEyLWRjNTBhMzdiM2EzMyIsImMiOjl9</span></code></p>
 </div>
 </div>
 
